@@ -37,6 +37,6 @@ products = [
      'date': "10-oct-2022",  # or in number format
      'status': "almost new",
      'image': "http://m.anticuarium.es/image/productos/46325A5C-3AA3-F04B-CC11-8E5097F786DB.jpg",  # same as categories imgs:[]
-     # location:¿?
+     # location:¿??
      }
 ]
