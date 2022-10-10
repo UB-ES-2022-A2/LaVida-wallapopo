@@ -7,7 +7,7 @@ products = [
      'date': "04-oct-2022",  # or in number format
      'status': "new",
      'image': "https://media.istockphoto.com/photos/toy-teddy-bear-isolated-on-white-picture-id525900055?k=20&m=525900055&s=612x612&w=0&h=y_s6ycltdbuKM_yCggydHtpvw_xjWBe8B2FJ_HGPAGk=",  # same as categories imgs:[]
-     # location:¿?
+     # location:¿??
      },
     {'id': 1,
      'name': "parchis",
