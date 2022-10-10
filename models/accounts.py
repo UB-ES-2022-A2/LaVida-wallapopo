@@ -32,6 +32,7 @@ class AccountsModel(db.Model):
         return {'email': self.email,
                 'name': self.username,
                 'surname': self.surname,
+                'birthday': self.birthday,
                 'is_admin': self.is_admin
                 }
 
@@ -51,7 +52,7 @@ class AccountsModel(db.Model):
         except InvalidSignatureError:
             return None  # invalid token
 
-        user = cls.query.filter_by(username=data['username']).first()
+        user = cls.query.filter_by(email=data['email']).first()
 
         return user
 
@@ -68,8 +69,8 @@ class AccountsModel(db.Model):
         return cls.query.all()
 
     @classmethod
-    def get_by_username(cls, username):
-        return cls.query.get(username)
+    def get_by_email(cls, email):
+        return cls.query.get(email)
 
     def hash_password(self, password):
         self.password = pwd_context.encrypt(password)
