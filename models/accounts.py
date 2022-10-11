@@ -30,7 +30,7 @@ class AccountsModel(db.Model):
 
     def json(self):
         return {'email': self.email,
-                'name': self.username,
+                'name': self.name,
                 'surname': self.surname,
                 'birthday': self.birthday,
                 'is_admin': self.is_admin
@@ -39,7 +39,7 @@ class AccountsModel(db.Model):
     def generate_auth_token(self, expiration=600):
         return encode(
             {"email": self.email, "exp": int(time.time()) + expiration},
-            current_app.secret_key,
+            secret_key,
             algorithm="HS256"
         )
 
