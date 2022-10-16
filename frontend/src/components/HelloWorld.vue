@@ -1,15 +1,25 @@
 <template>
   <main class="hello">
-    <NavigationBar />
+    <NavigationBar class="nav-top" />
+    <div class="container">
+      <div class="row">
+        <div class="col-6 col-lg-3 celda"><CardProduct /></div>
+        <div class="col-6 col-lg-3 celda"><CardProduct /></div>
+        <div class="col-6 col-lg-3 celda"><CardProduct /></div>
+        <div class="col-6 col-lg-3 celda"><CardProduct /></div>
+      </div>
+    </div>
   </main>
 </template>
 
 <script>
 import NavigationBar from './NavigationBar.vue'
+import CardProduct from './CardProduct.vue'
 export default {
   name: 'HelloWorld',
   components: {
-    NavigationBar
+    NavigationBar,
+    CardProduct
   },
   data () {
     return {
@@ -21,7 +31,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
+h1,
+h2 {
   font-weight: normal;
 }
 ul {
@@ -34,5 +45,11 @@ li {
 }
 a {
   color: #42b983;
+}
+
+.celda {
+  height: auto;
+  align-content: center;
+  padding-top: 10px;
 }
 </style>

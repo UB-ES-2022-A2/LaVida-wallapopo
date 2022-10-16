@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-md bg-light">
+  <nav class="navbar navbar-expand-md style-navbar">
     <a class="navbar-brand h1" href="/#">Wallapopo</a>
     <form class="container-fluid" role="search">
       <span>
@@ -45,5 +45,9 @@ export default {
 a {
   color: inherit;
   text-decoration: inherit;
+  color: aquamarine;
+}
+.navbar{
+  border-bottom: 1px solid rgb(120, 120, 120);
 }
 </style>
