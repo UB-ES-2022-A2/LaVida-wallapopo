@@ -21,8 +21,8 @@ class AccountsModel(db.Model):
     profile_picture = db.Column(db.String(), nullable=True)  # can be stored as url
     # 0 not admin/ 1 is admin
     is_admin = db.Column(db.Integer, nullable=False)
-    # products db not created yet
-    # products = db.relationship('ProductsModel', backref='products', lazy=True)
+    # products owned by user
+    products = db.relationship('ProductsModel', backref='products', lazy=True)
 
     def __init__(self, email, is_admin=0):
         self.email = email
