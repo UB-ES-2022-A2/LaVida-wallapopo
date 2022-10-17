@@ -8,13 +8,13 @@ categories_list = ('Coches', 'Motos', 'Motor y Accesorios', 'Moda y Accesorios',
                    'Niños y Bebés', 'Coleccionismo', 'Construcción y Reformas', 'Industria y Agricultura', 'Otros')
 
 # product status, it checks if the product is for sale, reserved or sold
-status_list = ('On sale', 'Reserved', 'Sold')
+status_list = ('En venta', 'Reservado', 'Vendido')
 
 
 class ProductsModel(db.Model):
     __tablename__ = 'products'  # This is table name
 
-    # basic product informations
+    # basic product information
     id = db.Column(db.Integer, primary_key=True)  # primary key
     name = db.Column(db.String(50), nullable=False)  # string with a max length of 50
     # one product can have multiple images
