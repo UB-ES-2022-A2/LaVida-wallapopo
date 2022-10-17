@@ -48,7 +48,7 @@ export default {
       this.$router.push({ path: '/' })
     },
     redirectToRegistro () {
-      this.$router.push({path: '/registro'})
+      this.$router.push({path: '/register'})
     }
   }
 }
