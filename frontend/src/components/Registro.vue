@@ -1,5 +1,6 @@
 <template>
   <div id="login">
+            <NavigationBar/>
     <div class="col d-flex justify-content-center">
       <!-- Card registro -->
       <div class="card bg-light" style="width: 30%;">

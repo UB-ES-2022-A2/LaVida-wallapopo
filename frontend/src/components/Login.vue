@@ -1,7 +1,8 @@
 <template>
   <div id="login">
+        <NavigationBar/>
     <div class="col d-flex justify-content-center">
-    <NavigationBar/>
+
       <div class="card" style="width: 30%;">
         <div class="card-body">
           <h5 class="card-title" align="center">Sign In</h5>
