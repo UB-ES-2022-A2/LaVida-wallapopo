@@ -4,7 +4,7 @@
       <!-- Card registro -->
       <div class="card bg-light" style="width: 30%;">
         <div class="card-body">
-          <h5 class="card-title" align="center">Registrate en Wallapopo</h5>
+          <h5 class="card-title" align="center">Regístrate en Wallapopo</h5>
           <div class="container">
             <b-card-text>
               <div class="form-label-group">
@@ -26,7 +26,7 @@
                 <br>
                 <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required
                   minlength="8" maxlength="20" v-model="addUserForm.password" @keyup="checkPassword(this)">
-                <small v-if="check" id="passwordStatus">Minimo 8 caracteres, 1 simbolo y 1 numero.</small>
+                <small v-if="check" id="passwordStatus">Mínimo 8 caracteres, 1 símbolo y 1 número.</small>
               </div>
               <div class="form-label-group">
                 <br>
