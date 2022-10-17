@@ -1,6 +1,7 @@
 <template>
   <div id="login">
     <div class="col d-flex justify-content-center">
+    <NavigationBar/>
       <div class="card" style="width: 30%;">
         <div class="card-body">
           <h5 class="card-title" align="center">Sign In</h5>
@@ -33,7 +34,9 @@
 </template>
 
 <script>
+import NavigationBar from './NavigationBar.vue'
 export default {
+  components: {NavigationBar},
   data () {
     return {
       username: null,
