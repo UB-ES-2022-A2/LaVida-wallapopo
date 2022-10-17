@@ -25,8 +25,14 @@
               <div class="form-label-group">
                 <br>
                 <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required
-                  minlength="8" maxlength="20" v-model="addUserForm.password" @keyup="checkPassword(this)">
-                <small v-if="check" id="passwordStatus">Mínimo 8 caracteres, 1 símbolo y 1 número.</small>
+                  minlength="8" maxlength="20" v-model="addUserForm.password" @keyup="checkPassword()">
+                <small v-if="!fullCheck" id="fullcheckStatus">La contraseña actual no incluye:</small>
+                <br v-if="!fullCheck">
+                <small v-if="!checkLength" id="lengthStatus">· 8 caracteres mínimo.</small>
+                <br v-if="!checkLength">
+                <small v-if="!checkSymbol" id="symbolStatus">· 1 símbolo.</small>
+                <br v-if="!checkSymbol">
+                <small v-if="!checkNumber" id="numberStatus">· 1 número.</small>
               </div>
               <div class="form-label-group">
                 <br>
@@ -58,7 +64,10 @@ export default {
   data () {
     return {
       status_policy: '0',
-      check: true,
+      fullCheck: false,
+      checkLength: false,
+      checkSymbol: false,
+      checkNumber: false,
       actualPath: 'http://localhost:5000/',
       addUserForm: {
         username: null,
@@ -75,6 +84,48 @@ export default {
     },
     redirectToLogin () {
       this.$router.push({path: '/login'})
+    },
+    containsNumbers (str) {
+      return /\d/.test(str)
+    },
+    containsValidSpecialChars (str) {
+      const validSpecialChars = /[!&_\-?]/
+      return validSpecialChars.test(str)
+    },
+    checkPasswordMatch () {
+      var p1 = this.addUserForm.password
+      var p2 = this.addUserForm.password2
+
+      if (p1 === '') {
+        alert('Introduce una contraseña')
+      } else if (p2 === '') {
+        alert('Confirma la contraseña')
+      } else if (p1 !== p2) {
+        alert('Las contraseñas no coinciden')
+      } else {
+        alert('Bienvenido')
+      }
+    },
+    checkPassword () {
+      var p = this.addUserForm.password
+      if (p.length < 8) {
+        this.checkLength = false
+      } else {
+        this.checkLength = true
+      }
+
+      if (!this.containsNumbers(p)) {
+        this.checkNumber = false
+      } else {
+        this.checkNumber = true
+      }
+
+      if (!this.containsValidSpecialChars(p)) {
+        this.checkSymbol = false
+      } else {
+        this.checkSymbol = true
+      }
+      this.fullCheck = this.checkLength && this.checkNumber && this.checkSymbol
     }
   }
 }
