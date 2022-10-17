@@ -50,6 +50,6 @@ a {
 .celda {
   height: auto;
   align-content: center;
-  padding-top: 10px;
+
 }
 </style>

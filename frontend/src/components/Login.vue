@@ -1,5 +1,6 @@
 <template>
   <div id="login">
+    <NavigationBar/>
     <div v-if="creatingAccount" class="col d-flex justify-content-center">
       <div class="card" style="width: 30%;">
         <div class="card-body">
@@ -55,9 +56,9 @@
 </template>
 
 <script>
-
+import NavigationBar from './NavigationBar.vue'
 export default {
-
+  components: {NavigationBar},
   data () {
     return {
       username: null,

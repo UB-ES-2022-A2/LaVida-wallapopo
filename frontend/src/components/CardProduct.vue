@@ -16,6 +16,7 @@
     width: auto;
     border-radius: 10px;
     padding: 10px;
-
+    width: 210px;
+    height: 300px;
 }
 </style>
