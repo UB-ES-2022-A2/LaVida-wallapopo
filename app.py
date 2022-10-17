@@ -2,6 +2,7 @@ from flask import Flask
 from flask_migrate import Migrate
 from db import db
 from models.accounts import AccountsModel
+from models.products import ProductsModel
 
 app = Flask(__name__)
 
