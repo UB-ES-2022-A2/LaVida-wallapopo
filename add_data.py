@@ -24,15 +24,17 @@ for product in data.products:
     products.append(productModel)
 
 for account in data.accounts:
-    accountModel = AccountsModel(email=account['user_id'])
+    accountModel = AccountsModel(email=account['email'])
+    accountModel.password = accountModel.hash_password(account['password'])
+
     accounts.append(accountModel)
 
+# Relationship between products and user
 for product in products:
     user = rand.choice(accounts)
-    product.user_id = user
+    i = accounts.index(user)
+    product.user_id = accounts[i].email
 
-    if accounts[accounts.index(user)] == user:
-        accounts[accounts.index(user)].products = product
 
 db.session.add_all(products)
 db.session.add_all(accounts)
