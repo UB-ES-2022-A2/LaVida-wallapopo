@@ -105,7 +105,8 @@ export default {
       return /\d/.test(str)
     },
     containsValidSpecialChars (str) {
-      const validSpecialChars = /[!&_\-?]/
+      // eslint-disable-next-line
+      const validSpecialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
       return validSpecialChars.test(str)
     },
     checkPasswordMatch () {
