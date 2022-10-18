@@ -51,16 +51,20 @@ products = [
 
 accounts = [
  {
-  'user_id': "pepe432@gmail.com"
+  'email': "pepe432@gmail.com",
+  'password': "pepe123,."
  },
  {
-  'user_id': "juan35@hotmail.com"
+  'email': "juan35@hotmail.com",
+  'password': "quality_2022!"
  },
  {
-  'user_id': "killer23@gmail.com"
+  'email': "killer23@gmail.com",
+  'password': "magic_p443."
  },
  {
-  'user_id': "joseramon33@hotmail.com"
+  'email': "joseramon33@hotmail.com",
+  'password': "ramonaPlata22,"
  }
 ]
 
