@@ -1,6 +1,5 @@
 <template>
   <div id="login">
-            <NavigationBar/>
     <div class="col d-flex justify-content-center">
       <!-- Card registro -->
       <div class="card bg-light" style="width: 30%;">
@@ -45,7 +44,7 @@
             <button class="btn btn-primary btn-lg my-2" :disabled="status_policy !== '1'" @click="checkPasswordMatch()"
               style="width: 100%;">Crear una
               cuenta</button>
-            <button class="btn btn-secondary btn-lg my-2" @click="redirectToLogin()"
+            <button class="btn btn-secondary btn-lg my-2" @click="redirectToHome()"
               style="width: 100%;">Cancelar</button>
           </div>
         </div>
