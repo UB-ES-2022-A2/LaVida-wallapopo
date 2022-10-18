@@ -8,6 +8,7 @@ products = [
      'product_status': "Nuevo",
      'status': "En venta",
      'image': "https://media.istockphoto.com/photos/toy-teddy-bear-isolated-on-white-picture-id525900055?k=20&m=525900055&s=612x612&w=0&h=y_s6ycltdbuKM_yCggydHtpvw_xjWBe8B2FJ_HGPAGk=",  # same as categories imgs:[]
+     'user_id': ""
      # location:¿??
      },
     {'id': 1,
@@ -19,6 +20,7 @@ products = [
      'product_status': "Casi nuevo",
      'status': "En venta",
      'image': "https://cloud10.todocoleccion.online/juegos-mesa/tc/2016/03/15/20/55059706.jpg",  # same as categories
+     'user_id': ""
      # location:¿?
      },
     {'id': 2,
@@ -30,6 +32,7 @@ products = [
      'product_status': "Usado",
      'status': "En venta",
      'image': "https://img.remediosdigitales.com/ebec4d/seat_ibiza_2006-1/450_1000.jpg",
+     'user_id': ""
      # location:¿?
      },
     {'id': 3,
@@ -41,6 +44,23 @@ products = [
      'product_status': "Casi nuevo",
      'status': "En venta",
      'image': "http://m.anticuarium.es/image/productos/46325A5C-3AA3-F04B-CC11-8E5097F786DB.jpg",  # same as categories imgs:[]
+     'user_id': ""
      # location:¿?
      }
 ]
+
+accounts = [
+ {
+  'user_id': "pepe432@gmail.com"
+ },
+ {
+  'user_id': "juan35@hotmail.com"
+ },
+ {
+  'user_id': "killer23@gmail.com"
+ },
+ {
+  'user_id': "joseramon33@hotmail.com"
+ }
+]
+
