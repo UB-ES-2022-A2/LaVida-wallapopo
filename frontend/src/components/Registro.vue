@@ -9,15 +9,9 @@
             <b-card-text>
               <div class="form-label-group">
                 <br>
-                <input type="text" id="inputName" class="form-control" placeholder="Nombre" required
-                  v-model="addUserForm.username" @keyup="checkName()">
-                <small v-if="validName" id="nameStatus">El nombre no puede contener numeros.</small>
-              </div>
-              <div class="form-label-group">
-                <br>
-                <input type="text" id="inputSurname" class="form-control" placeholder="Apellidos" required
-                  v-model="addUserForm.usersurname" @keyup="checkSurname()">
-                <small v-if="validSurname" id="nameStatus">El apellido no puede contener numeros.</small>
+                <input type="text" id="inputName" class="form-control" placeholder="Nombre de usuario" required
+                  v-model="addUserForm.username" @keyup="checkUsername()">
+                <small v-if="!validName" id="nameStatus">El nombre debe contener entre 4 y 20 caracteres</small>
               </div>
               <div class="form-label-group">
                 <br>
@@ -41,7 +35,7 @@
                 <br>
                 <input type="password" id="inputPassword2" class="form-control" placeholder="Verificar contraseña" @keyup="checkPasswordMatch()"
                   required minlength="8" maxlength="20" v-model="addUserForm.password2">
-                <small v-if="!fullCheck2" id="confirmStatus">Requisitos: </small>
+                <small v-if="!fullCheck2" id="fullStatus">Requisitos: </small>
                 <br v-if="!fullCheck2">
                 <small v-if="!confirmPassword" id="confirmStatus">· Confirmar la contraseña.</small>
                 <br v-if="!confirmPassword">
@@ -58,7 +52,7 @@
               </div>
             </b-card-text>
             <button class="btn btn-primary btn-lg my-2"
-              :disabled="checkPolicy === '0' || fullCheck === false || passwordsMatch === false || validName === true" style="width: 100%;">Crear una
+              :disabled="checkPolicy === '0' || fullCheck === false || passwordsMatch === false || validName === false || validEmail == false" style="width: 100%;">Crear una
               cuenta</button>
             <button class="btn btn-secondary btn-lg my-2" @click="redirectToLogin()"
               style="width: 100%;">Cancelar</button>
@@ -83,11 +77,9 @@ export default {
       passwordsMatch: false,
       validEmail: false,
       validName: false,
-      validSurname: false,
       actualPath: 'http://localhost:5000/',
       addUserForm: {
         username: null,
-        usersurname: null,
         email: null,
         password: '',
         password2: ''
@@ -153,13 +145,9 @@ export default {
       var reg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       this.validEmail = email.match(reg)
     },
-    checkName () {
+    checkUsername () {
       var name = this.addUserForm.username
-      this.validName = /\d/.test(name)
-    },
-    checkSurname () {
-      var surname = this.addUserForm.usersurname
-      this.validSurname = /\d/.test(surname)
+      this.validName = name.length >= 4 && name.length <= 20
     }
   }
 }
