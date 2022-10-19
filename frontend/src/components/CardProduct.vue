@@ -1,28 +1,25 @@
 <template>
   <div class="card">
+          <img class="card-img" :src="require('../assets/' + img)" alt="Image Product" />
     <div class="card-body">
-      <img
-        class="card-img-top"
-        src="@/assets/descarga.png"
-        alt="Image Product"
-      />
-      <h5 class="card-title">{{ title }}</h5>
       <div class="container">
+        <div class="">
+          <h5 class="">{{ price }} $</h5>
+        </div>
         <div class="row">
-          <div class="col-sm">
-            {{ price }}
-          </div>
-          <div class="col-sm">
-            {{ productState }}
-          </div>
-          <div class="col-sm">
-            {{ date }}
-          </div>
+          <p>
+            <b>{{ title }}</b>
+          </p>
+        </div>
+        <div class="row">
+          <p>Estado: {{ productState }}</p>
+        </div>
+        <div class="row card-text">
+          <p>
+            {{ desc }}
+          </p>
         </div>
       </div>
-      <p class="card-text">
-        {{ desc }}
-      </p>
     </div>
   </div>
 </template>
@@ -33,18 +30,47 @@ export default {
     price: Number,
     desc: String,
     date: String,
-    productState: String
+    productState: String,
+    img: String
+  },
+  data () {
+    return {
+
+    }
   }
 }
 </script>
 
 <style scoped>
 .card {
-  background-color: rgb(51, 189, 159);
+
   width: auto;
   border-radius: 10px;
-  padding: 10px;
-  width: 210px;
-  height: 500px;
+  width: 250px;
+  height: 380px;
+  margin-bottom: 10px;
+  margin-bottom: 20px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.container {
+  padding-left: 0px;
+  padding-top: 4px;
+}
+.card-img{
+  height: 200px;
+}
+.card-text {
+  height: 100px;
+  color: rgb(134, 134, 139);
+  display: block;
+  display: -webkit-box;
+  -webkit-line-clamp: 5; /* max line number */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.row{
+  height:25px;
 }
 </style>

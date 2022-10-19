@@ -9,7 +9,7 @@ let db = [
     product_status: 'Nuevo',
     status: 'En venta',
     image:
-      'https://media.istockphoto.com/photos/toy-teddy-bear-isolated-on-white-picture-id525900055?k=20&m=525900055&s=612x612&w=0&h=y_s6ycltdbuKM_yCggydHtpvw_xjWBe8B2FJ_HGPAGk=',
+      'oso.jpeg',
     user_id: 'f'
   },
   {
@@ -22,7 +22,7 @@ let db = [
     product_status: 'Casi nuevo',
     status: 'En venta',
     image:
-      'https://cloud10.todocoleccion.online/juegos-mesa/tc/2016/03/15/20/55059706.jpg',
+      'parchis.jpeg',
     user_id: 'd'
   },
   {
@@ -36,7 +36,7 @@ let db = [
     product_status: 'Usado',
     status: 'En venta',
     image:
-      'https://img.remediosdigitales.com/ebec4d/seat_ibiza_2006-1/450_1000.jpg',
+      'seat-ibiza.jpeg',
     user_id: ''
   },
   {
@@ -50,7 +50,7 @@ let db = [
     product_status: 'Casi nuevo',
     status: 'En venta',
     image:
-      'http://m.anticuarium.es/image/productos/46325A5C-3AA3-F04B-CC11-8E5097F786DB.jpg',
+      'vajilla.jpg',
     user_id: ''
   }
 ]

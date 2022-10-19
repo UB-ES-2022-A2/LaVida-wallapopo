@@ -5,10 +5,38 @@
       <div class="row">
         <div class="col-6 col-lg-3 celda" v-for="product in db">
           <CardProduct
-          :title="product.name" :price="product.price" :desc ="product.description" :productState="product.product_status" :date="product.date"
+            :title="product.name"
+            :price="product.price"
+            :desc="product.description"
+            :productState="product.product_status"
+            :date="product.date"
+            :img="product.image"
           />
-          </div>
-
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6 col-lg-3 celda" v-for="product in db">
+          <CardProduct
+            :title="product.name"
+            :price="product.price"
+            :desc="product.description"
+            :productState="product.product_status"
+            :date="product.date"
+            :img="product.image"
+          />
+        </div>
+      </div>
+            <div class="row">
+        <div class="col-6 col-lg-3 celda" v-for="product in db">
+          <CardProduct
+            :title="product.name"
+            :price="product.price"
+            :desc="product.description"
+            :productState="product.product_status"
+            :date="product.date"
+            :img="product.image"
+          />
+        </div>
       </div>
     </div>
   </main>
@@ -56,6 +84,5 @@ a {
 .celda {
   height: auto;
   align-content: center;
-
 }
 </style>
