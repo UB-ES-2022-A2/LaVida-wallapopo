@@ -54,7 +54,7 @@
             <button class="btn btn-primary btn-lg my-2"
               :disabled="checkPolicy === '0' || fullCheck === false || passwordsMatch === false || validName === false || validEmail == false" style="width: 100%;">Crear una
               cuenta</button>
-            <button class="btn btn-secondary btn-lg my-2" @click="redirectToLogin()"
+            <button class="btn btn-secondary btn-lg my-2" @click="redirectToHome()"
               style="width: 100%;">Cancelar</button>
           </div>
         </div>

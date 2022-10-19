@@ -1,6 +1,8 @@
 <template>
   <div id="login">
+
     <div class="col d-flex justify-content-center">
+
       <div class="card" style="width: 30%;">
         <div class="card-body">
           <h5 class="card-title" align="center">Iniciar Sesión</h5>
@@ -34,7 +36,9 @@
 </template>
 
 <script>
+
 export default {
+
   data () {
     return {
       email: null,
