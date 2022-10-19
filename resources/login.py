@@ -23,7 +23,7 @@ class Login(Resource):
             if (data['password']) is None:
                 return {'message': "Password can not be blank".format(data['email'])}, \
                        HTTPStatus.CONFLICT
-            # return error if password doesn't match with username
+            # return error if password doesn't match with email
             if not account.verify_password_(data['password']):
                 return {'message': "Email or Password are incorrect"}, HTTPStatus.BAD_REQUEST
 
