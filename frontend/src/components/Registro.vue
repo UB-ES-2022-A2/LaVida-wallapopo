@@ -15,7 +15,7 @@
               </div>
               <div class="form-label-group">
                 <br>
-                <input type="email" id="inputEmail" class="form-control" placeholder="Dirección de email" required
+                <input type="email" id="inputEmail" class="form-control" placeholder="Dirección de correo" required
                   autofocus v-model="addUserForm.email" @keyup="checkEmail()">
                 <small v-if="!validEmail" id="emailStatus">El email debe ser de un formato valido, p. ej.: 'aaaa@aaaa.com'.</small>
               </div>
