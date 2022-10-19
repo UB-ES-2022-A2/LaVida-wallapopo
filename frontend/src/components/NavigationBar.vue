@@ -17,7 +17,7 @@
       <a href="/#/login">Login</a>
     </p>
     <p v-if="!logged"  class="btn btn-secondary ">
-      <a href="/#/login">Register</a>
+      <a href="/#/register">Register</a>
     </p>
 
     <p class="btn" v-if="logged"><img src="@/assets/icons/favorite_fill.svg" alt="Favorites" /></p>
