@@ -41,10 +41,7 @@ export default {
   data () {
     return {
       username: null,
-      password: '',
-      status_policy: '0',
-      check: true,
-      actualPath: 'http://localhost:5000/'
+      password: ''
     }
   },
   methods: {
