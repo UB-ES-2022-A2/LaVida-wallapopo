@@ -29,7 +29,7 @@ class Login(Resource):
 
             # generate token with a time limit of 10 minutes
             token = account.generate_auth_token()
-            return {'token': token.decode('ascii')}, 200
+            return {'token': token}, 200
 
     def get_data(self):
         parser = reqparse.RequestParser()  # create parameters parser from request

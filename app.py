@@ -29,7 +29,7 @@ migrate = Migrate(app, db)
 db.init_app(app)
 
 # accounts
-api.add_resource(Accounts, '/account/<string:username>', '/account')
+api.add_resource(Accounts, '/account/<string:email>', '/account')
 
 # products
 api.add_resource(ProductsList, '/products')
