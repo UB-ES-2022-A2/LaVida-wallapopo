@@ -18,7 +18,7 @@ class AccountsModel(db.Model):
 
     # info needed for login
     email = db.Column(db.String(), primary_key=True, unique=True, nullable=False)
-    username = db.Column(db.String(), nullable=False)
+    username = db.Column(db.String(), unique=True, nullable=False)
     password = db.Column(db.String(), nullable=False)
     # optional account details
     name = db.Column(db.String(20), nullable=True)
@@ -79,6 +79,10 @@ class AccountsModel(db.Model):
     @classmethod
     def get_by_email(cls, email):
         return cls.query.get(email)
+
+    @classmethod
+    def get_by_username(cls, username):
+        return cls.query.filter(cls.username == username).first()
 
     def hash_password(self, password):
         self.password = pwd_context.encrypt(password)

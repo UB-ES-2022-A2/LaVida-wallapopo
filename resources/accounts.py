@@ -30,10 +30,14 @@ class Accounts(Resource):
                 return {'Email [{}] is not a valid format'.format(data['email'])}, \
                        HTTPStatus.BAD_REQUEST
             account = AccountsModel.get_by_email(data['email'])
+            account2 = AccountsModel.get_by_username(data['username'])
 
             # return error if account already exist
             if account is not None:
                 return {'message': "Account with email [{}] already exist".format(data['email'])}, \
+                       HTTPStatus.CONFLICT
+            if account2 is not None:
+                return {'message': "Username [{}] is already in use".format(data['username'])}, \
                        HTTPStatus.CONFLICT
             # minimum eight characters, at least one letter, one number and one special character
             if PASSWORD_REGEX.match(data['password']) is None:
