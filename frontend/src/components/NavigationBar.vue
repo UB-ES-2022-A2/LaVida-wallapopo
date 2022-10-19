@@ -45,13 +45,22 @@ export default {
 </script>
 
 <style scoped>
+.navbar-brand{
+  text-align: center;
+  font-family: 'Trebuchet MS', sans-serif;
+  margin: 0px auto;
+  color: rgb(45, 177, 144);
+  font-size: 40px;
+  letter-spacing: 5px;
+
+}
 a {
   color: inherit;
   text-decoration: inherit;
-  color: aquamarine;
+  color: white;
 }
 .navbar{
-  border-bottom: 1px solid rgb(120, 120, 120);
+  border-bottom: 1px solid rgb(134, 134, 139);
   margin-bottom:10px ;
 }
 .container{

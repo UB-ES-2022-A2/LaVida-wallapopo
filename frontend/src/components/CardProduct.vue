@@ -1,10 +1,14 @@
 <template>
   <div class="card">
-          <img class="card-img" :src="require('../assets/' + img)" alt="Image Product" />
+    <img
+      class="card-img"
+      :src="require('../assets/' + img)"
+      alt="Image Product"
+    />
     <div class="card-body">
       <div class="container">
         <div class="">
-          <h5 class="">{{ price }} $</h5>
+          <h5 class="row">{{ price }} $</h5>
         </div>
         <div class="row">
           <p>
@@ -34,30 +38,23 @@ export default {
     img: String
   },
   data () {
-    return {
-
-    }
+    return {}
   }
 }
 </script>
 
 <style scoped>
 .card {
-
   width: auto;
   border-radius: 10px;
   width: 250px;
   height: 380px;
   margin-bottom: 10px;
   margin-bottom: 20px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
-.container {
-  padding-left: 0px;
-  padding-top: 4px;
-}
-.card-img{
+.card-img {
   height: 200px;
 }
 .card-text {
@@ -70,7 +67,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.row{
-  height:25px;
+.row {
+  height: 25px;
 }
 </style>

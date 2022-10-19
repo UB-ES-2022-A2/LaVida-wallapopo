@@ -3,7 +3,7 @@
     <NavigationBar class="nav-top" />
     <div class="container">
       <div class="row">
-        <div class="col-6 col-lg-3 celda" v-for="product in db">
+        <div class="col-6 col-lg-3 celda" v-for="product in db" :key="product.id">
           <CardProduct
             :title="product.name"
             :price="product.price"
@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-6 col-lg-3 celda" v-for="product in db">
+        <div class="col-6 col-lg-3 celda" v-for="product in db" :key="product.id">
           <CardProduct
             :title="product.name"
             :price="product.price"
@@ -27,7 +27,7 @@
         </div>
       </div>
             <div class="row">
-        <div class="col-6 col-lg-3 celda" v-for="product in db">
+        <div class="col-6 col-lg-3 celda" v-for="product in db" :key="product.id">
           <CardProduct
             :title="product.name"
             :price="product.price"
@@ -46,8 +46,6 @@
 import NavigationBar from './NavigationBar.vue'
 import CardProduct from './CardProduct.vue'
 import db from '@/hardDB.js'
-console.log('hola')
-console.log(db[0])
 export default {
   name: 'HelloWorld',
   components: {
