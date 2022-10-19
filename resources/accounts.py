@@ -41,7 +41,7 @@ class Accounts(Resource):
                        HTTPStatus.CONFLICT
             # minimum eight characters, at least one letter, one number and one special character
             if PASSWORD_REGEX.match(data['password']) is None:
-                return {'message': "Password [{}] is necessary to register"}, HTTPStatus.CONFLICT
+                return {'message': "Password is necessary to register"}, HTTPStatus.CONFLICT
 
             # create new account
             new_account = AccountsModel(email=data['email'], username=data['username'])
