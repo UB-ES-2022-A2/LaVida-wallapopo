@@ -4,7 +4,12 @@ from passlib.apps import custom_app_context as pwd_context
 from jwt import encode, decode, ExpiredSignatureError, InvalidSignatureError
 from flask_httpauth import HTTPBasicAuth
 from flask import g, current_app
+import re
 
+# email is valid format if it has one @ and . after of @
+EMAIL_REGEX = re.compile(r"[^@]+@[^@]+\.[^@]+")
+# password is valid if minimum eight characters, at least one letter, one number and one special character
+PASSWORD_REGEX = re.compile(r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&.,/-_])[A-Za-z\d@$!%*#?&.,/-_]{8,}$")
 auth = HTTPBasicAuth()
 
 
@@ -13,6 +18,7 @@ class AccountsModel(db.Model):
 
     # info needed for login
     email = db.Column(db.String(), primary_key=True, unique=True, nullable=False)
+    username = db.Column(db.String(), unique=True, nullable=False)
     password = db.Column(db.String(), nullable=False)
     # optional account details
     name = db.Column(db.String(20), nullable=True)
@@ -24,12 +30,14 @@ class AccountsModel(db.Model):
     # products owned by user
     products = db.relationship('ProductsModel', backref='products', lazy=True)
 
-    def __init__(self, email, is_admin=0):
+    def __init__(self, email, username, is_admin=0):
         self.email = email
         self.is_admin = is_admin
+        self.username = username
 
     def json(self):
         return {'email': self.email,
+                'username': self.username,
                 'name': self.name,
                 'surname': self.surname,
                 'birthday': self.birthday,
@@ -71,6 +79,10 @@ class AccountsModel(db.Model):
     @classmethod
     def get_by_email(cls, email):
         return cls.query.get(email)
+
+    @classmethod
+    def get_by_username(cls, username):
+        return cls.query.filter(cls.username == username).first()
 
     def hash_password(self, password):
         self.password = pwd_context.encrypt(password)
