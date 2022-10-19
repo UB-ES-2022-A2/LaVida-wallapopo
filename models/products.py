@@ -48,7 +48,7 @@ class ProductsModel(db.Model):
             'price': self.price,
             'image': self.image,
             'status': self.status,
-            'date': self.date,
+            'date': self.date.isoformat(),
             'user': self.user_id
         }
 

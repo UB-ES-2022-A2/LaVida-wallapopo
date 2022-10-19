@@ -21,10 +21,12 @@ accounts = []
 for product in data.products:
     productModel = ProductsModel(name=product['name'], category=product['category'], description=product['description'],
                                  price=product['price'])
+    productModel.image = product['image']
+    productModel.status = product['status']
     products.append(productModel)
 
 for account in data.accounts:
-    accountModel = AccountsModel(email=account['email'])
+    accountModel = AccountsModel(email=account['email'], username=account['username'])
     accountModel.hash_password(account['password'])
 
     accounts.append(accountModel)
