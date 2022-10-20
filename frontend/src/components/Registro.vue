@@ -100,7 +100,7 @@ export default {
       axios.post('http://localhost:5000/account', this.addUserForm).then((response) => {
         console.log(response)
         alert('Usuario registrado correctamente')
-        this.redirectToHome()
+        this.redirectToLogin()
       }).catch(err => {
         console.log(err)
         this.error = err.response.data.message
@@ -112,7 +112,7 @@ export default {
     },
     containsValidSpecialChars (str) {
       // eslint-disable-next-line
-      const validSpecialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
+      const validSpecialChars = /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[ ´`!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/¿?~]).{8,}$/
       return validSpecialChars.test(str)
     },
     checkPasswordMatch () {
