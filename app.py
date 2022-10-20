@@ -10,13 +10,16 @@ from models.products import ProductsModel
 from resources.accounts import Accounts
 from resources.products import ProductsList
 from resources.login import Login
+from config import config
+from decouple import config as config_decouple
 
+app = Flask(__name__)
+environment = config['development']
 
-app = Flask(
-    __name__,
-    static_folder="dist_deployment_test/static",
-    template_folder="dist_deployment_test"
-)
+if config_decouple('PRODUCTION', cast=bool, default=False):
+    environment = config['production']
+
+app.config.from_object(environment)
 
 api = Api(app)
 CORS(app, resources={r'/*': {'origins': '*'}})
