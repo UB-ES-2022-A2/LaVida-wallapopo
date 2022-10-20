@@ -18,22 +18,6 @@
           />
         </div>
       </div>
-            <div class="row">
-        <div
-          class="col-6 col-lg-3 celda"
-          v-for="product in db.sort((a, b) => 0.5 - Math.random())"
-          :key="product.id"
-        >
-          <CardProduct
-            :title="product.name"
-            :price="product.price"
-            :desc="product.description"
-            :productState="product.product_status"
-            :date="product.date"
-
-          />
-        </div>
-      </div>
     </div>
   </main>
 </template>
@@ -75,8 +59,10 @@ export default {
   },
   mounted () {
     console.log('ROUTE', this.$route)
-    this.token = this.$route.params.data.token
-    this.logged = this.$route.params.logged
+    if (Object.keys(this.$route.params).length !== 0) {
+      this.token = this.$route.params.data.token
+      this.logged = this.$route.params.logged
+    }
   }
 }
 </script>
