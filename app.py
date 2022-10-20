@@ -12,7 +12,7 @@ from resources.products import ProductsList
 from resources.login import Login
 from config import config
 from decouple import config as config_decouple
-
+#comentari de prova
 app = Flask(__name__)
 environment = config['development']
 
