@@ -132,4 +132,3 @@ dmypy.json
 .idea/
 
 migrations/
-data.db
