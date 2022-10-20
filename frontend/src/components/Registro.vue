@@ -34,7 +34,7 @@
               <div class="form-label-group">
                 <br>
                 <input type="password" id="inputPassword2" class="form-control" placeholder="Verificar contraseña" @keyup="checkPasswordMatch()"
-                  required minlength="8" maxlength="20" v-model="addUserForm.password2">
+                  required minlength="8" maxlength="20" v-model="password2">
                 <small v-if="!fullCheck2" id="fullStatus">Requisitos: </small>
                 <br v-if="!fullCheck2">
                 <small v-if="!confirmPassword" id="confirmStatus">· Confirmar la contraseña.</small>
@@ -51,7 +51,7 @@
                 </b-form-checkbox>
               </div>
             </b-card-text>
-            <button class="btn btn-primary btn-lg my-2"
+            <button class="btn btn-primary btn-lg my-2" @click="registerUser()"
               :disabled="checkPolicy === '0' || fullCheck === false || passwordsMatch === false || validName === false || validEmail == false" style="width: 100%;">Crear una
               cuenta</button>
             <button class="btn btn-secondary btn-lg my-2" @click="redirectToHome()"
@@ -64,6 +64,8 @@
 </template>
 
 <script>
+// import db from '@/hardDB.js'
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -77,12 +79,13 @@ export default {
       passwordsMatch: false,
       validEmail: false,
       validName: false,
+      password2: '',
       actualPath: 'http://localhost:5000/',
+      error: '',
       addUserForm: {
         username: null,
         email: null,
-        password: '',
-        password2: ''
+        password: ''
       }
     }
   },
@@ -93,17 +96,28 @@ export default {
     redirectToLogin () {
       this.$router.push({path: '/login'})
     },
+    registerUser () {
+      axios.post('http://localhost:5000/account', this.addUserForm).then((response) => {
+        console.log(response)
+        alert('Usuario registrado correctamente')
+        this.redirectToLogin()
+      }).catch(err => {
+        console.log(err)
+        this.error = err.response.data.message
+        alert(this.error)
+      })
+    },
     containsNumbers (str) {
       return /\d/.test(str)
     },
     containsValidSpecialChars (str) {
       // eslint-disable-next-line
-      const validSpecialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
+      const validSpecialChars = /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[ ´`!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/¿?~]).{8,}$/
       return validSpecialChars.test(str)
     },
     checkPasswordMatch () {
       var p1 = this.addUserForm.password
-      var p2 = this.addUserForm.password2
+      var p2 = this.password2
 
       if (p2 !== '') {
         this.confirmPassword = true
