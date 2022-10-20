@@ -1,40 +1,37 @@
 <template>
   <main class="hello">
     <NavigationBar class="nav-top" />
+
     <div class="container">
       <div class="row">
-        <div class="col-6 col-lg-3 celda" v-for="product in db" :key="product.id">
+        <div
+          class="col-6 col-lg-3 celda"
+          v-for="product in db"
+          :key="product.id"
+        >
           <CardProduct
             :title="product.name"
             :price="product.price"
             :desc="product.description"
             :productState="product.product_status"
             :date="product.date"
-            :img="product.image"
-          />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6 col-lg-3 celda" v-for="product in db" :key="product.id">
-          <CardProduct
-            :title="product.name"
-            :price="product.price"
-            :desc="product.description"
-            :productState="product.product_status"
-            :date="product.date"
-            :img="product.image"
+
           />
         </div>
       </div>
             <div class="row">
-        <div class="col-6 col-lg-3 celda" v-for="product in db" :key="product.id">
+        <div
+          class="col-6 col-lg-3 celda"
+          v-for="product in db.sort((a, b) => 0.5 - Math.random())"
+          :key="product.id"
+        >
           <CardProduct
             :title="product.name"
             :price="product.price"
             :desc="product.description"
             :productState="product.product_status"
             :date="product.date"
-            :img="product.image"
+
           />
         </div>
       </div>
@@ -45,7 +42,8 @@
 <script>
 import NavigationBar from './NavigationBar.vue'
 import CardProduct from './CardProduct.vue'
-import db from '@/hardDB.js'
+
+import axios from 'axios'
 export default {
   name: 'HelloWorld',
   components: {
@@ -55,8 +53,25 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      db: db
+      db: []
     }
+  },
+
+  methods: {
+    getProducts () {
+      const path = 'http://127.0.0.1:5000/products'
+      axios.get(path).then((res) => {
+        console.log(res)
+        let db = res.data.Products_List
+        for (let index = 0; index < db.length; index++) {
+          this.db.push(db[index])
+        }
+      })
+    }
+  },
+  created () {
+    console.log('hola')
+    this.getProducts()
   }
 }
 </script>

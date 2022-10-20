@@ -2,7 +2,7 @@
   <div class="card">
     <img
       class="card-img"
-      :src="require('../assets/' + img)"
+      :src="require('../assets/' + getName(title) + '.jpeg')"
       alt="Image Product"
     />
     <div class="card-body">
@@ -39,6 +39,11 @@ export default {
   },
   data () {
     return {}
+  },
+  methods: {
+    getName (nameProduct) {
+      return nameProduct.split(' ')[0]
+    }
   }
 }
 </script>
