@@ -14,8 +14,8 @@ from resources.login import Login
 
 app = Flask(
     __name__,
-    static_folder="frontend/dist/static",
-    template_folder="frontend/dist"
+    static_folder="dist_deployment_test/static",
+    template_folder="dist_deployment_test"
 )
 
 api = Api(app)
