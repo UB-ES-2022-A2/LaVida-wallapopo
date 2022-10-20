@@ -9,7 +9,7 @@ import re
 # email is valid format if it has one @ and . after of @
 EMAIL_REGEX = re.compile(r"[^@]+@[^@]+\.[^@]+")
 # password is valid if minimum eight characters, at least one letter, one number and one special character
-PASSWORD_REGEX = re.compile(r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&.,/-_])[A-Za-z\d@$!%*#?&.,/-_]{8,}$")
+PASSWORD_REGEX = re.compile(r"^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[ ´`!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/¿?~]).{8,}$")
 auth = HTTPBasicAuth()
 
 

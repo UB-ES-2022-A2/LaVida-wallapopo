@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_migrate import Migrate
-from db import db
+from db import db, secret_key
 from flask_cors import CORS
 from flask_restful import Api
 from flask import render_template
@@ -14,8 +14,8 @@ from resources.login import Login
 
 app = Flask(
     __name__,
-    static_folder="frontend/dist/static",
-    template_folder="frontend/dist"
+    static_folder="./frontend/dist/static",
+    template_folder="./frontend/dist"
 )
 
 api = Api(app)
@@ -24,6 +24,7 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 # config used for now, will be changed later on
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = secret_key
 
 migrate = Migrate(app, db)
 db.init_app(app)

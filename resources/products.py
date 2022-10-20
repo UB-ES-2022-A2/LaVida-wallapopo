@@ -13,5 +13,5 @@ class ProductsList(Resource):
     # return all products
     def get(self):
         products = ProductsModel.get_all()
-        return {"Products List": [x.json() for x in products]}, HTTPStatus.OK if products else HTTPStatus.NOT_FOUND
+        return {"Products_List": [x.json() for x in products]}, HTTPStatus.OK if products else HTTPStatus.NOT_FOUND
 
