@@ -3,10 +3,40 @@
     <NavigationBar class="nav-top" />
     <div class="container">
       <div class="row">
-        <div class="col-6 col-lg-3 celda"><CardProduct /></div>
-        <div class="col-6 col-lg-3 celda"><CardProduct /></div>
-        <div class="col-6 col-lg-3 celda"><CardProduct /></div>
-        <div class="col-6 col-lg-3 celda"><CardProduct /></div>
+        <div class="col-6 col-lg-3 celda" v-for="product in db" :key="product.id">
+          <CardProduct
+            :title="product.name"
+            :price="product.price"
+            :desc="product.description"
+            :productState="product.product_status"
+            :date="product.date"
+            :img="product.image"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6 col-lg-3 celda" v-for="product in db" :key="product.id">
+          <CardProduct
+            :title="product.name"
+            :price="product.price"
+            :desc="product.description"
+            :productState="product.product_status"
+            :date="product.date"
+            :img="product.image"
+          />
+        </div>
+      </div>
+            <div class="row">
+        <div class="col-6 col-lg-3 celda" v-for="product in db" :key="product.id">
+          <CardProduct
+            :title="product.name"
+            :price="product.price"
+            :desc="product.description"
+            :productState="product.product_status"
+            :date="product.date"
+            :img="product.image"
+          />
+        </div>
       </div>
     </div>
   </main>
@@ -15,6 +45,7 @@
 <script>
 import NavigationBar from './NavigationBar.vue'
 import CardProduct from './CardProduct.vue'
+import db from '@/hardDB.js'
 export default {
   name: 'HelloWorld',
   components: {
@@ -23,7 +54,8 @@ export default {
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      db: db
     }
   }
 }
@@ -50,6 +82,5 @@ a {
 .celda {
   height: auto;
   align-content: center;
-
 }
 </style>

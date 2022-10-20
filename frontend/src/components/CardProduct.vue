@@ -1,22 +1,73 @@
 <template>
-    <div class="card">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
+  <div class="card">
+    <img
+      class="card-img"
+      :src="require('../assets/' + img)"
+      alt="Image Product"
+    />
+    <div class="card-body">
+      <div class="container">
+        <div class="">
+          <h5 class="row">{{ price }} $</h5>
+        </div>
+        <div class="row">
+          <p>
+            <b>{{ title }}</b>
+          </p>
+        </div>
+        <div class="row">
+          <p>Estado: {{ productState }}</p>
+        </div>
+        <div class="row card-text">
+          <p>
+            {{ desc }}
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
 </template>
+<script>
+export default {
+  props: {
+    title: String,
+    price: Number,
+    desc: String,
+    date: String,
+    productState: String,
+    img: String
+  },
+  data () {
+    return {}
+  }
+}
+</script>
 
 <style scoped>
-.card{
-    background-color: rgb(51, 189, 159);
-    width: auto;
-    border-radius: 10px;
-    padding: 10px;
-    width: 210px;
-    height: 300px;
+.card {
+  width: auto;
+  border-radius: 10px;
+  width: 250px;
+  height: 380px;
+  margin-bottom: 10px;
+  margin-bottom: 20px;
+box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.card-img {
+  height: 200px;
+}
+.card-text {
+  height: 100px;
+  color: rgb(134, 134, 139);
+  display: block;
+  display: -webkit-box;
+  -webkit-line-clamp: 5; /* max line number */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.row {
+  height: 25px;
 }
 </style>
