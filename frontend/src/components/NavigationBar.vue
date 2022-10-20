@@ -36,9 +36,12 @@
 <script>
 export default {
   name: 'NavigationBar',
+  props: {
+    logged: Boolean
+  },
   data () {
     return {
-      logged: false
+
     }
   }
 }

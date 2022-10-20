@@ -1,7 +1,6 @@
 <template>
   <main class="hello">
-    <NavigationBar class="nav-top" />
-
+    <NavigationBar class="nav-top" :logged="logged" :key="logged" />
     <div class="container">
       <div class="row">
         <div
@@ -53,7 +52,9 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      db: []
+      db: [],
+      logged: false,
+      token: 'g'
     }
   },
 
@@ -70,8 +71,12 @@ export default {
     }
   },
   created () {
-    console.log('hola')
     this.getProducts()
+  },
+  mounted () {
+    console.log('ROUTE', this.$route)
+    this.token = this.$route.params.data.token
+    this.logged = this.$route.params.logged
   }
 }
 </script>
