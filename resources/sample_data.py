@@ -7,7 +7,7 @@ products = [
      'date': "04-oct-2022",  # or month in number format.
      'product_status': "Nuevo",
      'status': "En venta",
-     'image': "https://media.istockphoto.com/photos/toy-teddy-bear-isolated-on-white-picture-id525900055?k=20&m=525900055&s=612x612&w=0&h=y_s6ycltdbuKM_yCggydHtpvw_xjWBe8B2FJ_HGPAGk=",  # same as categories imgs:[]
+     'image': "oso.jpeg",  # same as categories imgs:[]
      'user_id': ""
      # location:¿??
      },
@@ -19,7 +19,7 @@ products = [
      'date': "24-apr-2021",  # or in number format,
      'product_status': "Casi nuevo",
      'status': "En venta",
-     'image': "https://cloud10.todocoleccion.online/juegos-mesa/tc/2016/03/15/20/55059706.jpg",  # same as categories
+     'image': "parchis.jpeg",  # same as categories
      'user_id': ""
      # location:¿?
      },
@@ -31,7 +31,7 @@ products = [
      'date': "09-dic-2020",  # or in number format,
      'product_status': "Usado",
      'status': "En venta",
-     'image': "https://img.remediosdigitales.com/ebec4d/seat_ibiza_2006-1/450_1000.jpg",
+     'image': "seat-ibiza.jpeg",
      'user_id': ""
      # location:¿?
      },
@@ -43,7 +43,7 @@ products = [
      'date': "10-oct-2022",  # or in number format,
      'product_status': "Casi nuevo",
      'status': "En venta",
-     'image': "http://m.anticuarium.es/image/productos/46325A5C-3AA3-F04B-CC11-8E5097F786DB.jpg",  # same as categories imgs:[]
+     'image': "vajilla.jpg",  # same as categories imgs:[]
      'user_id': ""
      # location:¿?
      }
