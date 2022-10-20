@@ -12,23 +12,28 @@
         aria-label="Search"
       />
     </form>
-    <div class="container ">
-    <p v-if="!logged"  class="btn btn-primary">
-      <a href="/#/login">Login</a>
-    </p>
-    <p v-if="!logged"  class="btn btn-secondary ">
-      <a href="/#/register">Register</a>
-    </p>
+    <div v-if="!logged" class="container">
+      <p class="btn btn-primary">
+        <a href="/#/login">Login</a>
+      </p>
+      <p v-if="!logged"  class="btn btn-secondary ">
+        <a href="/#/register">Register</a>
+      </p>
+    </div>
+    <div v-else class="container">
+      <div class="btn"><img src="@/assets/icons/favorite_fill.svg" alt="Favorites"/></div>
+      <div class="btn"><img src="@/assets/icons/mail.svg" alt="Mail"/></div>
 
-    <p class="btn" v-if="logged"><img src="@/assets/icons/favorite_fill.svg" alt="Favorites" /></p>
-    <p class="btn" v-if="logged"><img src="@/assets/icons/mail.svg" alt="Mail" /></p>
-    <p class="btn" v-if="logged">
-      <img src="@/assets/icons/account_circle.svg" alt="User icon" />
-      User
-    </p>
-    <p class="btn" v-if="logged">
-      <img src="@/assets/icons/add_circle.svg" alt="User icon" /> Agregar producto
-    </p>
+      <div class="dropdown-dark my-3 text-right">
+        <img src="@/assets/icons/account_circle.svg" alt="User icon" />
+        <b-dropdown id="dropdown-1" text="Usuario" class="m-md-2" variant="dark">
+          <b-dropdown-item @click="logout()">Cerrar Sesión</b-dropdown-item>
+        </b-dropdown>
+      </div>
+
+      <div class="btn">
+        <img src="@/assets/icons/add_circle.svg" alt="User icon" /> Agregar producto
+      </div>
     </div>
   </nav>
 </template>
@@ -39,6 +44,12 @@ export default {
   data () {
     return {
       logged: false
+    }
+  },
+  methods: {
+    logout () {
+      this.logged = false
+      this.$router.push({ path: '/' })
     }
   }
 }
