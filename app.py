@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_migrate import Migrate
-from db import db
+from db import db, secret_key
 from flask_cors import CORS
 from flask_restful import Api
 from flask import render_template
@@ -9,7 +9,7 @@ from models.accounts import AccountsModel
 from models.products import ProductsModel
 from resources.accounts import Accounts
 from resources.products import ProductsList
-from resources.login import Login
+from resources.session import Login, Logout
 from config import config
 from decouple import config as config_decouple
 #comentari de prova
@@ -27,6 +27,7 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 # config used for now, will be changed later on
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = secret_key
 
 migrate = Migrate(app, db)
 db.init_app(app)
@@ -37,8 +38,9 @@ api.add_resource(Accounts, '/account/<string:email>', '/account')
 # products
 api.add_resource(ProductsList, '/products')
 
-# login
+# session
 api.add_resource(Login, '/login')
+api.add_resource(Logout, '/logout/<string:email>')
 
 
 @app.route('/')
@@ -48,7 +50,3 @@ def render_vue():
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
-# test comment for commit
-#test comment 2
-#test comment 3
-#uptodate mis huevos

@@ -105,7 +105,7 @@ export default {
           this.$router.push({
             path: '/',
             name: 'HelloWorld',
-            params: {data: res.data, logged: true}
+            params: {data: res.data, logged: true, email: this.email}
           })
         })
         .catch((error) => {

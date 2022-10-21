@@ -1,6 +1,6 @@
 <template>
   <main class="hello">
-    <NavigationBar class="nav-top" :logged="logged" :key="logged" />
+    <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token" />
     <div class="container">
       <div class="row">
         <div
@@ -38,7 +38,8 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       db: [],
       logged: false,
-      token: 'g'
+      token: 'g',
+      email: 'e'
     }
   },
 
@@ -62,6 +63,7 @@ export default {
     if (Object.keys(this.$route.params).length !== 0) {
       this.token = this.$route.params.data.token
       this.logged = this.$route.params.logged
+      this.email = this.$route.params.email
     }
   }
 }
