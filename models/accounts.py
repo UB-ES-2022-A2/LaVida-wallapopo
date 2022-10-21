@@ -27,6 +27,9 @@ class AccountsModel(db.Model):
     profile_picture = db.Column(db.String(), nullable=True)  # can be stored as url
     # 0 not admin/ 1 is admin
     is_admin = db.Column(db.Integer, nullable=False)
+    current_token = db.Column(db.String(), nullable=True, server_default=None)
+
+
     # products owned by user
     products = db.relationship('ProductsModel', backref='products', lazy=True)
 
@@ -44,12 +47,14 @@ class AccountsModel(db.Model):
                 'is_admin': self.is_admin
                 }
 
-    def generate_auth_token(self, expiration=600):
-        return encode(
+    def generate_auth_token(self, expiration=1200):
+        tk = encode(
             {"email": self.email, "exp": int(time.time()) + expiration},
             secret_key,
             algorithm="HS256"
         )
+        self.store_token(tk)
+        return tk
 
     @classmethod
     def verify_auth_token(cls, token):
@@ -61,8 +66,18 @@ class AccountsModel(db.Model):
             return None  # invalid token
 
         user = cls.query.filter_by(email=data['email']).first()
+        if user.current_token != token:
+            return None
 
         return user
+
+    def invalidate_auth_token(self):
+        self.current_token = None
+        db.session.commit()
+
+    def store_token(self, token):
+        self.current_token = token
+        db.session.commit()
 
     def save_to_db(self):
         db.session.add(self)
