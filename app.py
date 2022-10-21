@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_migrate import Migrate
-from db import db
+from db import db, secret_key
 from flask_cors import CORS
 from flask_restful import Api
 from flask import render_template
@@ -10,7 +10,6 @@ from models.products import ProductsModel
 from resources.accounts import Accounts
 from resources.products import ProductsList
 from resources.session import Login, Logout
-from resources.login import Login
 from config import config
 from decouple import config as config_decouple
 
