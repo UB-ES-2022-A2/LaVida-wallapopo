@@ -9,7 +9,7 @@ from models.accounts import AccountsModel
 from models.products import ProductsModel
 from resources.accounts import Accounts
 from resources.products import ProductsList
-from resources.login import Login
+from resources.session import Login, Logout
 
 
 app = Flask(
@@ -35,8 +35,9 @@ api.add_resource(Accounts, '/account/<string:email>', '/account')
 # products
 api.add_resource(ProductsList, '/products')
 
-# login
+# session
 api.add_resource(Login, '/login')
+api.add_resource(Logout, '/logout/<string:email>')
 
 
 @app.route('/')

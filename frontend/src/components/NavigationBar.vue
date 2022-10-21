@@ -39,10 +39,14 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'NavigationBar',
   props: {
-    logged: Boolean
+    logged: Boolean,
+    email: String,
+    token: String
   },
   data () {
     return {
@@ -51,7 +55,19 @@ export default {
   },
   methods: {
     logout () {
-      this.logged = false
+      const path = 'http://127.0.0.1:5000/logout/' + this.email
+      axios.post(path, {}, {
+        auth: {username: this.token}
+      })
+        .then(() => {
+          console.log('logged out')
+          this.logged = false
+          this.token = 'g'
+          this.email = 'e'
+        })
+        .catch((error) => {
+          console.error(error)
+        })
       this.$router.push({ path: '/' })
     }
   }
