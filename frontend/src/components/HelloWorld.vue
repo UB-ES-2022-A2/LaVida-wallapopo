@@ -14,6 +14,7 @@
             :desc="product.description"
             :productState="product.product_status"
             :date="product.date"
+            :link="product.id"
 
           />
         </div>

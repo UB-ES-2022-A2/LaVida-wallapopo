@@ -1,14 +1,15 @@
 <template>
-  <div class="card">
+  <div class="card" v-on:click="goToProduct()">
     <img
       class="card-img"
       :src="require('../assets/' + getName(title) + '.jpeg')"
       alt="Image Product"
+
     />
-    <div class="card-body">
+    <div class="card-body" >
       <div class="container">
         <div class="">
-          <h5 class="row">{{ price }} $</h5>
+          <h5 class="row">{{ price }}$</h5>
         </div>
         <div class="row">
           <p>
@@ -22,6 +23,7 @@
           <p>
             {{ desc }}
           </p>
+
         </div>
       </div>
     </div>
@@ -35,14 +37,22 @@ export default {
     desc: String,
     date: String,
     productState: String,
-    img: String
+    img: String,
+    link: Number
   },
   data () {
-    return {}
+    return {
+
+    }
   },
   methods: {
     getName (nameProduct) {
       return nameProduct.split(' ')[0]
+    },
+    goToProduct () {
+      this.$router.push({
+        path: '/product/' + this.$props.link
+      })
     }
   }
 }
