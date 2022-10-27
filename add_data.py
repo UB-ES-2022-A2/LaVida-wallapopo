@@ -1,13 +1,12 @@
+import random as rand
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 
+import resources.sample_data as data
+from models.accounts import AccountsModel
 # import models here
 from models.products import ProductsModel
-from models.accounts import AccountsModel
-import resources.sample_data as data
-
-import random as rand
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
@@ -36,7 +35,6 @@ for product in products:
     user = rand.choice(accounts)
     i = accounts.index(user)
     product.user_id = accounts[i].email
-
 
 db.session.add_all(products)
 db.session.add_all(accounts)

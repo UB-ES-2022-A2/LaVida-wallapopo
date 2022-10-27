@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     logout () {
-      const path = 'http://127.0.0.1:5000/logout/' + this.email
+      const path = 'https://lavida-wallapopo.herokuapp.com/logout/' + this.email
       axios.post(path, {}, {
         auth: {username: this.token}
       })
