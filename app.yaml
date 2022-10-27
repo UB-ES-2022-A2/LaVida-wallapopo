@@ -1,7 +1,7 @@
 #app.yaml
 runtime: python39
 env: standard
-entrypoint: gunicorn -b :$PORT main:app
+entrypoint: gunicorn -b :$PORT app:app
 
 env_variables:
   CLOUD_SQL_USERNAME: root
