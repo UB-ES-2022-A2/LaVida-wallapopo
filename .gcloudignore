@@ -17,3 +17,10 @@
 __pycache__/
 # Ignored by the build system
 /setup.cfg
+migrations/
+venv/
+Procfile
+README.md
+data.db
+LICENSE
+frontend/

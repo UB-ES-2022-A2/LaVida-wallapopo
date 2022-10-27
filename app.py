@@ -1,33 +1,29 @@
-from flask import Flask
-from flask_migrate import Migrate
-from db import db, secret_key
-from flask_cors import CORS
-from flask_restful import Api
-from flask import render_template
+import os
 
-from models.accounts import AccountsModel
-from models.products import ProductsModel
+from flask import Flask
+from flask import render_template
+from flask_cors import CORS
+from flask_migrate import Migrate
+from flask_restful import Api
+
+from config import config
+from db import db
 from resources.accounts import Accounts
 from resources.products import ProductsList
 from resources.session import Login, Logout
-from config import config
-from decouple import config as config_decouple
-#comentari de prova
+
 app = Flask(__name__)
+# Set default environment as developement
 environment = config['development']
 
-if config_decouple('PRODUCTION', cast=bool, default=False):
+# If it's deployed change environment to production
+if os.environ.get('GAE_ENV') == 'standard':
     environment = config['production']
 
 app.config.from_object(environment)
 
 api = Api(app)
 CORS(app, resources={r'/*': {'origins': '*'}})
-
-# config used for now, will be changed later on
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = secret_key
 
 migrate = Migrate(app, db)
 db.init_app(app)
