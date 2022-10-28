@@ -43,6 +43,8 @@ import axios from 'axios'
 
 export default {
   name: 'NavigationBar',
+  prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
+  devPath: 'http://localhost:5000',
   props: {
     logged: Boolean,
     email: String,
@@ -55,7 +57,7 @@ export default {
   },
   methods: {
     logout () {
-      const path = 'https://lavida-wallapopo.herokuapp.com/logout/' + this.email
+      const path = this.devPath + '/logout/' + this.email
       axios.post(path, {}, {
         auth: {username: this.token}
       })

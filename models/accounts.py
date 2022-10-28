@@ -19,15 +19,15 @@ class AccountsModel(db.Model):
     # info needed for login
     email = db.Column(db.String(50), primary_key=True, unique=True, nullable=False)
     username = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String(500), nullable=False)
     # optional account details
     name = db.Column(db.String(20), nullable=True)
     surname = db.Column(db.String(30), nullable=True)
     birthday = db.Column(db.Date(), nullable=True)
-    profile_picture = db.Column(db.String(100), nullable=True)  # can be stored as url
+    profile_picture = db.Column(db.String(500), nullable=True)  # can be stored as url
     # 0 not admin/ 1 is admin
     is_admin = db.Column(db.Integer, nullable=False)
-    current_token = db.Column(db.String(100), nullable=True, server_default=None)
+    current_token = db.Column(db.String(500), nullable=True, server_default=None)
 
 
     # products owned by user
