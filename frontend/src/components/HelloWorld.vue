@@ -12,7 +12,7 @@
             :title="product.name"
             :price="product.price"
             :desc="product.description"
-            :productState="product.product_status"
+            :productState="product.condition"
             :date="product.date"
 
           />

@@ -28,7 +28,7 @@ class ProductsModel(db.Model):
                        nullable=False, server_default=status_list[0])
     # if the product is new or not
     condition = db.Column(db.Enum(*condition_list, name='conditions_types', validate_strings=True),
-                          nullable=False)
+                          nullable=False, server_default=condition_list[0])
     # description has a max length of 1000 characters
     description = db.Column(db.String(1000), nullable=False)
     price = db.Column(db.Float, nullable=False)
@@ -38,11 +38,13 @@ class ProductsModel(db.Model):
     # foreign keys
     user_id = db.Column(db.String(50), db.ForeignKey('accounts.email'))
 
-    def __init__(self, name, category, description, price):
+    def __init__(self, name, category, description, price, status, condition):
         self.name = name
         self.category = category
         self.description = description
         self.price = price
+        self.status = status
+        self.condition = condition
 
     def json(self):
         return {
@@ -52,6 +54,7 @@ class ProductsModel(db.Model):
             'description': self.description,
             'price': self.price,
             'image': self.image,
+            'condition': self.condition,
             'status': self.status,
             'date': self.date.isoformat(),
             'user': self.user_id
