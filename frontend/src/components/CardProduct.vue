@@ -8,7 +8,14 @@
     <div class="card-body">
       <div class="container">
         <div class="">
-          <h5 class="row">{{ price }} $</h5>
+          <h5 class="row">{{ price }} $
+            <!--button id="swapHeart" class="btn btn-default swap">
+                <span class="glyphicon glyphicon-heart-empty"></span>
+            </-button-->
+            <button type="button" class="fav-button" @click="toggle_fav">
+              <img class="fav-img" src="../assets/logo_favorito.png" width="24px" height="24px" alt="don't load">
+            </button>
+          </h5>
         </div>
         <div class="row">
           <p>
@@ -28,6 +35,7 @@
   </div>
 </template>
 <script>
+
 export default {
   props: {
     title: String,
@@ -35,7 +43,8 @@ export default {
     desc: String,
     date: String,
     productState: String,
-    img: String
+    img: String,
+    is_fav: Boolean(false)
   },
   data () {
     return {}
@@ -43,6 +52,10 @@ export default {
   methods: {
     getName (nameProduct) {
       return nameProduct.split(' ')[0]
+    },
+    toggle_fav () {
+      this.is_fav = !this.is_fav
+      console.log('Boton cambiado a true', this.is_fav)
     }
   }
 }
@@ -74,5 +87,31 @@ box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 .row {
   height: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.fav-img {
+  background: white;
+  border: none;
+  border-radius: 8px;
+}
+
+.fav-button {
+  height: 25px;
+  width: 25px;
+  background: white;
+  transition: fill 150ms linear;
+  transition-property: fill;
+  transition-duration: 150ms;
+  transition-timing-function: linear;
+  transition-delay: 0s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
 </style>
