@@ -9,7 +9,7 @@ from flask_restful import Api
 from config import config
 from db import db
 from resources.accounts import Accounts
-from resources.products import ProductsList
+from resources.products import Product, ProductsList
 from resources.session import Login, Logout
 
 app = Flask(__name__)
@@ -32,6 +32,7 @@ db.init_app(app)
 api.add_resource(Accounts, '/account/<string:email>', '/account')
 
 # products
+api.add_resource(Product, '/product/<string:id>')
 api.add_resource(ProductsList, '/products')
 
 # session

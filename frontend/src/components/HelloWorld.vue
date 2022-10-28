@@ -12,7 +12,7 @@
             :title="product.name"
             :price="product.price"
             :desc="product.description"
-            :productState="product.product_status"
+            :productState="product.condition"
             :date="product.date"
 
           />
@@ -37,6 +37,8 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       db: [],
+      prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
+      devPath: 'http://localhost:5000',
       logged: false,
       token: 'g',
       email: 'e'
@@ -45,7 +47,7 @@ export default {
 
   methods: {
     getProducts () {
-      const path = 'https://lavida-wallapopo.herokuapp.com/products'
+      const path = this.devPath + '/products'
       axios.get(path).then((res) => {
         console.log(res)
         let db = res.data.Products_List

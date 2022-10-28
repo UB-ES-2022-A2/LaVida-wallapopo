@@ -2,6 +2,7 @@ import random as rand
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import exc
 
 import resources.sample_data as data
 from models.accounts import AccountsModel
@@ -19,9 +20,8 @@ accounts = []
 
 for product in data.products:
     productModel = ProductsModel(name=product['name'], category=product['category'], description=product['description'],
-                                 price=product['price'])
+                                 price=product['price'], status=product['status'], condition=product['condition'])
     productModel.image = product['image']
-    productModel.status = product['status']
     products.append(productModel)
 
 for account in data.accounts:
@@ -36,6 +36,9 @@ for product in products:
     i = accounts.index(user)
     product.user_id = accounts[i].email
 
-db.session.add_all(products)
-db.session.add_all(accounts)
-db.session.commit()
+try:
+    db.session.add_all(products)
+    db.session.add_all(accounts)
+    db.session.commit()
+except exc.SQLAlchemyError:
+    db.session.rollback()

@@ -10,6 +10,8 @@ categories_list = ('Coches', 'Motos', 'Motor y Accesorios', 'Moda y Accesorios',
 # product status, it checks if the product is for sale, reserved or sold
 status_list = ('En venta', 'Reservado', 'Vendido')
 
+# product condition, if it's new, almost new or used
+condition_list = ('Nuevo', 'Casi nuevo', 'Usado')
 
 class ProductsModel(db.Model):
     __tablename__ = 'products'  # This is table name
@@ -18,12 +20,15 @@ class ProductsModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # primary key
     name = db.Column(db.String(50), nullable=False)  # string with a max length of 50
     # one product can have multiple images
-    image = db.Column(db.String(100), nullable=True)  # only one image for now
+    image = db.Column(db.String(500), nullable=True)  # only one image for now
     # validate_string=True raises an error if the value is not inside enum
     category = db.Column(db.Enum(*categories_list, name='categories_types', validate_strings=True), nullable=False)
     # by default, products are listed as selling
     status = db.Column(db.Enum(*status_list, name='status_types', validate_strings=True),
                        nullable=False, server_default=status_list[0])
+    # if the product is new or not
+    condition = db.Column(db.Enum(*condition_list, name='conditions_types', validate_strings=True),
+                          nullable=False, server_default=condition_list[0])
     # description has a max length of 1000 characters
     description = db.Column(db.String(1000), nullable=False)
     price = db.Column(db.Float, nullable=False)
@@ -33,11 +38,13 @@ class ProductsModel(db.Model):
     # foreign keys
     user_id = db.Column(db.String(50), db.ForeignKey('accounts.email'))
 
-    def __init__(self, name, category, description, price):
+    def __init__(self, name, category, description, price, status, condition):
         self.name = name
         self.category = category
         self.description = description
         self.price = price
+        self.status = status
+        self.condition = condition
 
     def json(self):
         return {
@@ -47,6 +54,7 @@ class ProductsModel(db.Model):
             'description': self.description,
             'price': self.price,
             'image': self.image,
+            'condition': self.condition,
             'status': self.status,
             'date': self.date.isoformat(),
             'user': self.user_id
@@ -61,7 +69,7 @@ class ProductsModel(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_all_by_user(cls, email): # returns all products owned by account
+    def get_all_by_user(cls, email):  # returns all products owned by account
         return cls.query.filter(cls.user_id == email).all()
 
     @classmethod

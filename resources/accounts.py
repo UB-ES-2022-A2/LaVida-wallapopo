@@ -49,6 +49,7 @@ class Accounts(Resource):
             new_account.hash_password(data['password'])
             # update DB
             try:
+                print(new_account.password)
                 new_account.save_to_db()
                 return new_account.json(), HTTPStatus.OK
             except exc.SQLAlchemyError:
