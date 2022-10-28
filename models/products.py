@@ -20,7 +20,7 @@ class ProductsModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # primary key
     name = db.Column(db.String(50), nullable=False)  # string with a max length of 50
     # one product can have multiple images
-    image = db.Column(db.String(100), nullable=True)  # only one image for now
+    image = db.Column(db.String(500), nullable=True)  # only one image for now
     # validate_string=True raises an error if the value is not inside enum
     category = db.Column(db.Enum(*categories_list, name='categories_types', validate_strings=True), nullable=False)
     # by default, products are listed as selling
