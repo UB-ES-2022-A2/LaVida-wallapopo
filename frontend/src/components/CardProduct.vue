@@ -101,17 +101,36 @@ box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   height: 25px;
   width: 25px;
   background: white;
-  transition: fill 150ms linear;
-  transition-property: fill;
-  transition-duration: 150ms;
-  transition-timing-function: linear;
-  transition-delay: 0s;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   position: relative;
   border: none;
+  overflow: hidden;
   border-radius: 8px;
   cursor: pointer;
+}
+
+.fav-button:after {
+  content: "";
+  background: #ff6857;
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 300%;
+  margin-left: -30px!important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s
+}
+
+.fav-button:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s
 }
 </style>
