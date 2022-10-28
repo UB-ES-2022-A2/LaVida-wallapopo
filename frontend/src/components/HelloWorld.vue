@@ -45,7 +45,7 @@ export default {
 
   methods: {
     getProducts () {
-      const path = 'https://lavida-wallapopo.herokuapp.com/products'
+      const path = 'http://localhost:5000/products'
       axios.get(path).then((res) => {
         console.log(res)
         let db = res.data.Products_List

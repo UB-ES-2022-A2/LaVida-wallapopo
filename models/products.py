@@ -61,7 +61,7 @@ class ProductsModel(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_all_by_user(cls, email): # returns all products owned by account
+    def get_all_by_user(cls, email):  # returns all products owned by account
         return cls.query.filter(cls.user_id == email).all()
 
     @classmethod

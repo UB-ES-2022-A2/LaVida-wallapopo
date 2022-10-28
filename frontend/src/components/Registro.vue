@@ -80,7 +80,7 @@ export default {
       validEmail: false,
       validName: false,
       password2: '',
-      actualPath: 'https://lavida-wallapopo.herokuapp.com/',
+      actualPath: 'http://localhost:5000',
       error: '',
       addUserForm: {
         username: null,
@@ -97,7 +97,7 @@ export default {
       this.$router.push({path: '/login'})
     },
     registerUser () {
-      axios.post('https://lavida-wallapopo.herokuapp.com/account', this.addUserForm).then((response) => {
+      axios.post(this.actualPath + '/account', this.addUserForm).then((response) => {
         console.log(response)
         alert('Usuario registrado correctamente')
         this.redirectToLogin()

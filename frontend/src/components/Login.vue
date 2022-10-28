@@ -91,7 +91,7 @@ export default {
       this.$router.push({ path: '/forgotPassword' })
     },
     checkLogin () {
-      const path = 'https://lavida-wallapopo.herokuapp.com/login'
+      const path = 'http://localhost:5000/login'
       const parameters = {
         email: this.email,
         password: this.password
