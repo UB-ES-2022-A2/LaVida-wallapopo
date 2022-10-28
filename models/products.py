@@ -18,7 +18,7 @@ class ProductsModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # primary key
     name = db.Column(db.String(50), nullable=False)  # string with a max length of 50
     # one product can have multiple images
-    image = db.Column(db.String(), nullable=True)  # only one image for now
+    image = db.Column(db.String(500), nullable=True)  # only one image for now
     # validate_string=True raises an error if the value is not inside enum
     category = db.Column(db.Enum(*categories_list, name='categories_types', validate_strings=True), nullable=False)
     # by default, products are listed as selling
@@ -31,7 +31,7 @@ class ProductsModel(db.Model):
     date = db.Column(db.DateTime(), nullable=False, server_default=func.now())
 
     # foreign keys
-    user_id = db.Column(db.String(), db.ForeignKey('accounts.email'))
+    user_id = db.Column(db.String(50), db.ForeignKey('accounts.email'))
 
     def __init__(self, name, category, description, price):
         self.name = name

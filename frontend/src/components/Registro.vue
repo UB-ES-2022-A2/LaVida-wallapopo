@@ -80,7 +80,8 @@ export default {
       validEmail: false,
       validName: false,
       password2: '',
-      actualPath: 'http://localhost:5000/',
+      prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
+      devPath: 'http://localhost:5000',
       error: '',
       addUserForm: {
         username: null,
@@ -97,7 +98,7 @@ export default {
       this.$router.push({path: '/login'})
     },
     registerUser () {
-      axios.post('http://localhost:5000/account', this.addUserForm).then((response) => {
+      axios.post(this.devPath + '/account', this.addUserForm).then((response) => {
         console.log(response)
         alert('Usuario registrado correctamente')
         this.redirectToLogin()
