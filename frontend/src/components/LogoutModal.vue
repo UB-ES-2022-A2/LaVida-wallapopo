@@ -1,4 +1,3 @@
-<!--template xmlns="http://www.w3.org/1999/html"-->
 <template>
   <b-modal id="modal-1" title="Aviso" header-text-variant="light" header-bg-variant="danger">
     <p class="my-4"><b>¿Estás seguro de que quieres cerrar la sesión actual?</b></p>
@@ -49,14 +48,8 @@ export default {
 </script>
 
 <style scoped>
-h6 {
-  font-weight: 500;
-  font-size: 28px;
-  margin: 20px 0;
-}
-
 p {
-  font-size: 16px;
+  font-size: 18px;
   margin: 20px 0;
 }
 
