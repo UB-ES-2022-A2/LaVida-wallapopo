@@ -40,8 +40,7 @@
 </template>
 
 <script>
-
-import LogoutModal from './LogoutModal'
+import axios from 'axios'
 
 export default {
   name: 'NavigationBar',
