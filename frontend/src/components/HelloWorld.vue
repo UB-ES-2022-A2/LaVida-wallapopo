@@ -47,7 +47,7 @@ export default {
 
   methods: {
     getProducts () {
-      const path = this.devPath + '/products'
+      const path = this.prodPath + '/products'
       axios.get(path).then((res) => {
         console.log(res)
         let db = res.data.Products_List
