@@ -27,8 +27,9 @@
       <div class="dropdown-dark my-3 text-right">
         <img src="@/assets/icons/account_circle.svg" alt="User icon" />
         <b-dropdown id="dropdown-1" text="Usuario" class="m-md-2" variant="dark">
-          <b-dropdown-item @click="logout()">Cerrar Sesión</b-dropdown-item>
+          <b-dropdown-item v-b-modal.modal-1>Cerrar Sesión</b-dropdown-item>
         </b-dropdown>
+        <LogoutModal class="modal" :logged="logged" :key="logged" :email="email" :token="token"></LogoutModal>
       </div>
 
       <div class="btn">
@@ -40,9 +41,11 @@
 
 <script>
 import axios from 'axios'
+import LogoutModal from './LogoutModal'
 
 export default {
   name: 'NavigationBar',
+  components: { LogoutModal },
   props: {
     logged: Boolean,
     email: String,
