@@ -1,8 +1,9 @@
+<!--template xmlns="http://www.w3.org/1999/html"-->
 <template>
   <b-modal id="modal-1" title="Aviso" header-text-variant="light" header-bg-variant="danger">
-    <p class="my-4"><b>¿Estás seguro que quieres cerrar la sesión actual?</b></p>
+    <p class="my-4"><b>¿Estás seguro de que quieres cerrar la sesión actual?</b></p>
     <template #modal-footer="{ logout, cancel }">
-      <b-button size="sm" variant="outline-danger" @click="confirmLogout()">
+      <b-button size="sm" variant="outline-danger" @click="confirmLogout(); changeLogged()">
         Cerrar sesión
       </b-button>
       <b-button size="sm" variant="outline-secondary" @click="cancel()">
@@ -39,6 +40,9 @@ export default {
           console.error(error)
         })
       this.$router.push({ path: '/' })
+    },
+    changeLogged () {
+      this.$emit('loggedStatus', false)
     }
   }
 }

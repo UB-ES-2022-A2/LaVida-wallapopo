@@ -29,7 +29,7 @@
         <b-dropdown id="dropdown-1" text="Usuario" class="m-md-2" variant="dark">
           <b-dropdown-item v-b-modal.modal-1>Cerrar Sesión</b-dropdown-item>
         </b-dropdown>
-        <LogoutModal class="modal" :logged="logged" :key="logged" :email="email" :token="token"></LogoutModal>
+        <LogoutModal @loggedStatus="logged=$event" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
       </div>
 
       <div class="btn">
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+
 import LogoutModal from './LogoutModal'
 
 export default {
@@ -57,22 +57,6 @@ export default {
     }
   },
   methods: {
-    logout () {
-      const path = 'http://127.0.0.1:5000/logout/' + this.email
-      axios.post(path, {}, {
-        auth: {username: this.token}
-      })
-        .then(() => {
-          console.log('logged out')
-          this.logged = false
-          this.token = 'g'
-          this.email = 'e'
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-      this.$router.push({ path: '/' })
-    }
   }
 }
 </script>
