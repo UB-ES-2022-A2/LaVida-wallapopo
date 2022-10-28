@@ -9,9 +9,6 @@
       <div class="container">
         <div class="">
           <h5 class="row">{{ price }} $
-            <!--button id="swapHeart" class="btn btn-default swap">
-                <span class="glyphicon glyphicon-heart-empty"></span>
-            </-button-->
             <button type="button" class="fav-button" @click="toggle_fav">
               <img class="fav-img" src="../assets/logo_favorito.png" width="24px" height="24px" alt="don't load">
             </button>
