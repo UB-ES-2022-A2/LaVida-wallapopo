@@ -10,6 +10,8 @@ categories_list = ('Coches', 'Motos', 'Motor y Accesorios', 'Moda y Accesorios',
 # product status, it checks if the product is for sale, reserved or sold
 status_list = ('En venta', 'Reservado', 'Vendido')
 
+# product condition, if it's new, almost new or used
+condition_list = ('Nuevo', 'Casi nuevo', 'Usado')
 
 class ProductsModel(db.Model):
     __tablename__ = 'products'  # This is table name
@@ -24,6 +26,9 @@ class ProductsModel(db.Model):
     # by default, products are listed as selling
     status = db.Column(db.Enum(*status_list, name='status_types', validate_strings=True),
                        nullable=False, server_default=status_list[0])
+    # if the product is new or not
+    condition = db.Column(db.Enum(*condition_list, name='conditions_types', validate_strings=True),
+                          nullable=False)
     # description has a max length of 1000 characters
     description = db.Column(db.String(1000), nullable=False)
     price = db.Column(db.Float, nullable=False)
