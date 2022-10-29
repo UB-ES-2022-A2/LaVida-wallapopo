@@ -6,4 +6,3 @@ from flask_sqlalchemy import SQLAlchemy
 # flask db upgrade
 secret_key = "kdsfklsmfakfmafmadslvsdfasdf"
 db = SQLAlchemy()
-# comentari de prova
