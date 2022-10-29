@@ -25,7 +25,7 @@ for product in data.products:
     products.append(productModel)
 
 for account in data.accounts:
-    accountModel = AccountsModel(email=account['email'], username=account['username'])
+    accountModel = AccountsModel(email=account['email'], username=account['username'], confirmed=account['confirmed'])
     accountModel.hash_password(account['password'])
 
     accounts.append(accountModel)

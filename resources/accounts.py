@@ -44,7 +44,7 @@ class Accounts(Resource):
                 return {'message': "Password is necessary to register"}, HTTPStatus.CONFLICT
 
             # create new account
-            new_account = AccountsModel(email=data['email'], username=data['username'])
+            new_account = AccountsModel(email=data['email'], username=data['username'], confirmed=False)
             # assign the hashed password to the user
             new_account.hash_password(data['password'])
             # update DB
