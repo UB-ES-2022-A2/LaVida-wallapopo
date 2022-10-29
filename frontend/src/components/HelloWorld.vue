@@ -19,19 +19,22 @@
         </div>
       </div>
     </div>
+    <Footer/>
   </main>
 </template>
 
 <script>
 import NavigationBar from './NavigationBar.vue'
 import CardProduct from './CardProduct.vue'
+import Footer from './Footer.vue'
 
 import axios from 'axios'
 export default {
   name: 'HelloWorld',
   components: {
     NavigationBar,
-    CardProduct
+    CardProduct,
+    Footer
   },
   data () {
     return {
