@@ -3,7 +3,7 @@
     <a class="navbar-brand h1" href="/#/">Wallapopo</a>
     <form class="container-fluid" role="search">
       <span>
-        <img :src="require('@/assets/icons/search.svg')" alt="search_icon"
+        <img :src="require('../assets/icons/search.svg')" alt="search_icon"
       /></span>
       <input
         class="form-control"
@@ -40,7 +40,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+
+import LogoutModal from './LogoutModal'
 
 export default {
   name: 'NavigationBar',
