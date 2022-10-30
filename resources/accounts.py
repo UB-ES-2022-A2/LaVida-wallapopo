@@ -1,10 +1,20 @@
-from lock import lock
-from flask_restful import Resource, reqparse
+import datetime
 from http import HTTPStatus
+
+import flask
+from flask_restful import Resource, reqparse
+from itsdangerous import URLSafeTimedSerializer
 from sqlalchemy import exc
 
 from db import db
+from lock import lock
 from models.accounts import AccountsModel, auth, g, EMAIL_REGEX, PASSWORD_REGEX
+
+import smtplib
+from email.message import EmailMessage
+
+EMAIL_ADDRESS = 'wallapopo.confirmation@gmail.com'
+EMAIL_PASSWORD = 'cgklydfzsujtprcs'
 
 
 class Accounts(Resource):
@@ -47,6 +57,34 @@ class Accounts(Resource):
             new_account = AccountsModel(email=data['email'], username=data['username'], confirmed=False)
             # assign the hashed password to the user
             new_account.hash_password(data['password'])
+
+            # Generació del token de confirmacio de correu
+            email_token = self.generate_confirmation_token(data['email'])
+            print("confirmation token is: {}".format(email_token))
+
+            confirm_url = flask.url_for('confirm', token=email_token, _external=True)
+
+            msg = EmailMessage()
+            msg['Subject'] = 'Test python email'
+            msg['From'] = EMAIL_ADDRESS
+            msg['To'] = EMAIL_ADDRESS
+
+            html_message = '''
+                            <p>Por favor, sigue este link para activar tu cuenta:</p>
+                            <p><a href="{{confirm_url}}">{{confirm_url}}</a></p>
+                            <br>
+                            <p>Un saludo!</p>
+                            '''
+            html_message = html_message.replace('{{confirm_url}}', confirm_url)
+
+            msg.set_content(
+                html_message,
+                subtype='html')
+
+            with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+                smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+                smtp.send_message(msg)
+
             # update DB
             try:
                 print(new_account.password)
@@ -65,3 +103,42 @@ class Accounts(Resource):
         parser.add_argument('password', type=str, required=True, help="This field cannot be left blank")
 
         return parser.parse_args()
+
+    # Genera un nou token de confirmacio
+    def generate_confirmation_token(self, email):
+        print("Generating confirmation token")
+        from app import app
+        serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+        return serializer.dumps(email, salt=app.config['SECURITY_PASSWORD_SALT'])
+
+    @staticmethod
+    def confirm_email(token):
+        email = ''
+        try:
+            # email = self.confirm_token(token)
+            from app import app
+            serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+            try:
+                email = serializer.loads(
+                    token,
+                    salt=app.config['SECURITY_PASSWORD_SALT'],
+                    max_age=3600
+                )
+            except:
+                print("Token is not valid!")
+                return None
+            print("Token is valid!")
+        except Exception as e:
+            print(e)
+            return None
+
+        user = AccountsModel.get_by_email(email)
+        if user.confirmed:
+            return {'message': "Account already confirmed, please login"}, HTTPStatus.CONFLICT
+        else:
+            user.confirmed = True
+            user.confirmed_on = datetime.datetime.now()
+            db.session.add(user)
+            db.session.commit()
+            return {'message': "Account email confirmed!"}, HTTPStatus.OK
+

@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, flash
 from flask import render_template
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -12,7 +12,16 @@ from resources.accounts import Accounts
 from resources.products import Product, ProductsList
 from resources.session import Login, Logout
 
-app = Flask(__name__)
+# app = Flask(__name__)
+
+
+app = Flask(
+    __name__,
+    static_folder="frontend/dist/static",
+    template_folder="frontend/dist"
+)
+
+
 # Set default environment as developement
 environment = config['development']
 
@@ -21,6 +30,7 @@ if os.environ.get('GAE_ENV') == 'standard':
     environment = config['production']
 
 app.config.from_object(environment)
+app.config['SECURITY_PASSWORD_SALT'] = 'foobar'
 
 api = Api(app)
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -38,6 +48,12 @@ api.add_resource(ProductsList, '/products')
 # session
 api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout/<string:email>')
+
+
+@app.route('/<token>')
+def confirm(token):
+    Accounts.confirm_email(token)
+    return render_template("index.html")
 
 
 @app.route('/')
