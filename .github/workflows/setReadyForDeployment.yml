@@ -1,0 +1,46 @@
+name: Set Code Ready For Deployment
+
+on:
+  push:
+    branches: [Production]
+
+jobs:
+  rename-path-in-components:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Replace devPath to prodPath in vue components
+    # Canviem el nom dels components per a estar llestos per deployment
+    # find ./frontend/src/components -name "*.vue" -exec sed -i "s/devPath/prodPath/g" {} \;
+      run: |
+        find . -name "*.txt" -exec sed -i "s/prodPath/devPath/g" {} \;
+    
+    - name: Run npm build - Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        
+    - name: run npm build and create dist folder
+      run: | 
+        cd frontend
+        npm ci
+        npm run build #--if-present
+        
+    - name: update static and templates
+      run: |
+        rm -rf static/* 
+        rm -rf templates/*
+
+        mv frontend/dist/static/* static/
+        mv frontend/dist/index.html templates/
+        
+#     - name: Github commit and push
+#       uses: Smart-Transportation/push@v1.3
+#       with:
+#         github_token: ${{ secrets.GITHUB_TOKEN }}
+#         branch: github-actions-test
+
+
