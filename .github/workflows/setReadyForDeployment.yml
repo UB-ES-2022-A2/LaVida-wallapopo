@@ -2,7 +2,7 @@ name: Set Code Ready For Deployment
 
 on:
   pull_request:
-    branches: [Production]
+    branches: [gittest2]
 
 jobs:
   rename-path-in-components:
@@ -14,7 +14,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Replace devPath to prodPath in vue components
       run: |
-        find ./frontend/src/components -name "*.vue" -exec sed -i "s/devPath/prodPath/g" {} \;
+        find ./frontend/src/components -name "*.vue" -exec sed -i "s/this.prodPath/this.devPath/g" {} \;
     
     - name: Run npm build - Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
@@ -24,8 +24,6 @@ jobs:
     - name: run npm build and create dist folder
       run: | 
         cd frontend
-        echo "in frontend/ for checking 1"
-        ls
         npm ci
         npm run build #--if-present
         
@@ -33,17 +31,13 @@ jobs:
       run: |
         rm -rf static/* 
         rm -rf templates/*
-        echo "in frontend/ for checking 2"
-        cd frontend/
-        ls
-        cd ..
         mv frontend/dist/static/* static/
         mv frontend/dist/index.html templates/
         
-#     - name: Github commit and push
-#       uses: Smart-Transportation/push@v1.3
-#       with:
-#         github_token: ${{ secrets.GITHUB_TOKEN }}
-#         branch: github-actions-test
+    - name: Github commit and push
+      uses: Smart-Transportation/push@v1.3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gittest2
 
 
