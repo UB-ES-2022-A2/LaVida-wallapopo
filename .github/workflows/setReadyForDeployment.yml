@@ -40,10 +40,10 @@ jobs:
         mv frontend/dist/static/* static/
         mv frontend/dist/index.html templates/
         
-#     - name: Github commit and push
-#       uses: Smart-Transportation/push@v1.3
-#       with:
-#         github_token: ${{ secrets.GITHUB_TOKEN }}
-#         branch: github-actions-test
+    - name: Github commit and push
+      uses: Smart-Transportation/push@v1.3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gittest2
 
 
