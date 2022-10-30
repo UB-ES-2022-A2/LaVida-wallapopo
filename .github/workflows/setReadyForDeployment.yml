@@ -1,7 +1,7 @@
 name: Set Code Ready For Deployment
 
 on:
-  push:
+  pull_request:
     branches: [Production]
 
 jobs:
@@ -13,10 +13,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Replace devPath to prodPath in vue components
-    # Canviem el nom dels components per a estar llestos per deployment
-    # find ./frontend/src/components -name "*.vue" -exec sed -i "s/devPath/prodPath/g" {} \;
       run: |
-        find . -name "*.txt" -exec sed -i "s/prodPath/devPath/g" {} \;
+        find ./frontend/src/components -name "*.vue" -exec sed -i "s/devPath/prodPath/g" {} \;
     
     - name: Run npm build - Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
@@ -26,6 +24,8 @@ jobs:
     - name: run npm build and create dist folder
       run: | 
         cd frontend
+        echo "in frontend/ for checking 1"
+        ls
         npm ci
         npm run build #--if-present
         
@@ -33,7 +33,10 @@ jobs:
       run: |
         rm -rf static/* 
         rm -rf templates/*
-
+        echo "in frontend/ for checking 2"
+        cd frontend/
+        ls
+        cd ..
         mv frontend/dist/static/* static/
         mv frontend/dist/index.html templates/
         
