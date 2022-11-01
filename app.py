@@ -50,7 +50,7 @@ api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout/<string:email>')
 
 
-@app.route('/<token>')
+@app.route('/emailConfirmation/<token>')
 def confirm(token):
     Accounts.confirm_email(token)
     return render_template("index.html")
