@@ -20,7 +20,7 @@ accounts = []
 
 for product in data.products:
     productModel = ProductsModel(name=product['name'], category=product['category'], description=product['description'],
-                                 price=product['price'], status=product['status'], condition=product['condition'])
+                                 price=product['price'], condition=product['condition'])
     productModel.image = product['image']
     products.append(productModel)
 

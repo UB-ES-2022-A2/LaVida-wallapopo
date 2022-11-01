@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-md style-navbar">
-    <a class="navbar-brand h1" href="/#/">Wallapopo</a>
+    <a class="navbar-brand h1" @click="redirectToHome()">Wallapopo</a>
     <form class="container-fluid" role="search">
       <span>
         <img :src="require('../assets/icons/search.svg')" alt="search_icon"
@@ -32,8 +32,8 @@
         <LogoutModal @loggedStatus="logged=$event" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
       </div>
 
-      <div class="btn">
-        <img src="@/assets/icons/add_circle.svg" alt="User icon" /> Agregar producto
+      <div class="btn" @click="redirectToAddProduct()">
+        <img src="@/assets/icons/add_circle.svg" alt="User icon"/> Agregar producto
       </div>
     </div>
   </nav>
@@ -57,6 +57,18 @@ export default {
     }
   },
   methods: {
+    redirectToAddProduct () {
+      this.$router.push({
+        name: 'AddProduct',
+        params: {logged: this.logged, email: this.email, token: this.token}
+      })
+    },
+    redirectToHome () {
+      this.$router.push({
+        name: 'HelloWorld',
+        params: {logged: this.logged, email: this.email, token: this.token}
+      })
+    }
   }
 }
 </script>
