@@ -2,7 +2,7 @@
   <div class="card">
     <img
       class="card-img"
-      :src="require('../assets/' + getName(title) + '.jpeg')"
+      :src="require(`../assets/${img}`)"
       alt="Image Product"
     />
     <div class="card-body">
@@ -47,9 +47,6 @@ export default {
     return {}
   },
   methods: {
-    getName (nameProduct) {
-      return nameProduct.split(' ')[0]
-    },
     toggle_fav () {
       this.is_fav = !this.is_fav
       console.log('Boton cambiado a true', this.is_fav)
@@ -60,11 +57,9 @@ export default {
 
 <style scoped>
 .card {
-  width: auto;
   border-radius: 10px;
   width: 250px;
   height: 380px;
-  margin-bottom: 10px;
   margin-bottom: 20px;
 box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
@@ -77,7 +72,6 @@ box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   color: rgb(134, 134, 139);
   display: block;
   display: -webkit-box;
-  -webkit-line-clamp: 5; /* max line number */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

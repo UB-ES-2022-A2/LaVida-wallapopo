@@ -1,9 +1,9 @@
 <template>
   <nav class="navbar navbar-expand-md style-navbar">
-    <a class="navbar-brand h1" href="/#/">Wallapopo</a>
+    <a class="navbar-brand h1" @click="redirectToHome()">Wallapopo</a>
     <form class="container-fluid" role="search">
       <span>
-        <img :src="require('@/assets/icons/search.svg')" alt="search_icon"
+        <img :src="require('../assets/icons/search.svg')" alt="search_icon"
       /></span>
       <input
         class="form-control"
@@ -27,24 +27,25 @@
       <div class="dropdown-dark my-3 text-right">
         <img src="@/assets/icons/account_circle.svg" alt="User icon" />
         <b-dropdown id="dropdown-1" text="Usuario" class="m-md-2" variant="dark">
-          <b-dropdown-item @click="logout()">Cerrar Sesión</b-dropdown-item>
+          <b-dropdown-item v-b-modal.modal-1>Cerrar Sesión</b-dropdown-item>
         </b-dropdown>
+        <LogoutModal @loggedStatus="logged=$event" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
       </div>
 
-      <div class="btn">
-        <img src="@/assets/icons/add_circle.svg" alt="User icon" /> Agregar producto
+      <div class="btn" @click="redirectToAddProduct()">
+        <img src="@/assets/icons/add_circle.svg" alt="User icon"/> Agregar producto
       </div>
     </div>
   </nav>
 </template>
 
 <script>
-import axios from 'axios'
+
+import LogoutModal from './LogoutModal'
 
 export default {
   name: 'NavigationBar',
-  prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
-  devPath: 'http://localhost:5000',
+  components: { LogoutModal },
   props: {
     logged: Boolean,
     email: String,
@@ -56,21 +57,17 @@ export default {
     }
   },
   methods: {
-    logout () {
-      const path = this.devPath + '/logout/' + this.email
-      axios.post(path, {}, {
-        auth: {username: this.token}
+    redirectToAddProduct () {
+      this.$router.push({
+        name: 'AddProduct',
+        params: {logged: this.logged, email: this.email, token: this.token}
       })
-        .then(() => {
-          console.log('logged out')
-          this.logged = false
-          this.token = 'g'
-          this.email = 'e'
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-      this.$router.push({ path: '/' })
+    },
+    redirectToHome () {
+      this.$router.push({
+        name: 'HelloWorld',
+        params: {logged: this.logged, email: this.email, token: this.token}
+      })
     }
   }
 }

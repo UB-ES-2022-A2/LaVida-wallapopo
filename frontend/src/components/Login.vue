@@ -1,6 +1,5 @@
 <template>
   <div id="login">
-
     <div class="col d-flex justify-content-center">
       <div class="card" style="width: 30%">
         <div class="card-body">
@@ -93,7 +92,7 @@ export default {
       this.$router.push({ path: '/forgotPassword' })
     },
     checkLogin () {
-      const path = this.devPath + '/login'
+      const path = this.devPath + '/API/login'
       const parameters = {
         email: this.email,
         password: this.password

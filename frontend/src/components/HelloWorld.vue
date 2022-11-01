@@ -10,28 +10,31 @@
         >
           <CardProduct
             :title="product.name"
+            :img="product.image"
             :price="product.price"
             :desc="product.description"
-            :productState="product.product_status"
+            :productState="product.condition"
             :date="product.date"
-
           />
         </div>
       </div>
     </div>
+    <Footer/>
   </main>
 </template>
 
 <script>
 import NavigationBar from './NavigationBar.vue'
 import CardProduct from './CardProduct.vue'
+import Footer from './Footer.vue'
 
 import axios from 'axios'
 export default {
   name: 'HelloWorld',
   components: {
     NavigationBar,
-    CardProduct
+    CardProduct,
+    Footer
   },
   data () {
     return {
@@ -47,7 +50,7 @@ export default {
 
   methods: {
     getProducts () {
-      const path = this.devPath + '/products'
+      const path = this.devPath + '/API/products'
       axios.get(path).then((res) => {
         console.log(res)
         let db = res.data.Products_List
@@ -59,6 +62,11 @@ export default {
   },
   created () {
     this.getProducts()
+    if (Object.keys(this.$route.params).length !== 0) {
+      this.token = this.$route.params.token
+      this.logged = this.$route.params.logged
+      this.email = this.$route.params.email
+    }
   },
   mounted () {
     console.log('ROUTE', this.$route)
@@ -88,7 +96,6 @@ li {
 a {
   color: #42b983;
 }
-
 .celda {
   height: auto;
   align-content: center;
