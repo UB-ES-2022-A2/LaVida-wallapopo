@@ -1,7 +1,7 @@
 <template>
-  <div id="footer">
+  <div id="footer" bottom="0" position="fixed">
     <!-- Footer -->
-    <footer class="text-center text-lg-start bg-light text-muted">
+    <footer class="text-center text-lg-start bg-light text-muted bottom fixed padless">
       <!-- Section: Links  -->
       <section class="">
         <div class="d-flex justify-content-center justify-content-lg-between container text-center text-md-start mt-5 p-4 border-bottom">
@@ -90,3 +90,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+#footer{
+  position:relative;
+  width: 100%;
+  bottom:0;
+}
+</style>
