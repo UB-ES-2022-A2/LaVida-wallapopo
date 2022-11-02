@@ -1,11 +1,17 @@
 <template>
   <div id="navbarfiltros">
-    <nav class="navbar navbar-expand-md style-navbar">
+      <p>
+        <button type="button" class="btn btn-outline-dark mx-1" v-b-toggle.sidebar-backdrop>Filtros</button>
+        <button type="button" class="btn btn-outline-dark mr-1" v-b-toggle.collapse-1>Categorías</button>
+        <button type="button" class="btn btn-outline-dark mr-1" v-b-toggle.collapse-2>Precio</button>
+        <button type="button" class="btn btn-outline-dark mr-1" v-b-toggle.collapse-3>Estado del Producto</button>
+        <button type="button" class="btn btn-outline-dark" v-b-toggle.collapse-4>Ubicación</button>
+      </p>
       <div>
-        <button type="button" class="btn btn-outline-dark mr-1" v-b-toggle.sidebar-backdrop>Filtros</button>
         <b-sidebar
           id="sidebar-backdrop"
           title="Filtros"
+          bg-variant="white"
           :backdrop-variant="dark"
           backdrop
           shadow
@@ -70,8 +76,7 @@
           </div>
         </b-sidebar>
       </div>
-      <div>
-        <button type="button" class="btn btn-outline-dark mr-1" v-b-toggle.collapse-1>Categorías</button>
+      <nav class="navbar navbar-expand-sm">
         <b-collapse id="collapse-1" class="mt-2">
           <b-card>
             <p><strong>¿Qué categoría buscas?</strong></p>
@@ -84,9 +89,6 @@
             </div>
           </b-card>
         </b-collapse>
-      </div>
-      <div>
-        <button type="button" class="btn btn-outline-dark mr-1" v-b-toggle.collapse-2>Precio</button>
         <b-collapse id="collapse-2" class="mt-2">
           <b-card>
             <p><strong>¿Cuánto quieres pagar?</strong></p>
@@ -106,9 +108,6 @@
             </div>
           </b-card>
         </b-collapse>
-      </div>
-      <div>
-        <button type="button" class="btn btn-outline-dark mr-1" v-b-toggle.collapse-3>Estado del Producto</button>
         <b-collapse id="collapse-3" class="mt-2">
           <b-card>
             <p><strong>¿Qué estado buscas?</strong></p>
@@ -145,9 +144,6 @@
             </div>
           </b-card>
         </b-collapse>
-      </div>
-      <div>
-        <button type="button" class="btn btn-outline-dark" v-b-toggle.collapse-4>Ubicación</button>
         <b-collapse id="collapse-4" class="mt-2">
           <b-card>
             <p><strong>¿Dónde?</strong></p>
@@ -160,8 +156,7 @@
             </div>
           </b-card>
         </b-collapse>
-      </div>
-    </nav>
+      </nav>
   </div>
 </template>
 
