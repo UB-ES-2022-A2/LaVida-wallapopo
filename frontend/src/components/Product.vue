@@ -18,10 +18,10 @@
           </div>
 
           <div class="col-4 buttons">
-            <button class="product-button">
+            <button v-if="logged" class="product-button">
               <font-awesome-icon class="miIcon" icon="fa-heart" />
             </button>
-            <button class="product-button">Chat</button>
+            <button v-if="logged" class="product-button">Chat</button>
           </div>
         </div>
         <img
@@ -31,8 +31,9 @@
         />
         <div class="card-body">
           <div class="container">
-            <div class="price-product">
-              <h5 class="row  product-price">{{ product.price }} EUR</h5>
+            <div class="price-product row">
+              <h5 class="col  product-price">{{ product.price }} EUR</h5>
+              <button v-if="logged" class="product-button product-comprar">Comprar</button>
             </div>
             <hr class="solid">
             <div class="row">
@@ -70,6 +71,8 @@ export default {
     return {
       msg: this.$route.params.id,
       user: 'User Name',
+      token: localStorage.getItem('token'),
+      logged: false,
       product: {
         id: 1,
         name: 'Oso de peluche',
@@ -81,6 +84,11 @@ export default {
     }
   },
   methods: {
+    isLogged () {
+      if (this.token.length > 0) {
+        this.logged = true
+      }
+    },
     getName (nameProduct) {
       return nameProduct.split(' ')[0]
     },
@@ -106,12 +114,15 @@ export default {
       })
     }
   },
+
   created () {
     this.getProducts()
   },
 
   mounted () {
-    console.log('DB', this.db)
+    this.token = localStorage.getItem('token')
+    this.isLogged()
+    console.log('Token', this.token)
 
     this.msg = this.$route.params.id
     console.log('Product Data afeter mount', this.product)
@@ -185,5 +196,8 @@ hr{
 .buttons {
   display: flex;
   justify-content: flex-end;
+}
+.product-comprar{
+  width: 100px;
 }
 </style>

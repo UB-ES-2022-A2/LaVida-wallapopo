@@ -102,6 +102,7 @@ export default {
         .then((res) => {
           this.logged = true
           console.log('RESPONSE', res)
+          localStorage.setItem('token', res.data.token)
           this.$router.push({
             path: '/',
             name: 'HelloWorld',
