@@ -31,6 +31,11 @@ def test_login_post():
 
 
 def test_logout_post():
+    from app import app
+    with app.test_client() as test_client:
+        json = {'email': 'pepe432@gmail.com', 'username': 'pepeman', 'password': 'pepe123,.'}
+        login = test_client.post(url + "API/login", data=json)
+        assert login.status_code == 200
     json = {'email': 'pepe432@gmail.com', 'username': 'pepeman', 'password': 'pepe123,.'}
     login = requests.post(url + "API/login", json)
     assert login.status_code == 200
