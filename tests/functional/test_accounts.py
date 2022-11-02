@@ -49,10 +49,8 @@ def test_accounts_post():
     assert account.json() == {'message': 'Account with email [pepe432@gmail.com] already exist'}
 
     # TODO: Add test for the registration of a new account that can be repeated (do not save in the DB permanently)
-    """
-    json = "{'username': 'dummyname', 'email': 'dummy@gmail.com', 'password': 'dummy12.'}"
+    json = {'username': 'dummyname', 'email': 'dummy@gmail.com', 'password': 'dummy12.'}
     account = requests.post(url + "API/account", json)
     assert account.status_code == 200
-    """
 
 

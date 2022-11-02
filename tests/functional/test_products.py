@@ -1,5 +1,4 @@
 import requests
-
 url = "http://localhost:5000/"
 
 
@@ -8,7 +7,7 @@ def test_products_get(first_product):
     print(r.json())
 
     assert r.status_code == 200
-    assert r.json() == {"product": first_product}
+    assert r.json() == first_product
 
     r = requests.get(url + "API/product/0")
     assert r.status_code == 500  # 404
@@ -45,6 +44,8 @@ def test_add_product_post(user_auth):
     assert r.json() == {'message': "Bad authorization user"}
     """
 
+    # TODO: Add test for the addition of a new product that can be repeated (do not save in the DB permanently)
+
     r = requests.post(url + "API/catalog/add/pepe432@gmail.com", json, auth=user_auth)
 
     date = r.json()['date']
@@ -62,3 +63,4 @@ def test_add_product_post(user_auth):
     }
     assert r.status_code == 200
     assert r.json() == product_data
+
