@@ -1,47 +1,56 @@
 <template>
-    <div>
-        <NavigationBar/>
-
-<div class="container">
-      <div class="card" >
-        <div>User naem</div>
-    <img
-      class="card-img"
-      :src="require('../assets/' + getName(product.name) + '.jpeg')"
-      alt="Image Product"
-
-    />
-    <div class="card-body" >
-      <div class="container">
-        <div class="">
-          <h5 class="row">{{ product.price}}EUR</h5>
-        </div>
+  <div>
+    <NavigationBar />
+    <div class="container">
+      <div class="card">
         <div class="row">
-          <p>
-            <b>{{ product.name }}</b>
+          <div class="col-4 row">
+            <img class ="col-4" src="@/assets/icons/account_circle.svg" alt="User icon" />
+            <p class="user-name col-8">{{ user }}</p>
+          </div>
+          <div class="col-4">
+            valoraciones:
+          </div>
 
-          </p>
+          <div class="col-4">
+            <button class="like-button"><img src="@/assets/icons/favorite.svg" alt="like button"></button>
+            <button>Chat</button>
+          </div>
         </div>
-        <div class="row">
-          <p>Estado: {{ product.status }}</p>
-        </div>
-        <div class="row card-text">
-          <p>
-            {{ product.description }}
-          </p>
-
+        <img
+          class="card-img"
+          :src="require('../assets/' + getName(product.name) + '.jpeg')"
+          alt="Image Product"
+        />
+        <div class="card-body">
+          <div class="container">
+            <div class="">
+              <h5 class="row">{{ product.price }} EUR</h5>
+            </div>
+            <div class="row">
+              <p>
+                <b>{{ product.name }}</b>
+              </p>
+            </div>
+            <div class="row">
+              <p>Estado: {{ product.status }}</p>
+            </div>
+            <div class="row card-text">
+              <p>
+                {{ product.description }}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-    </div>
 </template>
 
 <script>
 import NavigationBar from './NavigationBar.vue'
 import axios from 'axios'
+import { pathWeb } from '../store'
 
 export default {
   name: 'HelloWorld',
@@ -51,6 +60,7 @@ export default {
   data () {
     return {
       msg: this.$route.params.id,
+      user: 'User Name',
       product: {
         id: 1,
         name: 'Oso de peluche',
@@ -59,7 +69,6 @@ export default {
         description: 'lallal'
       },
       db: []
-
     }
   },
   methods: {
@@ -77,7 +86,7 @@ export default {
     },
 
     getProducts () {
-      const path = 'http://127.0.0.1:5000/products'
+      const path = pathWeb + '/products'
       axios.get(path).then((res) => {
         console.log('PRODUCTS request', res)
         let db = res.data.Products_List
@@ -87,7 +96,6 @@ export default {
         }
       })
     }
-
   },
   created () {
     this.getProducts()
@@ -105,11 +113,11 @@ export default {
 .card {
   width: auto;
   border-radius: 10px;
-width: 80%;
+  width: 80%;
   margin-bottom: 10px;
   margin-bottom: 20px;
-  border: 1px solid black;
-box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  padding: 25px;
 }
 
 .card-img {
@@ -127,6 +135,19 @@ box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   text-overflow: ellipsis;
 }
 .row {
-  height: 25px;
+  height: 60px;
+  align-items: center;
+
+}
+.like-button{
+  border-radius: 20px;
+  background-color: rgb(182, 182, 182);
+  fill:white
+}
+.like-button:hover{
+  background-color: red;
+}
+.user-name{
+  font-weight: 400;
 }
 </style>
