@@ -3,17 +3,18 @@ url = "http://localhost:5000/"
 
 
 def test_products_get(first_product):
+    # Test a valid product retrieve
     r = requests.get(url + "API/product/1")
-    print(r.json())
-
     assert r.status_code == 200
     assert r.json() == first_product
 
+    # Test an invalid product retrieve
     r = requests.get(url + "API/product/0")
     assert r.status_code == 500  # 404
 
 
 def test_products_list_get(products_json):
+    # Test retrieving all products
     r = requests.get(url + "API/products")
     assert r.status_code == 200
     assert r.json() == products_json
@@ -34,19 +35,20 @@ def test_add_product_post(user_auth):
     assert r.status_code == 400
     assert r.json() == {'message': {'name': 'This field cannot be left blank'}}
 
+    # Test nonexistent email
     r = requests.post(url + "API/catalog/add/pepe433@gmail.com", json, auth=user_auth)
     assert r.status_code == 404
     assert r.json() == {'message': 'This email [pepe433@gmail.com] does not exist'}
 
-    # TODO: Search how to test that the username of the current user and the username of the request are different
-    """
-    r = requests.post(url + "API/catalog/add/killer23@gmail.com", auth=auth)
+    # Test an invalid upload with non-matching usernames between current user and request user
+    login_json = {'email': 'killer23@gmail.com', 'password': 'magic_p443.'}
+    requests.post(url + "API/login", login_json)
+    r = requests.post(url + "API/catalog/add/killer23@gmail.com", json, auth=user_auth)
     assert r.status_code == 400
     assert r.json() == {'message': "Bad authorization user"}
-    """
 
+    # Test a valid product upload
     # TODO: Add test for the addition of a new product that can be repeated (do not save in the DB permanently)
-
     r = requests.post(url + "API/catalog/add/pepe432@gmail.com", json, auth=user_auth)
 
     date = r.json()['date']
