@@ -2,6 +2,10 @@ Pasos para comprobar si todos los tests pasan:
 1. Navegar desde el terminal hasta este directorio (carpeta <code>tests</code>).
 2. Ejecutar el archivo <code>run_all_tests.py</code>.
 
+En caso de querer ejecutar sólo un archivo de tests, ejecutad en el terminal: 
+<br><code>pytest /folder_name/file_name.py</code> 
+p.e. <code>pytest /functional/test_session.py</code>
+
 Algunos tests añaden información a la base de datos mediante las comprobaciones de los métodos <code>POST</code>.
 
 Actualmente no hay forma de eliminar esos datos automáticamente. Por ello, hay que ejecutar unos comandos (en un 

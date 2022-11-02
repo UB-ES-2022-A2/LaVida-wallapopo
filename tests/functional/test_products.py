@@ -15,6 +15,7 @@ def test_products_get(first_product):
 
 def test_products_list_get(products_json):
     r = requests.get(url + "API/products")
+    assert r.status_code == 200
     assert r.json() == products_json
 
 
