@@ -32,9 +32,10 @@ class Filter(Resource):
             if not_valid:
                 return {'message': "One of the filters are not correct".format(data['username'])}, \
                        HTTPStatus.BAD_REQUEST
-            # if everything is ok then return the products
+            # if everything is ok then return the products, if nothing matches, return empty list
             products = ProductsModel.get_by_filters(category, price0, price1, date, conditions)
-            return {"products_list": [x.json() for x in products]}, HTTPStatus.OK if products else [], HTTPStatus.OK
+            products = [x.json() for x in products] if products else []
+            return {"products_list": products}, HTTPStatus.OK
 
     def get_data(self):
         parser = reqparse.RequestParser()  # create parameters parser from request
