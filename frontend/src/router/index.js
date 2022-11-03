@@ -4,7 +4,9 @@ import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
 import Registro from '@/components/Registro'
 import ForgotPassword from '@/components/ForgotPassword'
+import Product from '@/components/Product'
 import AddProduct from '@/components/AddProduct'
+import EmailConfirmation from '@/components/EmailConfirmation'
 
 Vue.use(Router)
 
@@ -31,9 +33,19 @@ export default new Router({
       component: ForgotPassword
     },
     {
+      path: '/product/:id',
+      name: 'Product',
+      component: Product
+    },
+    {
       path: '/catalog/add',
       name: 'AddProduct',
       component: AddProduct
+    },
+    {
+      path: '/emailConfirmation/validation_token=:token',
+      name: 'EmailConfirmation',
+      component: EmailConfirmation
     }
   ]
 })

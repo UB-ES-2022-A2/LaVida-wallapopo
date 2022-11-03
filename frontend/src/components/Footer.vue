@@ -1,7 +1,7 @@
 <template>
-  <div id="footer" bottom="0" position="fixed">
+  <div id="footer">
     <!-- Footer -->
-    <footer class="text-center text-lg-start bg-light text-muted bottom fixed padless">
+    <footer class="text-center text-lg-start bg-light text-muted">
       <!-- Section: Links  -->
       <section class="">
         <div class="d-flex justify-content-center justify-content-lg-between container text-center text-md-start mt-5 p-4 border-bottom">
@@ -15,10 +15,10 @@
                 Wallapopo
               </h6>
               <p>
-                <a href="#!" class="text-reset">Quiénes somos</a>
+                <a href="#" class="text-reset">Quiénes somos</a>
               </p>
               <p>
-                <a href="#!" class="text-reset">Como funciona</a>
+                <a href="#" class="text-reset">Como funciona</a>
               </p>
             </div>
             <!-- Grid column -->
@@ -30,10 +30,10 @@
                 ¿Necesitas ayuda?
               </h6>
               <p>
-                <a href="#!" class="text-reset">Preguntas frecuentes</a>
+                <a href="#" class="text-reset">Preguntas frecuentes</a>
               </p>
               <p>
-                <a href="#!" class="text-reset">Contactar</a>
+                <a href="#" class="text-reset">Contactar</a>
               </p>
             </div>
             <!-- Grid column -->
@@ -45,10 +45,10 @@
                 Legal
               </h6>
               <p>
-                <a href="#!" class="text-reset">Condiciones de uso</a>
+                <a href="#" class="text-reset">Condiciones de uso</a>
               </p>
               <p>
-                <a href="#!" class="text-reset">Política de privacidad</a>
+                <a href="#" class="text-reset">Política de privacidad</a>
               </p>
             </div>
             <!-- Grid column -->
@@ -60,7 +60,7 @@
                 Para profesionales
               </h6>
               <p>
-                <a href="#!" class="text-reset">Wallapopo PRO</a>
+                <a href="#" class="text-reset">Wallapopo PRO</a>
               </p>
             </div>
             <!-- Grid column -->

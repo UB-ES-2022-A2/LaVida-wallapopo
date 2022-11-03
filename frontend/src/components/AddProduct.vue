@@ -146,6 +146,7 @@
 import NavigationBar from './NavigationBar.vue'
 import Footer from './Footer'
 import axios from 'axios'
+import {devWeb, prodWeb} from '../store'
 
 export default {
   name: 'addProduct',
@@ -160,8 +161,8 @@ export default {
       price: null,
       state: null,
       images: [],
-      prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
-      devPath: 'http://localhost:5000',
+      prodPath: prodWeb,
+      devPath: devWeb,
       description: '',
       shipment: false,
       logged: false,
@@ -223,7 +224,7 @@ export default {
   },
   methods: {
     addProduct () {
-      const path = this.devPath + '/API/catalog/add/' + this.email
+      const path = this.devPath + '/catalog/add/' + this.email
       /* params used to add a new product */
       const parameters = {
         name: this.name,
@@ -233,7 +234,6 @@ export default {
         description: this.description,
         shipment: this.shipment
       }
-      alert(this.name)
       axios.post(path, parameters, {
         auth: {username: this.token}
       })
@@ -246,8 +246,8 @@ export default {
           })
         })
         .catch((error) => {
+          alert('Ha ocurrido un error al añadir el producto, vuelve a intentarlo más tarde')
           console.error(error)
-          alert('Error al añadido producto')
         })
     },
     onFileChange (e) {

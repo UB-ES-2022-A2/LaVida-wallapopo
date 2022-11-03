@@ -71,14 +71,15 @@
 
 <script>
 import axios from 'axios'
+import {devWeb, prodWeb} from '../store'
 export default {
   data () {
     return {
       email: null,
       password: null,
       logged: false,
-      prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
-      devPath: 'http://localhost:5000'
+      prodPath: prodWeb,
+      devPath: devWeb
     }
   },
   methods: {
@@ -92,7 +93,7 @@ export default {
       this.$router.push({ path: '/forgotPassword' })
     },
     checkLogin () {
-      const path = this.devPath + '/API/login'
+      const path = this.devPath + '/login'
       const parameters = {
         email: this.email,
         password: this.password
@@ -103,6 +104,7 @@ export default {
         .then((res) => {
           this.logged = true
           console.log('RESPONSE', res)
+          localStorage.setItem('token', res.data.token)
           this.$router.push({
             path: '/',
             name: 'HelloWorld',
