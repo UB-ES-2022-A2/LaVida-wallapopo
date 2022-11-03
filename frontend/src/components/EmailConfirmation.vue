@@ -39,6 +39,7 @@
 <script>
 import Footer from './Footer.vue'
 import axios from 'axios'
+import {devWeb, prodWeb} from '../store'
 
 export default {
   name: 'EmailConfirmation',
@@ -47,14 +48,13 @@ export default {
   },
   data () {
     return {
-      prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
-      devPath: 'http://localhost:5000',
+      prodPath: prodWeb,
+      devPath: devWeb,
       error: false,
       code: 200,
       message: ''
     }
   },
-
   methods: {
     redirectToHome () {
       this.$router.push({path: '/'})
@@ -69,14 +69,13 @@ export default {
     var last = res[res.length - 1]
     var valToken = last.slice(17)
     console.log(valToken)
-    axios.post(this.devPath + '/API/validation', {
+    axios.post(this.devPath + '/validation', {
       validation_token: valToken
     }).then((response) => {
       console.log(response)
       this.message = response.data.message
       this.error = false
       this.code = response.status
-      // alert(this.code)
     }).catch(err => {
       console.log(err)
       this.message = err.response.data.message

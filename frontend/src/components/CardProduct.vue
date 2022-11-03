@@ -4,15 +4,20 @@
       class="card-img"
       :src="require(`../assets/${img}`)"
       alt="Image Product"
-
     />
-    <div class="card-body" >
+    <div class="card-body">
       <div class="container">
         <div class="">
-
-          <h5 class="row">{{ price }} $
+          <h5 class="row">
+            {{ price }} $
             <button type="button" class="fav-button" @click="toggle_fav">
-              <img class="fav-img" src="../assets/logo_favorito.png" width="24px" height="24px" alt="don't load">
+              <img
+                class="fav-img"
+                src="../assets/logo_favorito.png"
+                width="24px"
+                height="24px"
+                alt="don't load"
+              />
             </button>
           </h5>
         </div>
@@ -28,7 +33,6 @@
           <p>
             {{ desc }}
           </p>
-
         </div>
       </div>
     </div>
@@ -75,7 +79,7 @@ export default {
   width: 250px;
   height: 380px;
   margin-bottom: 20px;
-box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
 .card-img {
@@ -126,16 +130,16 @@ box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   position: absolute;
   padding-top: 300%;
   padding-left: 300%;
-  margin-left: -30px!important;
+  margin-left: -30px !important;
   margin-top: -120%;
   opacity: 0;
-  transition: all 0.8s
+  transition: all 0.8s;
 }
 
 .fav-button:active:after {
   padding: 0;
   margin: 0;
   opacity: 1;
-  transition: 0s
+  transition: 0s;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavigationBar :logged="logged" :key="logged" :token="token" />
+    <NavigationBar  :logged="logged" :key="logged" :email="email" :token="token"/>
     <div class="container">
       <div class="card">
         <div class="row row-title">
@@ -11,7 +11,7 @@
               style="width: 50px"
               alt="Avatar"
             />
-            <p class="user-name col-8">{{ username }}</p>
+            <p class="user-name col-8">{{ product.username }}</p>
           </div>
           <div class="col-2">
             <!-- valoraciones -->
@@ -26,35 +26,35 @@
         </div>
         <img
           class="card-img"
-          :src="require(`../assets/${image}`)"
+          :src="require('../assets/' + product.image)"
           alt="Image Product"
         />
         <div class="card-body">
           <div class="price-product row">
-            <h5 class="col  product-price">{{ price }} EUR</h5>
+            <h5 class="col  product-price">{{ product.price }} EUR</h5>
             <button v-if="logged" class="product-button product-comprar">Comprar</button>
           </div>
           <hr class="solid">
           <div class="row col">
             <p class="product-name">
-              {{ name }}
+              {{ product.name }}
             </p>
           </div>
           <hr class="solid">
           <div class="row col">
-            <p>Estado: {{ condition }}</p>
+            <p>Estado: {{ product.condition }}</p>
           </div>
           <div class="row col">
             <p>
-              {{ description }}
+              {{ product.description }}
             </p>
           </div>
           <hr class="solid">
           <div class="row col">
             <p style="color:gray">
-              {{ date }}
+              {{ product.date }}
             </p>
-            <div v-show="shipment" class="ml-auto">
+            <div v-show="product.shipment" class="ml-auto">
               <font-awesome-icon class="miIcon" icon="fa-truck-fast" style="font-size: 28px" />
               <span>&nbsp;&nbsp;Hago envíos</span>
             </div>
@@ -70,7 +70,7 @@
 import NavigationBar from './NavigationBar.vue'
 import Footer from './Footer'
 import axios from 'axios'
-import { pathWeb } from '../store'
+import { devWeb, prodWeb } from '../store'
 
 export default {
   name: 'HelloWorld',
@@ -80,39 +80,25 @@ export default {
   },
   data () {
     return {
-      id: '',
-      name: '',
-      price: '',
-      condition: '',
-      description: '',
-      status: '',
-      date: '',
-      image: '',
-      username: '',
-      shipment: false,
-      token: null,
-      logged: false
+      email: this.$route.params.id,
+      token: localStorage.getItem('token'),
+      prodPath: prodWeb,
+      devPath: devWeb,
+      logged: false,
+      product: {}
     }
   },
   methods: {
     isLogged () {
-      if (this.token != null) {
+      if (this.token !== null) {
         this.logged = true
       }
     },
     getProduct () {
-      const path = pathWeb + `API/product/${this.id}`
+      const path = this.devPath + `/product/${this.email}`
       axios.get(path).then((res) => {
-        let db = res.data.product
-        this.name = db.name
-        this.price = db.price
-        this.condition = db.condition
-        this.description = db.description
-        this.date = db.date
-        this.status = db.status
-        this.username = db.username
-        this.image = db.image
-        this.shipment = db.shipment
+        console.log('PRODUCTS request', res)
+        this.product = res.data.product
       })
         .catch((error) => {
           console.error(error)
@@ -123,14 +109,14 @@ export default {
     this.token = localStorage.getItem('token')
     this.isLogged()
     console.log('Token', this.token)
-    this.id = this.$route.params.id
+    this.email = this.$route.params.id
     this.getProduct()
   },
   mounted () {
     this.token = localStorage.getItem('token')
     this.isLogged()
     console.log('Token', this.token)
-    this.id = this.$route.params.id
+    this.email = this.$route.params.id
     this.getProduct()
   }
 }

@@ -29,7 +29,7 @@
 import NavigationBar from './NavigationBar.vue'
 import NavBarFiltros from './NavBarFiltros.vue'
 import CardProduct from './CardProduct.vue'
-/* import {pathWeb} from '../store' */
+import {devWeb, prodWeb} from '../store'
 import Footer from './Footer.vue'
 
 import axios from 'axios'
@@ -43,19 +43,23 @@ export default {
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
       db: [],
-      prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
-      devPath: 'http://localhost:5000',
+      prodPath: prodWeb,
+      devPath: devWeb,
       logged: false,
-      token: 'g',
+      token: localStorage.getItem('token'),
       email: 'e'
     }
   },
 
   methods: {
+    isLogged () {
+      if (this.token !== null) {
+        this.logged = true
+      }
+    },
     getProducts () {
-      const path = this.devPath + '/API/products'
+      const path = this.devPath + '/products'
       axios.get(path)
         .then((res) => {
           console.log(res)
@@ -78,6 +82,8 @@ export default {
     }
   },
   mounted () {
+    this.token = localStorage.getItem('token')
+    this.isLogged()
     console.log('ROUTE', this.$route)
     if (Object.keys(this.$route.params).length !== 0) {
       this.token = this.$route.params.data.token

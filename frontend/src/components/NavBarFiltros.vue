@@ -160,7 +160,7 @@
 
 <script>
 import axios from 'axios'
-import {pathWeb} from '../store'
+import { devWeb, prodWeb } from '../store'
 
 export default {
   data () {
@@ -174,6 +174,9 @@ export default {
       price1: 10000,
       category: null,
       date: -1,
+      prodPath: prodWeb,
+      devPath: devWeb,
+      zonas: null,
       tiempo: [
         { value: -1, text: 'Elige un orden', disabled: true },
         { value: 1, text: 'Más recientes' },
@@ -205,7 +208,7 @@ export default {
   },
   methods: {
     applyFilter () {
-      const path = pathWeb + `API/filter`
+      const path = devWeb + `/filter`
       let cond = []
       if (!this.status_usado && !this.status_nuevo && !this.status_casi_nuevo) {
         cond = this.cond
