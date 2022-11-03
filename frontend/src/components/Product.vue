@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavigationBar />
+    <NavigationBar  :logged="logged" :key="logged" :email="email"/>
     <div class="container">
       <div class="card">
         <div class="row row-title">
@@ -60,7 +60,7 @@
 <script>
 import NavigationBar from './NavigationBar.vue'
 import axios from 'axios'
-import { pathWeb } from '../store'
+import { devWeb, prodWeb } from '../store'
 
 export default {
   name: 'HelloWorld',
@@ -72,6 +72,8 @@ export default {
       msg: this.$route.params.id,
       user: 'User Name',
       token: localStorage.getItem('token'),
+      prodPath: prodWeb,
+      devPath: devWeb,
       logged: false,
       product: {
         id: 1,
@@ -90,27 +92,16 @@ export default {
       }
     },
     getName (nameProduct) {
-      return nameProduct.split(' ')[0]
-    },
-    filterProduct (id, products) {
-      let ids = id
-      let filteredArray = products.filter(function (itm) {
-        console.log('itm', itm.id)
-        return parseInt(itm.id) === parseInt(ids)
-      })
-      console.log('Function filter', filteredArray)
-      return filteredArray[0]
+      if (nameProduct !== undefined) {
+        return nameProduct.split(' ')[0]
+      }
     },
 
     getProducts () {
-      const path = pathWeb + '/products'
+      const path = this.devPath + '/API/product/' + this.$route.params.id
       axios.get(path).then((res) => {
         console.log('PRODUCTS request', res)
-        let db = res.data.Products_List
-        this.product = this.filterProduct(this.$route.params.id, db)
-        for (let index = 0; index < db.length; index++) {
-          this.db.push(db[index])
-        }
+        this.product = res
       })
     }
   },

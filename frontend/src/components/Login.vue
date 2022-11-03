@@ -71,14 +71,15 @@
 
 <script>
 import axios from 'axios'
+import {devWeb, prodWeb} from '../store'
 export default {
   data () {
     return {
       email: null,
       password: null,
       logged: false,
-      prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
-      devPath: 'http://localhost:5000'
+      prodPath: prodWeb,
+      devPath: devWeb
     }
   },
   methods: {

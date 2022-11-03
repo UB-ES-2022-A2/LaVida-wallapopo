@@ -180,6 +180,7 @@ export default {
       status_usado: 'False',
       selected: null,
       selected2: null,
+      zonas: null,
       tiempo: [
         { value: null, text: 'Elige un orden' },
         { value: 'a', text: 'Más recientes' },
