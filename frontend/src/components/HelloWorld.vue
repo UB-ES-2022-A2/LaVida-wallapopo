@@ -16,6 +16,7 @@
             :desc="product.description"
             :productState="product.condition"
             :date="product.date"
+            :link="product.id"
           />
         </div>
       </div>
@@ -28,6 +29,7 @@
 import NavigationBar from './NavigationBar.vue'
 import NavBarFiltros from './NavBarFiltros.vue'
 import CardProduct from './CardProduct.vue'
+import {pathWeb} from '../store'
 import Footer from './Footer.vue'
 
 import axios from 'axios'

@@ -1,13 +1,15 @@
 <template>
-  <div class="card">
+  <div class="card" v-on:click="goToProduct()">
     <img
       class="card-img"
       :src="require(`../assets/${img}`)"
       alt="Image Product"
+
     />
-    <div class="card-body">
+    <div class="card-body" >
       <div class="container">
         <div class="">
+
           <h5 class="row">{{ price }} $
             <button type="button" class="fav-button" @click="toggle_fav">
               <img class="fav-img" src="../assets/logo_favorito.png" width="24px" height="24px" alt="don't load">
@@ -26,6 +28,7 @@
           <p>
             {{ desc }}
           </p>
+
         </div>
       </div>
     </div>
@@ -41,12 +44,22 @@ export default {
     date: String,
     productState: String,
     img: String,
+    link: Number,
     is_fav: Boolean(false)
   },
   data () {
-    return {}
+    return {
+
+    }
   },
   methods: {
+    getName (nameProduct) {
+      return nameProduct.split(' ')[0]
+    },
+    goToProduct () {
+      this.$router.push({
+        path: '/product/' + this.$props.link
+      }),
     toggle_fav () {
       this.is_fav = !this.is_fav
       console.log('Boton cambiado a true', this.is_fav)

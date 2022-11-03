@@ -14,7 +14,7 @@ let db = [
   },
   {
     id: 1,
-    name: 'Parchis',
+    name: 'Parchis extremo',
     price: 20,
     category: 'Otros',
     description: 'juego de parchis edición retro',
