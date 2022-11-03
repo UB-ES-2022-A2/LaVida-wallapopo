@@ -11,11 +11,12 @@ def test_create_user():
     assert acc.email == "dummy@gmail.com"
     assert acc.username == "dummyname"
     assert acc.is_admin == 0
+    assert acc.confirmed is False
     assert acc.password == "qwerty12."
 
 
 def test_json(dummy_user):
-    expected = {'email': 'dummy@gmail.com', 'username': 'dummyname', 'name': None, 'surname': None, 'birthday': None, 'is_admin': 0}
+    expected = {'email': 'dummy@gmail.com', 'username': 'dummyname', 'name': None, 'surname': None, 'birthday': None, 'is_admin': 0, 'confirmed': False}
     assert dummy_user.json() == expected
 
 
