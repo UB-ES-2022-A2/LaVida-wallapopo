@@ -14,6 +14,7 @@ status_list = ('En venta', 'Reservado', 'Vendido')
 # product condition, if it's new, almost new or used
 condition_list = ('Nuevo', 'Casi nuevo', 'Usado')
 
+
 class ProductsModel(db.Model):
     __tablename__ = 'products'  # This is table name
 
