@@ -1,6 +1,7 @@
 <template>
   <main class="hello">
     <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token" />
+    <NavBarFiltros/>
     <div class="container">
       <div class="row">
         <div
@@ -10,35 +11,42 @@
         >
           <CardProduct
             :title="product.name"
+            :img="product.image"
             :price="product.price"
             :desc="product.description"
-            :productState="product.product_status"
+            :productState="product.condition"
             :date="product.date"
             :link="product.id"
-
           />
         </div>
       </div>
     </div>
+    <Footer/>
   </main>
 </template>
 
 <script>
 import NavigationBar from './NavigationBar.vue'
+import NavBarFiltros from './NavBarFiltros.vue'
 import CardProduct from './CardProduct.vue'
 import {pathWeb} from '../store'
+import Footer from './Footer.vue'
 
 import axios from 'axios'
 export default {
   name: 'HelloWorld',
   components: {
     NavigationBar,
-    CardProduct
+    NavBarFiltros,
+    CardProduct,
+    Footer
   },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
       db: [],
+      prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
+      devPath: 'http://localhost:5000',
       logged: false,
       token: 'g',
       email: 'e'
@@ -47,7 +55,7 @@ export default {
 
   methods: {
     getProducts () {
-      const path = pathWeb + 'products'
+      const path = this.devPath + '/API/products'
       axios.get(path).then((res) => {
         console.log(res)
         let db = res.data.Products_List
@@ -59,6 +67,11 @@ export default {
   },
   created () {
     this.getProducts()
+    if (Object.keys(this.$route.params).length !== 0) {
+      this.token = this.$route.params.token
+      this.logged = this.$route.params.logged
+      this.email = this.$route.params.email
+    }
   },
   mounted () {
     console.log('ROUTE', this.$route)
@@ -88,7 +101,6 @@ li {
 a {
   color: #42b983;
 }
-
 .celda {
   height: auto;
   align-content: center;

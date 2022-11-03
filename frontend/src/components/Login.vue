@@ -1,6 +1,5 @@
 <template>
   <div id="login">
-
     <div class="col d-flex justify-content-center">
       <div class="card" style="width: 30%">
         <div class="card-body">
@@ -77,7 +76,9 @@ export default {
     return {
       email: null,
       password: null,
-      logged: false
+      logged: false,
+      prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
+      devPath: 'http://localhost:5000'
     }
   },
   methods: {
@@ -91,7 +92,7 @@ export default {
       this.$router.push({ path: '/forgotPassword' })
     },
     checkLogin () {
-      const path = 'http://127.0.0.1:5000/login'
+      const path = this.devPath + '/API/login'
       const parameters = {
         email: this.email,
         password: this.password

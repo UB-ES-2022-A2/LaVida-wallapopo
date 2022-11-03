@@ -3,6 +3,7 @@ import '@/../bootstrap/css/bootstrap.css'
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 
