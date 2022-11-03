@@ -1,14 +1,17 @@
 <template>
   <main class="main">
     <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token" />
-    <div class="container">
-      <div class="row">
+    <div class="div-2 mt-5 container">
+      <div class="pt-5 row text-center">
         <div
           class="col-6 col-lg-3 celda"
-          v-for="categoria in categories_list"
+          v-for="(categoria, index) in categorias"
           :key="categoria.name"
         >
-          <font-awesome-icon class="miIcon" icon="fa-heart" />
+          <div class="div-1 mb-5" @click="goToCategoria(categoria.name)">
+            <font-awesome-icon v-bind:icon="icons_list[index]" size="4x" transform="shrink-6"/>
+            <p>{{categoria.name}}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -53,6 +56,11 @@ export default {
           image: this.icons_list[i]
         })
       }
+    },
+    goToCategoria (categoria) {
+      this.$router.push({
+        path: '/categoria/' + categoria
+      })
     }
   },
   mounted () {
@@ -89,5 +97,11 @@ a {
 .celda {
   height: auto;
   align-content: center;
+}
+.div-1 {
+  background-color: #DEF5E5;
+}
+.div-2 {
+  background-color: #BCEAD5;
 }
 </style>
