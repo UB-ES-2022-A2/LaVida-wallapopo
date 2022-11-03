@@ -50,7 +50,8 @@ class AccountsModel(db.Model):
                 'name': self.name,
                 'surname': self.surname,
                 'birthday': self.birthday,
-                'is_admin': self.is_admin
+                'is_admin': self.is_admin,
+                'confirmed': self.confirmed
                 }
 
     def generate_auth_token(self, expiration=1200):
@@ -106,7 +107,7 @@ class AccountsModel(db.Model):
         return cls.query.filter(cls.username == username).first()
 
     def hash_password(self, password):
-        self.password = pwd_context.encrypt(password)
+        self.password = pwd_context.hash(password)
 
     def verify_password_(self, password):
         return pwd_context.verify(password, self.password)
