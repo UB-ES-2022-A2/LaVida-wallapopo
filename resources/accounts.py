@@ -94,7 +94,6 @@ class Accounts(Resource):
 
             # update DB
             try:
-                print(new_account.password)
                 new_account.save_to_db()
                 return new_account.json(), HTTPStatus.OK
             except exc.SQLAlchemyError:

@@ -7,7 +7,7 @@ products = [
      'date': "04-oct-2022",  # or month in number format.
      'condition': "Nuevo",
      'status': "En venta",
-     'image': "oso.jpeg",  # same as categories imgs:[]
+     'image': "Oso.jpeg",  # same as categories imgs:[]
      'user_id': ""
      # location:¿??
      },
@@ -19,7 +19,7 @@ products = [
      'date': "24-apr-2021",  # or in number format,
      'condition': "Casi nuevo",
      'status': "En venta",
-     'image': "parchis.jpeg",  # same as categories
+     'image': "Parchis.jpeg",  # same as categories
      'user_id': ""
      # location:¿?
      },
@@ -31,7 +31,7 @@ products = [
      'date': "09-dic-2020",  # or in number format,
      'condition': "Usado",
      'status': "En venta",
-     'image': "seat-ibiza.jpeg",
+     'image': "Seat.jpeg",
      'user_id': ""
      # location:¿?
      },
@@ -43,13 +43,18 @@ products = [
      'date': "10-oct-2022",  # or in number format,
      'condition': "Casi nuevo",
      'status': "En venta",
-     'image': "vajilla.jpg",  # same as categories imgs:[]
+     'image': "Vajilla.jpeg",  # same as categories imgs:[]
      'user_id': ""
      # location:¿?
      }
 ]
 
 accounts = [
+ {
+  'email': "admin123@gmail.com",
+  'password': "admin123@gmail.com",
+  'username': "The God"
+ },
  {
   'email': "pepe432@gmail.com",
   'password': "pepe123,.",

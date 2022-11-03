@@ -1,5 +1,6 @@
 from db import db
-from sqlalchemy.sql import func
+from models.accounts import AccountsModel
+from sqlalchemy.sql import func, desc
 
 # possible categories, we can modify its content if needed
 categories_list = ('Coches', 'Motos', 'Motor y Accesorios', 'Moda y Accesorios', 'TV, Audio y Foto',
@@ -20,7 +21,7 @@ class ProductsModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # primary key
     name = db.Column(db.String(50), nullable=False)  # string with a max length of 50
     # one product can have multiple images
-    image = db.Column(db.String(500), nullable=True)  # only one image for now
+    image = db.Column(db.String(500), nullable=True, server_default='product_placeholder.png')  # only one image for now
     # validate_string=True raises an error if the value is not inside enum
     category = db.Column(db.Enum(*categories_list, name='categories_types', validate_strings=True), nullable=False)
     # by default, products are listed as selling
@@ -31,6 +32,7 @@ class ProductsModel(db.Model):
                           nullable=False, server_default=condition_list[0])
     # description has a max length of 1000 characters
     description = db.Column(db.String(1000), nullable=False)
+    shipment = db.Column(db.Boolean, nullable=False, server_default="0")
     price = db.Column(db.Float, nullable=False)
     # the date when product was created
     date = db.Column(db.DateTime(), nullable=False, server_default=func.now())
@@ -38,12 +40,11 @@ class ProductsModel(db.Model):
     # foreign keys
     user_id = db.Column(db.String(50), db.ForeignKey('accounts.email'))
 
-    def __init__(self, name, category, description, price, status, condition):
+    def __init__(self, name, category, description, price, condition):
         self.name = name
         self.category = category
         self.description = description
         self.price = price
-        self.status = status
         self.condition = condition
 
     def json(self):
@@ -56,8 +57,10 @@ class ProductsModel(db.Model):
             'image': self.image,
             'condition': self.condition,
             'status': self.status,
-            'date': self.date.isoformat(),
-            'user': self.user_id
+            'date': self.date.date().strftime("%d-%b-%Y"),
+            'user': self.user_id,
+            'username': AccountsModel.query.get(self.user_id).json()['username'],
+            'shipment': self.shipment
         }
 
     def save_to_db(self):
@@ -79,3 +82,22 @@ class ProductsModel(db.Model):
     @classmethod
     def get_all(cls):
         return cls.query.all()
+
+    @classmethod
+    def get_by_filters(cls, cat, price0, price1, date, condition):
+        # first retrieve all the products within the price range and condition
+        query = cls.query
+        # only return products from this category
+        if cat is not None:
+            query = query.filter(cls.category == cat)
+        query = query.filter(
+            (cls.price >= price0) &
+            (cls.price <= price1) &
+            cls.condition.in_(condition)
+        )
+
+        return query.order_by(desc(cls.date) if date else cls.date).all()
+
+    @classmethod
+    def get_by_category(cls, category):
+        return cls.query.filter_by(category=category).all()

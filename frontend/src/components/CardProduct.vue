@@ -1,13 +1,15 @@
 <template>
-  <div class="card">
+  <div class="card" v-on:click="goToProduct()">
     <img
       class="card-img"
-      :src="require('../assets/' + getName(title) + '.jpeg')"
+      :src="require(`../assets/${img}`)"
       alt="Image Product"
+
     />
-    <div class="card-body">
+    <div class="card-body" >
       <div class="container">
         <div class="">
+
           <h5 class="row">{{ price }} $
             <button type="button" class="fav-button" @click="toggle_fav">
               <img class="fav-img" src="../assets/logo_favorito.png" width="24px" height="24px" alt="don't load">
@@ -26,6 +28,7 @@
           <p>
             {{ desc }}
           </p>
+
         </div>
       </div>
     </div>
@@ -41,14 +44,22 @@ export default {
     date: String,
     productState: String,
     img: String,
+    link: Number,
     is_fav: Boolean(false)
   },
   data () {
-    return {}
+    return {
+
+    }
   },
   methods: {
     getName (nameProduct) {
       return nameProduct.split(' ')[0]
+    },
+    goToProduct () {
+      this.$router.push({
+        path: '/product/' + this.$props.link
+      })
     },
     toggle_fav () {
       this.is_fav = !this.is_fav
@@ -60,11 +71,9 @@ export default {
 
 <style scoped>
 .card {
-  width: auto;
   border-radius: 10px;
   width: 250px;
   height: 380px;
-  margin-bottom: 10px;
   margin-bottom: 20px;
 box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
@@ -77,7 +86,6 @@ box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   color: rgb(134, 134, 139);
   display: block;
   display: -webkit-box;
-  -webkit-line-clamp: 5; /* max line number */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

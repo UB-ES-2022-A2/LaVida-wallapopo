@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, flash
+from flask import Flask
 from flask import render_template
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -9,8 +9,9 @@ from flask_restful import Api
 from config import config
 from db import db
 from resources.accounts import Accounts
-from resources.products import Product, ProductsList
+from resources.products import Product, ProductsList, AddProduct
 from resources.session import Login, Logout
+from resources.filters import Filter
 from resources.validate import Validate
 
 # app = Flask(__name__)
@@ -22,7 +23,7 @@ app = Flask(
     template_folder="frontend/dist"
 )
 
-
+app = Flask(__name__)
 # Set default environment as developement
 environment = config['development']
 
@@ -40,25 +41,23 @@ migrate = Migrate(app, db)
 db.init_app(app)
 
 # accounts
-api.add_resource(Accounts, '/account/<string:email>', '/account')
+api.add_resource(Accounts, '/API/account/<string:email>', '/API/account')
 
 api.add_resource(Validate, '/validation/<string:validation_token>', '/validation')
 
 # products
-api.add_resource(Product, '/product/<string:id>')
-api.add_resource(ProductsList, '/products')
+api.add_resource(Product, '/API/product/<string:id>')
+api.add_resource(ProductsList, '/API/products')
+api.add_resource(AddProduct, '/API/catalog/add/<string:email>')
+
+# filtering
+api.add_resource(Filter, '/API/filter')
 
 # session
-api.add_resource(Login, '/login')
-api.add_resource(Logout, '/logout/<string:email>')
+api.add_resource(Login, '/API/login')
+api.add_resource(Logout, '/API/logout/<string:email>')
 
-'''
-@app.route('/emailConfirmation/validation_token=<token>')
-def confirm(token):
-    print("confirm")
-    Accounts.confirm_email(token)
-    return render_template("index.html")
-'''
+
 
 
 @app.route('/')
