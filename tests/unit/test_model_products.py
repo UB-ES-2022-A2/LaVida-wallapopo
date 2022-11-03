@@ -22,14 +22,16 @@ def test_json(switch_product):
         expected = {
                     'category': 'Consolas y Videojuegos',
                     'condition': 'Casi nuevo',
-                    'date': date.isoformat(),
+                    'date': '03-Nov-2022',
                     'description': 'Apenas la uso y necesito dinero',
-                    'id': None,
+                    'id': 99,
                     'image': None,
                     'name': 'Nintendo Switch',
                     'price': 150,
+                    'shipment': None,
                     'status': None,
-                    'user': None
+                    'user': 'pepe432@gmail.com',
+                    'username': 'pepeman'
                     }
         assert switch_product.json() == expected
 
@@ -67,7 +69,7 @@ def test_save_product(switch_product):
 def test_delete_product():
     with app.app_context():
         previous = len(ProductsModel.get_all())
-        user = ProductsModel.get_by_id(5)
+        user = ProductsModel.get_by_id(99)
         ProductsModel.delete_from_db(user)
         result = len(ProductsModel.get_all())
 

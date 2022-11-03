@@ -31,6 +31,8 @@ def dummy_password(dummy_user):
 @pytest.fixture(scope='function')
 def switch_product():
     p = ProductsModel("Nintendo Switch", "Consolas y Videojuegos", "Apenas la uso y necesito dinero", 150, "Casi nuevo")
+    p.id = 99
+    p.user_id = "pepe432@gmail.com"
     return p
 
 
