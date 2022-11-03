@@ -60,7 +60,7 @@ class ProductsModel(db.Model):
             'status': self.status,
             'date': self.date.date().strftime("%d-%b-%Y"),
             'user': self.user_id,
-            'username': AccountsModel.query.get(self.user_id).json()['username'],
+            'username': AccountsModel.get_by_email(self.user_id).json()['username'],
             'shipment': self.shipment
         }
 

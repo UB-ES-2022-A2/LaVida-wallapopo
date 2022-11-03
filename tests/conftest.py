@@ -17,7 +17,7 @@ def first_product():
 
 @pytest.fixture(scope='function')
 def dummy_user():
-    acc = AccountsModel("dummy@gmail.com", "dummyname")
+    acc = AccountsModel("dummy@gmail.com", "dummyname", False)
     acc.password = "qwerty12."
     return acc
 

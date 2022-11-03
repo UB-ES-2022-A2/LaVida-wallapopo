@@ -16,21 +16,22 @@ def test_create_product():
 
 
 def test_json(switch_product):
-    date = datetime.datetime.now()
-    switch_product.date = date
-    expected = {
-                'category': 'Consolas y Videojuegos',
-                'condition': 'Casi nuevo',
-                'date': date.isoformat(),
-                'description': 'Apenas la uso y necesito dinero',
-                'id': None,
-                'image': None,
-                'name': 'Nintendo Switch',
-                'price': 150,
-                'status': None,
-                'user': None
-                }
-    assert switch_product.json() == expected
+    with app.app_context():
+        date = datetime.datetime.now()
+        switch_product.date = date
+        expected = {
+                    'category': 'Consolas y Videojuegos',
+                    'condition': 'Casi nuevo',
+                    'date': date.isoformat(),
+                    'description': 'Apenas la uso y necesito dinero',
+                    'id': None,
+                    'image': None,
+                    'name': 'Nintendo Switch',
+                    'price': 150,
+                    'status': None,
+                    'user': None
+                    }
+        assert switch_product.json() == expected
 
 
 def test_get_all():

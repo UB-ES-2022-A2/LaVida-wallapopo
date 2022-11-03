@@ -5,7 +5,7 @@ from models.accounts import AccountsModel
 
 
 def test_create_user():
-    acc = AccountsModel("dummy@gmail.com", "dummyname")
+    acc = AccountsModel("dummy@gmail.com", "dummyname", False)
     acc.password = "qwerty12."
 
     assert acc.email == "dummy@gmail.com"

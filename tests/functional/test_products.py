@@ -61,8 +61,10 @@ def test_add_product_post(user_auth):
         'image': 'product_placeholder.png',
         'name': 'Nintendo Switch',
         'price': 150.0,
+        'shipment': False,
         'status': 'En venta',
-        'user': 'pepe432@gmail.com'
+        'user': 'pepe432@gmail.com',
+        'username': 'pepeman'
     }
     assert r.status_code == 200
     assert r.json() == product_data

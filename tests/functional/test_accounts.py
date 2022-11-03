@@ -31,6 +31,7 @@ def test_accounts_get():
         expected = {
             'account': {
                 'birthday': None,
+                'confirmed': True,
                 'email': 'pepe432@gmail.com',
                 'is_admin': 0,
                 'name': None,
@@ -75,6 +76,7 @@ def test_accounts_post():
         account = requests.post(url + "API/account", json=json)
         expected = {
                     'birthday': None,
+                    'confirmed': False,
                     'email': 'dummy@gmail.com',
                     'is_admin': 0,
                     'name': None,
