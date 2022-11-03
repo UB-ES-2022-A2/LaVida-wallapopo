@@ -1,19 +1,19 @@
 <template>
   <div>
-    <NavigationBar  :logged="logged" :key="logged" :email="email"/>
+    <NavigationBar  :logged="logged" :key="logged" :email="email" :token="token"/>
     <div class="container">
       <div class="card">
         <div class="row row-title">
-          <div class="col-4 row">
+          <div class="col-6 row">
             <img
               src="../assets/default-profile.jpg"
               class="rounded-circle"
               style="width: 50px"
               alt="Avatar"
             />
-            <p class="user-name col-8">{{ user }}</p>
+            <p class="user-name col-8">{{ product.username }}</p>
           </div>
-          <div class="col-4">
+          <div class="col-2">
             <!-- valoraciones -->
           </div>
 
@@ -26,64 +26,66 @@
         </div>
         <img
           class="card-img"
-          :src="require('../assets/' + (product.image))"
+          :src="require('../assets/' + product.image)"
           alt="Image Product"
         />
         <div class="card-body">
-          <div class="container">
-            <div class="price-product row">
-              <h5 class="col  product-price">{{ product.price }} EUR</h5>
-              <button v-if="logged" class="product-button product-comprar">Comprar</button>
-            </div>
-            <hr class="solid">
-            <div class="row">
-              <p class="product-name">
-                {{ product.name }}
-              </p>
-            </div>
-            <hr class="solid">
-            <div class="row">
-              <p>Estado: {{ product.status }}</p>
-            </div>
-            <div class="row card-text">
-              <p>
-                {{ product.description }}
-              </p>
+          <div class="price-product row">
+            <h5 class="col  product-price">{{ product.price }} EUR</h5>
+            <button v-if="logged" class="product-button product-comprar">Comprar</button>
+          </div>
+          <hr class="solid">
+          <div class="row col">
+            <p class="product-name">
+              {{ product.name }}
+            </p>
+          </div>
+          <hr class="solid">
+          <div class="row col">
+            <p>Estado: {{ product.condition }}</p>
+          </div>
+          <div class="row col">
+            <p>
+              {{ product.description }}
+            </p>
+          </div>
+          <hr class="solid">
+          <div class="row col">
+            <p style="color:gray">
+              {{ product.date }}
+            </p>
+            <div v-show="product.shipment" class="ml-auto">
+              <font-awesome-icon class="miIcon" icon="fa-truck-fast" style="font-size: 28px" />
+              <span>&nbsp;&nbsp;Hago envíos</span>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import NavigationBar from './NavigationBar.vue'
+import Footer from './Footer'
 import axios from 'axios'
 import { devWeb, prodWeb } from '../store'
 
 export default {
   name: 'HelloWorld',
   components: {
+    Footer,
     NavigationBar
   },
   data () {
     return {
-      msg: this.$route.params.id,
-      user: 'User Name',
+      email: this.$route.params.id,
       token: localStorage.getItem('token'),
       prodPath: prodWeb,
       devPath: devWeb,
       logged: false,
-      product: {
-        id: 1,
-        name: 'Oso de peluche',
-        price: 23,
-        status: 'nuevo',
-        description: 'lallal',
-        image: ''
-      },
-      db: []
+      product: {}
     }
   },
   methods: {
@@ -92,58 +94,54 @@ export default {
         this.logged = true
       }
     },
-
-    getProducts () {
-      const path = this.devPath + '/product/' + this.$route.params.id
+    getProduct () {
+      const path = this.devPath + `/product/${this.email}`
       axios.get(path).then((res) => {
         console.log('PRODUCTS request', res)
-        this.product = res
+        this.product = res.data.product
       })
+        .catch((error) => {
+          console.error(error)
+        })
     }
   },
-
   created () {
-    this.getProducts()
+    this.token = localStorage.getItem('token')
+    this.isLogged()
+    console.log('Token', this.token)
+    this.email = this.$route.params.id
+    this.getProduct()
   },
-
   mounted () {
     this.token = localStorage.getItem('token')
     this.isLogged()
     console.log('Token', this.token)
-
-    this.msg = this.$route.params.id
-    console.log('Product Data afeter mount', this.product)
+    this.email = this.$route.params.id
+    this.getProduct()
   }
 }
 </script>
 <style scoped>
+
+.container {
+  width: 55%;
+}
 .card {
-  width: auto;
   border-radius: 10px;
-  width: 75%;
-  margin-bottom: 10px;
+  display: block;
   margin-bottom: 20px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   padding: 25px;
 }
 
 .card-img {
-  height: 600px;
+  height: 550px;
   object-fit: cover;
 }
-hr{
+hr {
   width:100%;
 }
-.card-text {
-  height: 100px;
 
-  display: block;
-  display: -webkit-box;
-  -webkit-line-clamp: 5; /* max line number */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 .row-title {
   height: 60px;
   align-items: center;
@@ -162,7 +160,7 @@ hr{
   height: 40px;
 }
 .product-price{
-    margin: 0;
+  margin: 0;
   font-size: 25px;
   font-weight: 700;
 }

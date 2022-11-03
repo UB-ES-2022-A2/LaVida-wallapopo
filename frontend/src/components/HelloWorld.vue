@@ -1,7 +1,7 @@
 <template>
   <main class="hello">
-    <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" />
-    <NavBarFiltros/>
+    <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token" />
+    <NavBarFiltros  @productsList="db=$event"/>
     <div class="container">
       <div class="row">
         <div
@@ -60,12 +60,17 @@ export default {
     },
     getProducts () {
       const path = this.devPath + '/products'
-      axios.get(path).then((res) => {
-        let db = res.data.Products_List
-        for (let index = 0; index < db.length; index++) {
-          this.db.push(db[index])
-        }
-      })
+      axios.get(path)
+        .then((res) => {
+          console.log(res)
+          let db = res.data.Products_List
+          for (let index = 0; index < db.length; index++) {
+            this.db.push(db[index])
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
   },
   created () {

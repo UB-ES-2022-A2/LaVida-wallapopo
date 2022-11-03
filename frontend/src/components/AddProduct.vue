@@ -233,7 +233,6 @@ export default {
         description: this.description,
         shipment: this.shipment
       }
-      alert(this.name)
       axios.post(path, parameters, {
         auth: {username: this.token}
       })
@@ -246,8 +245,8 @@ export default {
           })
         })
         .catch((error) => {
+          alert('Ha ocurrido un error al añadir el producto, vuelve a intentarlo más tarde')
           console.error(error)
-          alert('Error al añadido producto')
         })
     },
     onFileChange (e) {
