@@ -15,14 +15,10 @@ class Validate(Resource):
         return self
 
     def post(self):
-        print("Validate post: ", self)
         data = self.get_data()
-        print("data: ", data)
         token = data['validation_token']
-        print("post token: ", token)
-
         with lock.lock:
-            print("Confirm_email")
+            print("Confirming email token")
             email = ''
             try:
                 # email = self.confirm_token(token)
@@ -36,26 +32,28 @@ class Validate(Resource):
                     )
                 except:
                     print("Token is not valid!")
-                    return None
+                    return {'message': "El link de verificación no es correcto"}, HTTPStatus.CONFLICT
                 print("Token is valid!")
             except Exception as e:
                 print(e)
-                return None
+                return {'message': "No hemos podido verificar la cuenta. Si el error persiste contacta con los "
+                                   "desarroladores"}, HTTPStatus.INTERNAL_SERVER_ERROR
 
             user = AccountsModel.get_by_email(email)
             if user.confirmed:
                 print("Account already confirmed!")
-                return {'message': "Account already confirmed, please login"}, HTTPStatus.CONFLICT
+                return {'message': "Tu cuenta ya estaba verificada. Puedes iniciar sesión."}, HTTPStatus.OK
+
             else:
                 user.confirmed = True
                 user.confirmed_on = datetime.datetime.now()
                 db.session.add(user)
                 db.session.commit()
                 print("Account confirmed!")
-                return {'message': "Account email confirmed!"}, HTTPStatus.OK
+                return {'message': "Cuenta verificada correctamente! Puedes iniciar sesión."}, HTTPStatus.OK
 
-
-    def get_data(self):
+    @staticmethod
+    def get_data():
         parser = reqparse.RequestParser()  # create parameters parser from request
         parser.add_argument('validation_token', type=str, required=True, help="This field cannot be left blank")
         return parser.parse_args()

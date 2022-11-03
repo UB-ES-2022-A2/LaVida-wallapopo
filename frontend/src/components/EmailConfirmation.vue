@@ -1,23 +1,38 @@
 <template>
-  <main class="hello">
+  <main class="emailConfirmation">
     <div class="container">
-      <div class="row">
-        <div>
-          <b-jumbotron class="d-flex justify-content-center" bg-variant="success" text-variant="white" border-variant="dark" >
-            <template #header>Bienvenido a <b>Wallapopo</b></template>
+      <div class="row justify-content-center">
+        <div v-if="error">
+          <b-jumbotron class="d-flex justify-content-center" bg-variant="secondary" text-variant="white"
+            border-variant="dark">
+            <template #header>Oops</template>
             <template #lead>
-              Tu plataforma de elección para compra y venta de articulos de
-              segunda mano.
+              {{ message }}
             </template>
             <hr class="my-4">
-            <p>
-              Puedes cerrar esta pagina e iniciar sesión.
-            </p>
+            <div v-if="code === 409 || code === 500">
+              <button class="btn btn-primary btn-lg my-2" @click="redirectToHome()">Volver al inicio</button>
+            </div>
+          </b-jumbotron>
+        </div>
+        <div v-if="!error">
+          <b-jumbotron class="d-flex justify-content-center" bg-variant="success" text-variant="white"
+            border-variant="dark">
+            <template #header>Bienvenido a <b>Wallapopo</b></template>
+            <template #lead>
+              {{ message }}
+            </template>
+            <hr class="my-4">
+            <div v-if="code===200">
+              <div>
+                <button class="btn btn-primary btn-lg my-2" @click="redirectToLogin()">Inicia sesión</button>
+              </div>  
+            </div>
           </b-jumbotron>
         </div>
       </div>
     </div>
-    <Footer/>
+    <Footer />
   </main>
 </template>
 
@@ -33,11 +48,20 @@ export default {
   data () {
     return {
       prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
-      devPath: 'http://localhost:5000'
+      devPath: 'http://localhost:5000',
+      error: false,
+      code: 200,
+      message: ''
     }
   },
 
   methods: {
+    redirectToHome () {
+      this.$router.push({path: '/'})
+    },
+    redirectToLogin () {
+      this.$router.push({path: '/login'})
+    }
   },
   created () {
     var str = window.location.href
@@ -49,11 +73,16 @@ export default {
       validation_token: valToken
     }).then((response) => {
       console.log(response)
-      alert('Verificación correcta')
+      this.message = response.data.message
+      this.error = false
+      this.code = response.status
+      // alert(this.code)
     }).catch(err => {
       console.log(err)
-      var error = err.response.data.message
-      alert(error)
+      this.message = err.response.data.message
+      this.error = true
+      this.code = err.response.status
+      // alert(this.code)
     })
   }
 }
