@@ -1,46 +1,60 @@
 <template>
   <main class="hello">
-    <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token" />
     <div class="container">
       <div class="row">
-        <p>CONFIRMED</p>
+        <div>
+          <b-jumbotron class="d-flex justify-content-center" bg-variant="success" text-variant="white" border-variant="dark" >
+            <template #header>Bienvenido a <b>Wallapopo</b></template>
+            <template #lead>
+              Tu plataforma de elección para compra y venta de articulos de
+              segunda mano.
+            </template>
+            <hr class="my-4">
+            <p>
+              Puedes cerrar esta pagina e iniciar sesión.
+            </p>
+          </b-jumbotron>
+        </div>
       </div>
     </div>
-    <Footer />
+    <Footer/>
   </main>
 </template>
 
 <script>
-import NavigationBar from './NavigationBar.vue'
 import Footer from './Footer.vue'
+import axios from 'axios'
 
 export default {
   name: 'EmailConfirmation',
   components: {
-    NavigationBar,
     Footer
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      db: [],
       prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
-      devPath: 'http://localhost:5000/emailConfirmation',
-      logged: false,
-      token: 'g',
-      email: 'e'
+      devPath: 'http://localhost:5000'
     }
   },
 
   methods: {
   },
-  mounted () {
-    console.log('ROUTE', this.$route)
-    if (Object.keys(this.$route.params).length !== 0) {
-      this.token = this.$route.params.data.token
-      this.logged = this.$route.params.logged
-      this.email = this.$route.params.email
-    }
+  created () {
+    var str = window.location.href
+    var res = str.split('/')
+    var last = res[res.length - 1]
+    var valToken = last.slice(17)
+    console.log(valToken)
+    axios.post(this.devPath + '/validation', {
+      validation_token: valToken
+    }).then((response) => {
+      console.log(response)
+      alert('Verificación correcta')
+    }).catch(err => {
+      console.log(err)
+      var error = err.response.data.message
+      alert(error)
+    })
   }
 }
 </script>

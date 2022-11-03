@@ -11,6 +11,7 @@ from db import db
 from resources.accounts import Accounts
 from resources.products import Product, ProductsList
 from resources.session import Login, Logout
+from resources.validate import Validate
 
 # app = Flask(__name__)
 
@@ -41,6 +42,8 @@ db.init_app(app)
 # accounts
 api.add_resource(Accounts, '/account/<string:email>', '/account')
 
+api.add_resource(Validate, '/validation/<string:validation_token>', '/validation')
+
 # products
 api.add_resource(Product, '/product/<string:id>')
 api.add_resource(ProductsList, '/products')
@@ -49,11 +52,13 @@ api.add_resource(ProductsList, '/products')
 api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout/<string:email>')
 
-
-@app.route('/emailConfirmation/<token>')
+'''
+@app.route('/emailConfirmation/validation_token=<token>')
 def confirm(token):
+    print("confirm")
     Accounts.confirm_email(token)
     return render_template("index.html")
+'''
 
 
 @app.route('/')

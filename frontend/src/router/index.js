@@ -31,7 +31,7 @@ export default new Router({
       component: ForgotPassword
     },
     {
-      path: '/emailConfirmation/<token>',
+      path: '/emailConfirmation/validation_token=:token',
       name: 'EmailConfirmation',
       component: EmailConfirmation
     }

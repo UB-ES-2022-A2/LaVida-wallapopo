@@ -33,6 +33,7 @@ class Accounts(Resource):
 
     # register new accounts
     def post(self):
+        print("POST")
         with lock.lock:
             data = self.get_data()
             # Check if the email has a valid email format
@@ -62,12 +63,18 @@ class Accounts(Resource):
             email_token = self.generate_confirmation_token(data['email'])
             print("confirmation token is: {}".format(email_token))
 
-            confirm_url = flask.url_for('confirm', token=email_token, _external=True)
+            # confirm_url2 = flask.url_for('confirm', token=email_token, _external=True)
+            # print("URL2: ", confirm_url2)
+            # TODO: cambiar para coger url en funcion del entorno (local o cloud)
+            confirm_url = "http://localhost:5000/#/emailConfirmation/validation_token=" + email_token
+            print("URL: ", confirm_url)
 
             msg = EmailMessage()
             msg['Subject'] = 'Test python email'
             msg['From'] = EMAIL_ADDRESS
-            msg['To'] = EMAIL_ADDRESS
+            msg['To'] = data['email']
+
+            print("Sending confirmation email to: {}".format(msg['To']))
 
             html_message = '''
                             <p>Por favor, sigue este link para activar tu cuenta:</p>
@@ -94,6 +101,9 @@ class Accounts(Resource):
                 db.session.rollback()  # rollback in case something went wrong
                 return {'message': 'Error while creating new account'}, HTTPStatus.INTERNAL_SERVER_ERROR
 
+    def print_hi(self):
+        print("HI")
+
     def get_data(self):
         parser = reqparse.RequestParser()  # create parameters parser from request
 
@@ -111,8 +121,8 @@ class Accounts(Resource):
         serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
         return serializer.dumps(email, salt=app.config['SECURITY_PASSWORD_SALT'])
 
-    @staticmethod
-    def confirm_email(token):
+    def confirm_email(self, token):
+        print("Confirm_email")
         email = ''
         try:
             # email = self.confirm_token(token)
@@ -134,11 +144,13 @@ class Accounts(Resource):
 
         user = AccountsModel.get_by_email(email)
         if user.confirmed:
+            print("Account already confirmed!")
             return {'message': "Account already confirmed, please login"}, HTTPStatus.CONFLICT
         else:
             user.confirmed = True
             user.confirmed_on = datetime.datetime.now()
             db.session.add(user)
             db.session.commit()
+            print("Account confirmed!")
             return {'message': "Account email confirmed!"}, HTTPStatus.OK
 
