@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavigationBar  :logged="logged" :key="logged" :email="email" :token="token"/>
+    <NavigationBar  :logged="logged" :key="logged" :token="token"/>
     <div class="container">
       <div class="card">
         <div class="row row-title">
@@ -80,7 +80,7 @@ export default {
   },
   data () {
     return {
-      email: this.$route.params.id,
+      id: this.$route.params.id,
       token: localStorage.getItem('token'),
       prodPath: prodWeb,
       devPath: devWeb,
@@ -95,7 +95,7 @@ export default {
       }
     },
     getProduct () {
-      const path = this.devPath + `/product/${this.email}`
+      const path = this.devPath + `/product/${this.id}`
       axios.get(path).then((res) => {
         console.log('PRODUCTS request', res)
         this.product = res.data.product
@@ -105,18 +105,12 @@ export default {
         })
     }
   },
-  created () {
-    this.token = localStorage.getItem('token')
-    this.isLogged()
-    console.log('Token', this.token)
-    this.email = this.$route.params.id
-    this.getProduct()
-  },
   mounted () {
     this.token = localStorage.getItem('token')
+    this.email = localStorage.getItem('email')
     this.isLogged()
     console.log('Token', this.token)
-    this.email = this.$route.params.id
+    this.id = this.$route.params.id
     this.getProduct()
   }
 }

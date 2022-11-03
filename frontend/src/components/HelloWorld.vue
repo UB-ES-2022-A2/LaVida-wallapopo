@@ -2,7 +2,10 @@
   <div class="products">
     <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token" />
     <NavBarFiltros  @productsList="db=$event"/>
-    <div class="container">
+    <div class="container" style="min-height: 400px">
+      <h3 v-if="category">{{ category }}</h3>
+      <h3 v-else>Todos los productos</h3>
+      <hr class="solid">
       <div class="row">
         <div
           class="col-6 col-lg-3 celda"
@@ -71,25 +74,29 @@ export default {
         .catch((error) => {
           console.error(error)
         })
-    }
-  },
-  created () {
-    this.getProducts()
-    if (Object.keys(this.$route.params).length !== 0) {
-      this.token = this.$route.params.token
-      this.logged = this.$route.params.logged
-      this.email = this.$route.params.email
+    },
+    getCategory (category) {
+      const path = this.devPath + `/filter/${category}`
+      axios.get(path)
+        .then((res) => {
+          console.log(res)
+          let db = res.data.products_list
+          for (let index = 0; index < db.length; index++) {
+            this.db.push(db[index])
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
   },
   mounted () {
+    this.category = this.$route.params.categoria
+    if (this.category) this.getCategory(this.category)
+    else this.getProducts()
+    this.email = localStorage.getItem('email')
     this.token = localStorage.getItem('token')
     this.isLogged()
-    console.log('ROUTE', this.$route)
-    if (Object.keys(this.$route.params).length !== 0) {
-      this.token = this.$route.params.data.token
-      this.logged = this.$route.params.logged
-      this.email = this.$route.params.email
-    }
   }
 }
 </script>

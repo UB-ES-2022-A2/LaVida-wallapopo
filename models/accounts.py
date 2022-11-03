@@ -50,7 +50,8 @@ class AccountsModel(db.Model):
                 'name': self.name,
                 'surname': self.surname,
                 'birthday': self.birthday,
-                'is_admin': self.is_admin
+                'is_admin': self.is_admin,
+                'confirmed': self.confirmed
                 }
 
     def generate_auth_token(self, expiration=1200):

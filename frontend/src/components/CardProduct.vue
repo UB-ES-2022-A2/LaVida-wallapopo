@@ -57,9 +57,6 @@ export default {
     }
   },
   methods: {
-    getName (nameProduct) {
-      return nameProduct.split(' ')[0]
-    },
     goToProduct () {
       this.$router.push({
         path: '/product/' + this.$props.link

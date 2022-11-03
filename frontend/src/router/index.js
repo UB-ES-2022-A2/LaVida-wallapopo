@@ -20,7 +20,7 @@ export default new Router({
     },
     {
       path: '/categoria/:categoria',
-      name: 'HelloWorld',
+      name: 'HelloWorldCategory',
       component: HelloWorld
     },
     {
