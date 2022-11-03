@@ -66,7 +66,8 @@ class Accounts(Resource):
             # confirm_url2 = flask.url_for('confirm', token=email_token, _external=True)
             # print("URL2: ", confirm_url2)
             # TODO: cambiar para coger url en funcion del entorno (local o cloud)
-            confirm_url = "http://localhost:5000/#/emailConfirmation/validation_token=" + email_token
+            # 8080 for dev
+            confirm_url = "http://localhost:8080/#/emailConfirmation/validation_token=" + email_token
             print("URL: ", confirm_url)
 
             msg = EmailMessage()

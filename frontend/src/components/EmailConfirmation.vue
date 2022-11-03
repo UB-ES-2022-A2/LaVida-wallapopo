@@ -26,7 +26,7 @@
             <div v-if="code===200">
               <div>
                 <button class="btn btn-primary btn-lg my-2" @click="redirectToLogin()">Inicia sesión</button>
-              </div>  
+              </div>
             </div>
           </b-jumbotron>
         </div>
@@ -69,7 +69,7 @@ export default {
     var last = res[res.length - 1]
     var valToken = last.slice(17)
     console.log(valToken)
-    axios.post(this.devPath + '/validation', {
+    axios.post(this.devPath + '/API/validation', {
       validation_token: valToken
     }).then((response) => {
       console.log(response)

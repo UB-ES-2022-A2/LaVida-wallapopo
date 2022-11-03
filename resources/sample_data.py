@@ -53,7 +53,8 @@ accounts = [
  {
   'email': "admin123@gmail.com",
   'password': "admin123@gmail.com",
-  'username': "The God"
+  'username': "The God",
+  'confirmed': True
  },
  {
   'email': "pepe432@gmail.com",
