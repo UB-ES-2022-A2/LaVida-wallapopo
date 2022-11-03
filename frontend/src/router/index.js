@@ -6,6 +6,7 @@ import Registro from '@/components/Registro'
 import ForgotPassword from '@/components/ForgotPassword'
 import Product from '@/components/Product'
 import AddProduct from '@/components/AddProduct'
+import Main from '@/components/Main'
 
 Vue.use(Router)
 
@@ -13,6 +14,11 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'Main',
+      component: Main
+    },
+    {
+      path: '/products',
       name: 'HelloWorld',
       component: HelloWorld
     },

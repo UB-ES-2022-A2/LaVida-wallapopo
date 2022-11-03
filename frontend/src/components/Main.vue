@@ -1,44 +1,30 @@
 <template>
-  <div class="products">
+  <main class="main">
     <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token" />
-    <NavBarFiltros  @productsList="db=$event"/>
     <div class="container">
       <div class="row">
         <div
           class="col-6 col-lg-3 celda"
-          v-for="product in db"
-          :key="product.id"
+          v-for="categoria in categories_list"
+          :key="categoria.name"
         >
-          <CardProduct
-            :title="product.name"
-            :img="product.image"
-            :price="product.price"
-            :desc="product.description"
-            :productState="product.condition"
-            :date="product.date"
-            :link="product.id"
-          />
+          <font-awesome-icon class="miIcon" icon="fa-heart" />
         </div>
       </div>
     </div>
     <Footer/>
-  </div>
+  </main>
 </template>
 
 <script>
 import NavigationBar from './NavigationBar.vue'
-import NavBarFiltros from './NavBarFiltros.vue'
-import CardProduct from './CardProduct.vue'
 /* import {pathWeb} from '../store' */
 import Footer from './Footer.vue'
 
-import axios from 'axios'
 export default {
   name: 'HelloWorld',
   components: {
     NavigationBar,
-    NavBarFiltros,
-    CardProduct,
     Footer
   },
   data () {
@@ -49,32 +35,24 @@ export default {
       devPath: 'http://localhost:5000',
       logged: false,
       token: 'g',
-      email: 'e'
+      email: 'e',
+      categories_list: [
+        'Coches', 'Motos', 'Motor y Accesorios', 'Moda y Accesorios', 'TV, Audio y Foto', 'Móviles y Telefonía', 'Informática y Electrónica', 'Deporte y Ocio', 'Bicicletas', 'Consolas y Videojuegos', 'Hogar y Jardín', 'Electrodomésticos', 'Cine', 'Libros y Música', 'Niños y Bebés', 'Coleccionismo', 'Construcción y Reformas', 'Industria y Agricultura', 'Otros'
+      ],
+      icons_list: [
+        'fa-car', 'fa-motorcycle', 'fa-helmet-safety', 'fa-shirt', 'fa-tv', 'fa-mobile', 'fa-computer', 'fa-volleyball', 'fa-bicycle', 'fa-gamepad', 'fa-house', 'fa-fire-burner', 'fa-film', 'fa-book', 'fa-baby', 'fa-coins', 'fa-trowel-bricks', 'fa-seedling', 'fa-ellipsis'
+      ],
+      categorias: []
     }
   },
-
   methods: {
-    getProducts () {
-      const path = this.devPath + '/API/products'
-      axios.get(path)
-        .then((res) => {
-          console.log(res)
-          let db = res.data.Products_List
-          for (let index = 0; index < db.length; index++) {
-            this.db.push(db[index])
-          }
+    getCategorias () {
+      for (let i = 0; i < this.categories_list.length; i++) {
+        this.categorias.push({
+          name: this.categories_list[i],
+          image: this.icons_list[i]
         })
-        .catch((error) => {
-          console.error(error)
-        })
-    }
-  },
-  created () {
-    this.getProducts()
-    if (Object.keys(this.$route.params).length !== 0) {
-      this.token = this.$route.params.token
-      this.logged = this.$route.params.logged
-      this.email = this.$route.params.email
+      }
     }
   },
   mounted () {
@@ -84,6 +62,9 @@ export default {
       this.logged = this.$route.params.logged
       this.email = this.$route.params.email
     }
+  },
+  created () {
+    this.getCategorias()
   }
 }
 </script>

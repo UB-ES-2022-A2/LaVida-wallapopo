@@ -65,7 +65,7 @@ export default {
     },
     redirectToHome () {
       this.$router.push({
-        name: 'HelloWorld',
+        name: 'Main',
         params: {logged: this.logged, email: this.email, token: this.token}
       })
     }
