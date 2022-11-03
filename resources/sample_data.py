@@ -53,27 +53,32 @@ accounts = [
  {
   'email': "admin123@gmail.com",
   'password': "admin123@gmail.com",
-  'username': "The God"
+  'username': "The God",
+  'confirmed': True
  },
  {
   'email': "pepe432@gmail.com",
   'password': "pepe123,.",
-  'username': 'pepeman'
+  'username': 'pepeman',
+  'confirmed': True
  },
  {
   'email': "juan35@hotmail.com",
   'password': "quality_2022!",
-  'username': 'juancito'
+  'username': 'juancito',
+  'confirmed': True
  },
  {
   'email': "killer23@gmail.com",
   'password': "magic_p443.",
-  'username': 'the killer god'
+  'username': 'the killer god',
+  'confirmed': True
  },
  {
   'email': "joseramon33@hotmail.com",
   'password': "ramonaPlata22,",
-  'username': 'jose marrano'
+  'username': 'jose marrano',
+  'confirmed': True
  }
 ]
 

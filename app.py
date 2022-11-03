@@ -12,8 +12,17 @@ from resources.accounts import Accounts
 from resources.products import Product, ProductsList, AddProduct
 from resources.session import Login, Logout
 from resources.filters import Filter
+from resources.validate import Validate
 
 app = Flask(__name__)
+
+
+# app = Flask(
+#     __name__,
+#     static_folder="frontend/dist/static",
+#     template_folder="frontend/dist"
+# )
+
 # Set default environment as developement
 environment = config['development']
 
@@ -22,6 +31,7 @@ if os.environ.get('GAE_ENV') == 'standard':
     environment = config['production']
 
 app.config.from_object(environment)
+app.config['SECURITY_PASSWORD_SALT'] = 'foobar'
 
 api = Api(app)
 CORS(app, resources={r'/*': {'origins': '*'}})
@@ -31,6 +41,8 @@ db.init_app(app)
 
 # accounts
 api.add_resource(Accounts, '/API/account/<string:email>', '/API/account')
+
+api.add_resource(Validate, '/API/validation/<string:validation_token>', '/API/validation')
 
 # products
 api.add_resource(Product, '/API/product/<string:id>')
@@ -43,8 +55,6 @@ api.add_resource(Filter, '/API/filter')
 # session
 api.add_resource(Login, '/API/login')
 api.add_resource(Logout, '/API/logout/<string:email>')
-
-
 
 
 @app.route('/')
