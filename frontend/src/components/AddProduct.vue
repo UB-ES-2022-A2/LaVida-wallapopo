@@ -147,6 +147,7 @@ import NavigationBar from './NavigationBar.vue'
 import Footer from './Footer'
 import axios from 'axios'
 import {devWeb, prodWeb} from '../store'
+
 export default {
   name: 'addProduct',
   components: {

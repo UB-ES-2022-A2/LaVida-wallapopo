@@ -73,7 +73,7 @@ export default {
       this.$router.push({name: 'Login'})
     },
     goToRegister () {
-      this.$router.push({name: 'Register'})
+      this.$router.push({name: 'Registro'})
     },
     redirectToAddProduct () {
       this.$router.push({
