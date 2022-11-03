@@ -13,7 +13,8 @@ import {
   faUserCircle,
   faMagnifyingGlass,
   faEnvelope,
-  faCirclePlus
+  faCirclePlus,
+  faTruckFast
 } from '@fortawesome/free-solid-svg-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -24,7 +25,8 @@ library.add(
   faUserCircle,
   faMagnifyingGlass,
   faEnvelope,
-  faCirclePlus
+  faCirclePlus,
+  faTruckFast
 )
 
 Vue.use(BootstrapVue)

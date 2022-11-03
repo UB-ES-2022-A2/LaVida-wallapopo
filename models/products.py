@@ -1,5 +1,6 @@
 from db import db
-from sqlalchemy.sql import func
+from models.accounts import AccountsModel
+from sqlalchemy.sql import func, desc
 
 # possible categories, we can modify its content if needed
 categories_list = ('Coches', 'Motos', 'Motor y Accesorios', 'Moda y Accesorios', 'TV, Audio y Foto',
@@ -56,8 +57,10 @@ class ProductsModel(db.Model):
             'image': self.image,
             'condition': self.condition,
             'status': self.status,
-            'date': self.date.isoformat(),
-            'user': self.user_id
+            'date': self.date.date().strftime("%d-%b-%Y"),
+            'user': self.user_id,
+            'username': AccountsModel.query.get(self.user_id).json()['username'],
+            'shipment': self.shipment
         }
 
     def save_to_db(self):
@@ -79,3 +82,22 @@ class ProductsModel(db.Model):
     @classmethod
     def get_all(cls):
         return cls.query.all()
+
+    @classmethod
+    def get_by_filters(cls, cat, price0, price1, date, condition):
+        # first retrieve all the products within the price range and condition
+        query = cls.query
+        # only return products from this category
+        if cat is not None:
+            query = query.filter(cls.category == cat)
+        query = query.filter(
+            (cls.price >= price0) &
+            (cls.price <= price1) &
+            cls.condition.in_(condition)
+        )
+
+        return query.order_by(desc(cls.date) if date else cls.date).all()
+
+    @classmethod
+    def get_by_category(cls, category):
+        return cls.query.filter_by(category=category).all()

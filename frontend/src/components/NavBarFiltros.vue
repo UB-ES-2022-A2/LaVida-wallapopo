@@ -20,17 +20,17 @@
           <div class="px-3 py-2">
             <hr/>
             <p><strong>¿Qué categoría buscas?</strong></p>
-            <b-form-select v-model="selected" :options="categorias"></b-form-select>
+            <b-form-select v-model="category" :options="categorias"></b-form-select>
             <hr/>
             <p><strong>¿Cuánto quieres pagar?</strong></p>
             <div class="row">
               <div class="col-sm">
                 <p>Desde:</p>
-                <input type="number" placeholder="0" min="0" max="10000" step="5">
+                <input v-model="price0" type="number" placeholder="0" min="0" max="10000" step="5">
               </div>
               <div class="col-sm">
                 <p>Hasta:</p>
-                <input type="number" placeholder="10000" min="0" max="10000" step="5">
+                <input v-model="price1" type="number" placeholder="10000" min=0 max="10000" step="5">
               </div>
             </div>
             <hr/>
@@ -39,8 +39,6 @@
               id="checkbox-1"
               v-model="status_nuevo"
               name="checkbox-1"
-              value="True"
-              unchecked-value="False"
             >
               Nuevo
             </b-form-checkbox>
@@ -48,8 +46,6 @@
               id="checkbox-2"
               v-model="status_casi_nuevo"
               name="checkbox-2"
-              value="True"
-              unchecked-value="False"
             >
               Casi nuevo
             </b-form-checkbox>
@@ -57,8 +53,6 @@
               id="checkbox-3"
               v-model="status_usado"
               name="checkbox-3"
-              value="True"
-              unchecked-value="False"
             >
               Usado
             </b-form-checkbox>
@@ -69,11 +63,11 @@
             </b-form-group>
             <hr/>
             <p><strong>¿Desde cuándo?</strong></p>
-            <b-form-select v-model="selected2" :options="tiempo"></b-form-select>
+            <b-form-select v-model="date" :options="tiempo"></b-form-select>
             <hr/>
             <div class="text-right mt-3">
               <button type="button" class="btn btn-secondary" v-b-toggle.sidebar-backdrop>Cancelar</button>
-              <button type="button" class="btn btn-success">Aplicar</button>
+              <button type="button" class="btn btn-success" @click="applyFilter">Aplicar</button>
             </div>
           </div>
         </b-sidebar>
@@ -82,10 +76,10 @@
         <b-collapse id="collapse-1" class="mt-2">
           <b-card>
             <p><strong>¿Qué categoría buscas?</strong></p>
-            <b-form-select v-model="selected" :options="categorias"></b-form-select>
+            <b-form-select v-model="category" :options="categorias"></b-form-select>
             <div class="text-right mt-3">
               <button type="button" class="btn btn-secondary" v-b-toggle.collapse-1>Cancelar</button>
-              <button type="button" class="btn btn-success">Aplicar</button>
+              <button type="button" class="btn btn-success" @click="applyFilter">Aplicar</button>
             </div>
           </b-card>
         </b-collapse>
@@ -95,16 +89,16 @@
             <div class="row">
               <div class="col-sm">
                 <p>Desde:</p>
-                <input type="number" placeholder="0" min="0" max="10000" step="5">
+                <input v-model="price0" type="number" placeholder="0" min="0" max="10000" step="5">
               </div>
               <div class="col-sm">
                 <p>Hasta:</p>
-                <input type="number" placeholder="10000" min="0" max="10000" step="5">
+                <input v-model="price1" type="number" placeholder="10000" min="0" max="10000" step="5">
               </div>
             </div>
             <div class="text-right mt-3">
               <button type="button" class="btn btn-secondary" v-b-toggle.collapse-2>Cancelar</button>
-              <button type="button" class="btn btn-success">Aplicar</button>
+              <button type="button" class="btn btn-success" @click="applyFilter">Aplicar</button>
             </div>
           </b-card>
         </b-collapse>
@@ -115,8 +109,6 @@
               id="checkbox-1"
               v-model="status_nuevo"
               name="checkbox-1"
-              value="True"
-              unchecked-value="False"
             >
               Nuevo
             </b-form-checkbox>
@@ -124,8 +116,6 @@
               id="checkbox-2"
               v-model="status_casi_nuevo"
               name="checkbox-2"
-              value="True"
-              unchecked-value="False"
             >
               Casi nuevo
             </b-form-checkbox>
@@ -133,14 +123,12 @@
               id="checkbox-3"
               v-model="status_usado"
               name="checkbox-3"
-              value="True"
-              unchecked-value="False"
             >
               Usado
             </b-form-checkbox>
             <div class="text-right mt-3">
               <button type="button" class="btn btn-secondary" v-b-toggle.collapse-3>Cancelar</button>
-              <button type="button" class="btn btn-success">Aplicar</button>
+              <button type="button" class="btn btn-success" @click="applyFilter">Aplicar</button>
             </div>
           </b-card>
         </b-collapse>
@@ -152,17 +140,17 @@
             </b-form-group>
             <div class="text-right mt-3">
               <button type="button" class="btn btn-secondary" v-b-toggle.collapse-4>Cancelar</button>
-              <button type="button" class="btn btn-success">Aplicar</button>
+              <button type="button" class="btn btn-success" @click="applyFilter">Aplicar</button>
             </div>
           </b-card>
         </b-collapse>
         <b-collapse id="collapse-5" class="mt-2">
           <b-card>
             <p><strong>¿Desde cuándo?</strong></p>
-            <b-form-select v-model="selected2" :options="tiempo"></b-form-select>
+            <b-form-select v-model="date" :options="tiempo"></b-form-select>
             <div class="text-right mt-3">
               <button type="button" class="btn btn-secondary" v-b-toggle.collapse-5>Cancelar</button>
-              <button type="button" class="btn btn-success">Aplicar</button>
+              <button :disabled="date===-1" type="button" class="btn btn-success" @click="applyFilter">Aplicar</button>
             </div>
           </b-card>
         </b-collapse>
@@ -171,42 +159,76 @@
 </template>
 
 <script>
+import axios from 'axios'
+import {pathWeb} from '../store'
+
 export default {
   data () {
     return {
       name: 'navbarfiltros',
-      status_nuevo: 'False',
-      status_casi_nuevo: 'False',
-      status_usado: 'False',
-      selected: null,
-      selected2: null,
+      status_nuevo: false,
+      status_casi_nuevo: false,
+      status_usado: false,
+      cond: ['Nuevo', 'Casi nuevo', 'Usado'],
+      price0: 0,
+      price1: 10000,
+      category: null,
+      date: -1,
       tiempo: [
-        { value: null, text: 'Elige un orden' },
-        { value: 'a', text: 'Más recientes' },
-        { value: 'b', text: 'Más antiguos' }
+        { value: -1, text: 'Elige un orden', disabled: true },
+        { value: 1, text: 'Más recientes' },
+        { value: 0, text: 'Más antiguos' }
       ],
       categorias: [
-        { value: null, text: 'Elige una categoria' },
-        { value: '1', text: 'Coches' },
-        { value: '2', text: 'Motos' },
-        { value: '3', text: 'Motor y Accesorios' },
-        { value: '4', text: 'Moda y Accesorios' },
-        { value: '5', text: 'TV, Audio y Foto' },
-        { value: '6', text: 'Móviles y Telefonía' },
-        { value: '7', text: 'Informática y Electrónica' },
-        { value: '8', text: 'Deporte y Ocio' },
-        { value: '9', text: 'Bicicletas' },
-        { value: '10', text: 'Consolas y Videojuegos' },
-        { value: '11', text: 'Hogar y Jardín' },
-        { value: '12', text: 'Electrodomésticos' },
-        { value: '13', text: 'Cine' },
-        { value: '14', text: 'Libros y Música' },
-        { value: '15', text: 'Niños y Bebés' },
-        { value: '16', text: 'Coleccionismo' },
-        { value: '17', text: 'Construcción y Reformas' },
-        { value: '18', text: 'Industria y Agricultura' },
-        { value: '19', text: 'Otros' }
+        { value: null, text: 'Elige una categoria', disabled: true },
+        { value: 'Coches', text: 'Coches' },
+        { value: 'Motos', text: 'Motos' },
+        { value: 'Motor y Accesorios', text: 'Motor y Accesorios' },
+        { value: 'Moda y Accesorios', text: 'Moda y Accesorios' },
+        { value: 'TV, Audio y Foto', text: 'TV, Audio y Foto' },
+        { value: 'Móviles y Telefonía', text: 'Móviles y Telefonía' },
+        { value: 'Informática y Electrónica', text: 'Informática y Electrónica' },
+        { value: 'Deporte y Ocio', text: 'Deporte y Ocio' },
+        { value: 'Bicicletas', text: 'Bicicletas' },
+        { value: 'Consolas y Videojuegos', text: 'Consolas y Videojuegos' },
+        { value: 'Hogar y Jardín', text: 'Hogar y Jardín' },
+        { value: 'Electrodomésticos', text: 'Electrodomésticos' },
+        { value: 'Cine', text: 'Cine' },
+        { value: 'Libros y Música', text: 'Libros y Música' },
+        { value: 'Niños y Bebés', text: 'Niños y Bebés' },
+        { value: 'Coleccionismo', text: 'Coleccionismo' },
+        { value: 'Construcción y Reformas', text: 'Construcción y Reformas' },
+        { value: 'Industria y Agricultura', text: 'Industria y Agricultura' },
+        { value: 'Otros', text: 'Otros' }
       ]
+    }
+  },
+  methods: {
+    applyFilter () {
+      const path = pathWeb + `API/filter`
+      let cond = []
+      if (!this.status_usado && !this.status_nuevo && !this.status_casi_nuevo) {
+        cond = this.cond
+      } else {
+        if (this.status_usado) cond.push('Usado')
+        if (this.status_casi_nuevo) cond.push('Casi nuevo')
+        if (this.status_nuevo) cond.push('Nuevo')
+      }
+      const parameters = {
+        category: this.category,
+        conditions: cond,
+        date: this.date === -1 ? 0 : this.date,
+        price0: this.price0,
+        price1: this.price1
+      }
+      axios.post(path, parameters)
+        .then((res) => {
+          console.log(res.data)
+          this.$emit('productsList', res.data.products_list)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
   }
 }

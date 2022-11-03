@@ -3,7 +3,7 @@ from db import db, secret_key
 from passlib.apps import custom_app_context as pwd_context
 from jwt import encode, decode, ExpiredSignatureError, InvalidSignatureError
 from flask_httpauth import HTTPBasicAuth
-from flask import g, current_app
+from flask import g
 import re
 
 # email is valid format if it has one @ and . after of @
@@ -29,9 +29,8 @@ class AccountsModel(db.Model):
     is_admin = db.Column(db.Integer, nullable=False)
     current_token = db.Column(db.String(500), nullable=True, server_default=None)
 
-
     # products owned by user
-    products = db.relationship('ProductsModel', backref='products', lazy=True)
+    products = db.relationship('ProductsModel', backref='products', cascade="all, delete-orphan", lazy=True)
 
     def __init__(self, email, username, is_admin=0):
         self.email = email

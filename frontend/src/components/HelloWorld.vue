@@ -1,7 +1,7 @@
 <template>
   <main class="hello">
     <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token" />
-    <NavBarFiltros/>
+    <NavBarFiltros  @productsList="db=$event"/>
     <div class="container">
       <div class="row">
         <div
@@ -29,7 +29,7 @@
 import NavigationBar from './NavigationBar.vue'
 import NavBarFiltros from './NavBarFiltros.vue'
 import CardProduct from './CardProduct.vue'
-import {pathWeb} from '../store'
+/* import {pathWeb} from '../store' */
 import Footer from './Footer.vue'
 
 import axios from 'axios'
@@ -56,13 +56,17 @@ export default {
   methods: {
     getProducts () {
       const path = this.devPath + '/API/products'
-      axios.get(path).then((res) => {
-        console.log(res)
-        let db = res.data.Products_List
-        for (let index = 0; index < db.length; index++) {
-          this.db.push(db[index])
-        }
-      })
+      axios.get(path)
+        .then((res) => {
+          console.log(res)
+          let db = res.data.Products_List
+          for (let index = 0; index < db.length; index++) {
+            this.db.push(db[index])
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
   },
   created () {
