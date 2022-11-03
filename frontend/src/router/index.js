@@ -6,6 +6,7 @@ import Registro from '@/components/Registro'
 import ForgotPassword from '@/components/ForgotPassword'
 import Product from '@/components/Product'
 import AddProduct from '@/components/AddProduct'
+import Main from '@/components/Main'
 import EmailConfirmation from '@/components/EmailConfirmation'
 
 Vue.use(Router)
@@ -14,6 +15,16 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'Main',
+      component: Main
+    },
+    {
+      path: '/categoria/:categoria',
+      name: 'HelloWorld',
+      component: HelloWorld
+    },
+    {
+      path: '/products',
       name: 'HelloWorld',
       component: HelloWorld
     },

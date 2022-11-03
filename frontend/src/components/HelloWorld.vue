@@ -1,5 +1,5 @@
 <template>
-  <main class="hello">
+  <div class="products">
     <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token" />
     <NavBarFiltros  @productsList="db=$event"/>
     <div class="container">
@@ -22,7 +22,7 @@
       </div>
     </div>
     <Footer/>
-  </main>
+  </div>
 </template>
 
 <script>

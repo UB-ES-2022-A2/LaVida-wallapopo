@@ -14,7 +14,26 @@ import {
   faMagnifyingGlass,
   faEnvelope,
   faCirclePlus,
-  faTruckFast
+  faTruckFast,
+  faCar,
+  faMotorcycle,
+  faHelmetSafety,
+  faShirt,
+  faTv,
+  faMobile,
+  faComputer,
+  faVolleyball,
+  faBicycle,
+  faGamepad,
+  faHouse,
+  faFireBurner,
+  faFilm,
+  faBook,
+  faBaby,
+  faCoins,
+  faTrowelBricks,
+  faSeedling,
+  faEllipsis
 } from '@fortawesome/free-solid-svg-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -26,7 +45,26 @@ library.add(
   faMagnifyingGlass,
   faEnvelope,
   faCirclePlus,
-  faTruckFast
+  faTruckFast,
+  faCar,
+  faMotorcycle,
+  faHelmetSafety,
+  faShirt,
+  faTv,
+  faMobile,
+  faComputer,
+  faVolleyball,
+  faBicycle,
+  faGamepad,
+  faHouse,
+  faFireBurner,
+  faFilm,
+  faBook,
+  faBaby,
+  faCoins,
+  faTrowelBricks,
+  faSeedling,
+  faEllipsis
 )
 
 Vue.use(BootstrapVue)
