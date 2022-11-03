@@ -26,7 +26,7 @@
         </div>
         <img
           class="card-img"
-          :src="require('../assets/' + getName(product.name) + '.jpeg')"
+          :src="require('../assets/' + (product.image))"
           alt="Image Product"
         />
         <div class="card-body">
@@ -80,25 +80,21 @@ export default {
         name: 'Oso de peluche',
         price: 23,
         status: 'nuevo',
-        description: 'lallal'
+        description: 'lallal',
+        image: ''
       },
       db: []
     }
   },
   methods: {
     isLogged () {
-      if (this.token.length > 0) {
+      if (this.token !== null) {
         this.logged = true
-      }
-    },
-    getName (nameProduct) {
-      if (nameProduct !== undefined) {
-        return nameProduct.split(' ')[0]
       }
     },
 
     getProducts () {
-      const path = this.devPath + '/API/product/' + this.$route.params.id
+      const path = this.devPath + '/product/' + this.$route.params.id
       axios.get(path).then((res) => {
         console.log('PRODUCTS request', res)
         this.product = res

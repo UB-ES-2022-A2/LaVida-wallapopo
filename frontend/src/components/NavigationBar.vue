@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     isLogged () {
-      if (this.token.length > 0) {
+      if (this.token !== null) {
         this.logged = true
       } else {
         this.logged = false

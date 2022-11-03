@@ -54,12 +54,12 @@ export default {
 
   methods: {
     isLogged () {
-      if (this.token.length > 0) {
+      if (this.token !== null) {
         this.logged = true
       }
     },
     getProducts () {
-      const path = this.devPath + '/API/products'
+      const path = this.devPath + '/products'
       axios.get(path).then((res) => {
         let db = res.data.Products_List
         for (let index = 0; index < db.length; index++) {

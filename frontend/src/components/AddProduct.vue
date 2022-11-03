@@ -223,7 +223,7 @@ export default {
   },
   methods: {
     addProduct () {
-      const path = this.devPath + '/API/catalog/add/' + this.email
+      const path = this.devPath + '/catalog/add/' + this.email
       /* params used to add a new product */
       const parameters = {
         name: this.name,
