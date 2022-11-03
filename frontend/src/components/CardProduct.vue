@@ -59,7 +59,8 @@ export default {
     goToProduct () {
       this.$router.push({
         path: '/product/' + this.$props.link
-      }),
+      })
+    },
     toggle_fav () {
       this.is_fav = !this.is_fav
       console.log('Boton cambiado a true', this.is_fav)
