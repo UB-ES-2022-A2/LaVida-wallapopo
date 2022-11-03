@@ -43,7 +43,7 @@ def pepe_products():
 @pytest.fixture(scope='function')
 def user_auth():
     json = {'email': 'pepe432@gmail.com', 'password': 'pepe123,.'}
-    login = requests.post("http://localhost:5000/API/login", json)
+    login = requests.post("http://localhost:5000/API/login", json=json)
     token = login.json()
     auth = HTTPBasicAuth(token['token'], '')
     return auth
