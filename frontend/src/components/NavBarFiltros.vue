@@ -174,7 +174,7 @@ export default {
       status_usado: false,
       cond: ['Nuevo', 'Casi nuevo', 'Usado'],
       price0: 0,
-      price1: Infinity,
+      price1: 99999999,
       category: null,
       date: -1,
       prodPath: prodWeb,
@@ -220,8 +220,15 @@ export default {
         if (this.status_casi_nuevo) cond.push('Casi nuevo')
         if (this.status_nuevo) cond.push('Nuevo')
       }
+
+      let category
+      if (this.category !== null) {
+        category = this.category
+      } else {
+        category = this.category2 ? this.category2 : this.category
+      }
       const parameters = {
-        category: this.category2 ? this.category2 : this.category,
+        category: category,
         conditions: cond,
         date: this.date === -1 ? 0 : this.date,
         price0: this.price0,
