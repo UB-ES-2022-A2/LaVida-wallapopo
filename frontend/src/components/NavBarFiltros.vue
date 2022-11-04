@@ -26,11 +26,11 @@
             <div class="row">
               <div class="col-sm">
                 <p>Desde:</p>
-                <input v-model="price0" type="number" placeholder="0" min="0" max="10000" step="5">
+                <input v-model="price0" type="number" placeholder="0" min="0" :max="price1" step="5">
               </div>
               <div class="col-sm">
                 <p>Hasta:</p>
-                <input v-model="price1" type="number" placeholder="10000" min=0 max="10000" step="5">
+                <input v-model="price1" type="number" placeholder="10000" :min="price0" step="5">
               </div>
             </div>
             <hr/>
@@ -89,11 +89,11 @@
             <div class="row">
               <div class="col-sm">
                 <p>Desde:</p>
-                <input v-model="price0" type="number" placeholder="0" min="0" max="10000" step="5">
+                <input v-model="price0" type="number" placeholder="0" min="0" :max="price1" step="5">
               </div>
               <div class="col-sm">
                 <p>Hasta:</p>
-                <input v-model="price1" type="number" placeholder="10000" min="0" max="10000" step="5">
+                <input v-model="price1" type="number" placeholder="10000" :min="price0" step="5">
               </div>
             </div>
             <div class="text-right mt-3">
@@ -174,7 +174,7 @@ export default {
       status_usado: false,
       cond: ['Nuevo', 'Casi nuevo', 'Usado'],
       price0: 0,
-      price1: 10000,
+      price1: Infinity,
       category: null,
       date: -1,
       prodPath: prodWeb,
