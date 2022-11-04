@@ -30,9 +30,7 @@
           <p>Estado: {{ productState }}</p>
         </div>
         <div class="row card-text">
-          <p>
-            {{ desc }}
-          </p>
+          {{ desc }}
         </div>
       </div>
     </div>
@@ -57,9 +55,6 @@ export default {
     }
   },
   methods: {
-    getName (nameProduct) {
-      return nameProduct.split(' ')[0]
-    },
     goToProduct () {
       this.$router.push({
         path: '/product/' + this.$props.link
@@ -89,10 +84,7 @@ export default {
   height: 100px;
   color: rgb(134, 134, 139);
   display: block;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 .row {
   height: 25px;

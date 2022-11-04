@@ -1,9 +1,7 @@
 from lock import lock
 from flask_restful import Resource, reqparse
 from http import HTTPStatus
-from sqlalchemy import exc
 
-from db import db
 from models.products import ProductsModel, categories_list, condition_list
 
 
@@ -30,7 +28,7 @@ class Filter(Resource):
 
             # check if everything is valid
             if not_valid:
-                return {'message': "One of the filters are not correct".format(data['username'])}, \
+                return {'message': "One of the filters are not correct".format(data)}, \
                        HTTPStatus.BAD_REQUEST
             # if everything is ok then return the products, if nothing matches, return empty list
             products = ProductsModel.get_by_filters(category, price0, price1, date, conditions)
@@ -47,5 +45,22 @@ class Filter(Resource):
         parser.add_argument('conditions', type=str, action='append', required=True,
                             help="This field cannot be left blank")
         parser.add_argument('date', type=int, required=True, help="This field cannot be left blank")
-        print("get_data final")
+
         return parser.parse_args()
+
+
+class FilterCategory(Resource):
+
+    # retrieve products by category
+    def get(self, category):
+        with lock.lock:
+            not_valid = category is None or category not in categories_list
+
+            # check if everything is valid
+            if not_valid:
+                return {'message': "Invalid cateogry".format(category)}, \
+                       HTTPStatus.BAD_REQUEST
+            # if everything is ok then return the products, if nothing matches, return empty list
+            products = ProductsModel.get_by_category(category)
+            products = [x.json() for x in products] if products else []
+            return {"products_list": products}, HTTPStatus.OK

@@ -11,7 +11,7 @@ from db import db
 from resources.accounts import Accounts
 from resources.products import Product, ProductsList, AddProduct
 from resources.session import Login, Logout
-from resources.filters import Filter
+from resources.filters import Filter, FilterCategory
 from resources.validate import Validate
 
 app = Flask(__name__)
@@ -51,6 +51,7 @@ api.add_resource(AddProduct, '/API/catalog/add/<string:email>')
 
 # filtering
 api.add_resource(Filter, '/API/filter')
+api.add_resource(FilterCategory, '/API/filter/<string:category>')
 
 # session
 api.add_resource(Login, '/API/login')

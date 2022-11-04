@@ -167,7 +167,7 @@ export default {
       shipment: false,
       logged: false,
       token: 'g',
-      email: 'e',
+      email: localStorage.getItem('email'),
       categories: [
         { value: null, text: 'Selecciona una categoría', disabled: true },
         { value: 'Coches', text: 'Coches' },
@@ -223,6 +223,11 @@ export default {
     }
   },
   methods: {
+    isLogged () {
+      if (this.token !== null) {
+        this.logged = true
+      }
+    },
     addProduct () {
       const path = this.devPath + '/catalog/add/' + this.email
       /* params used to add a new product */
@@ -268,15 +273,10 @@ export default {
       }
     }
   },
-  created () {
-    this.email = this.$route.params.email
-    if (this.$route.params.logged === undefined) {
-      this.logged = false
-      this.$router.push({ path: '/login' })
-    } else {
-      this.logged = this.$route.params.logged
-    }
-    this.token = this.$route.params.token
+  mounted () {
+    this.email = localStorage.getItem('email')
+    this.token = localStorage.getItem('token')
+    this.isLogged()
   }
 }
 </script>

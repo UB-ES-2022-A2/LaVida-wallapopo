@@ -105,9 +105,9 @@ export default {
           this.logged = true
           console.log('RESPONSE', res)
           localStorage.setItem('token', res.data.token)
+          localStorage.setItem('email', this.email)
           this.$router.push({
-            path: '/',
-            name: 'HelloWorld',
+            name: 'Main',
             params: {data: res.data, logged: true, email: this.email}
           })
         })

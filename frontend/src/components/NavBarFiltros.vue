@@ -26,11 +26,11 @@
             <div class="row">
               <div class="col-sm">
                 <p>Desde:</p>
-                <input v-model="price0" type="number" placeholder="0" min="0" max="10000" step="5">
+                <input v-model="price0" type="number" placeholder="0" min="0" :max="price1" step="5">
               </div>
               <div class="col-sm">
                 <p>Hasta:</p>
-                <input v-model="price1" type="number" placeholder="10000" min=0 max="10000" step="5">
+                <input v-model="price1" type="number" placeholder="10000" :min="price0" step="5">
               </div>
             </div>
             <hr/>
@@ -89,11 +89,11 @@
             <div class="row">
               <div class="col-sm">
                 <p>Desde:</p>
-                <input v-model="price0" type="number" placeholder="0" min="0" max="10000" step="5">
+                <input v-model="price0" type="number" placeholder="0" min="0" :max="price1" step="5">
               </div>
               <div class="col-sm">
                 <p>Hasta:</p>
-                <input v-model="price1" type="number" placeholder="10000" min="0" max="10000" step="5">
+                <input v-model="price1" type="number" placeholder="10000" :min="price0" step="5">
               </div>
             </div>
             <div class="text-right mt-3">
@@ -163,6 +163,9 @@ import axios from 'axios'
 import { devWeb, prodWeb } from '../store'
 
 export default {
+  props: {
+    category2: String
+  },
   data () {
     return {
       name: 'navbarfiltros',
@@ -171,7 +174,7 @@ export default {
       status_usado: false,
       cond: ['Nuevo', 'Casi nuevo', 'Usado'],
       price0: 0,
-      price1: 10000,
+      price1: 99999999,
       category: null,
       date: -1,
       prodPath: prodWeb,
@@ -217,8 +220,15 @@ export default {
         if (this.status_casi_nuevo) cond.push('Casi nuevo')
         if (this.status_nuevo) cond.push('Nuevo')
       }
+
+      let category
+      if (this.category !== null) {
+        category = this.category
+      } else {
+        category = this.category2 ? this.category2 : this.category
+      }
       const parameters = {
-        category: this.category,
+        category: category,
         conditions: cond,
         date: this.date === -1 ? 0 : this.date,
         price0: this.price0,
@@ -231,6 +241,7 @@ export default {
         })
         .catch((error) => {
           console.error(error)
+          console.log(parameters)
         })
     }
   }

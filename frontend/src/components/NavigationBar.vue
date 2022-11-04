@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-md style-navbar">
     <a class="navbar-brand h1" @click="redirectToHome()">Wallapopo</a>
-    <form class="container-fluid" role="search">
+    <form class="container-fluid" role="search" @click="goToProducts">
       <font-awesome-icon class="nav-icon" icon="fa-magnifying-glass" />
       <input
         class="form-control"
@@ -50,12 +50,12 @@ export default {
   name: 'NavigationBar',
   components: { LogoutModal },
   props: {
-    logged: Boolean,
-    email: String
+    logged: Boolean
   },
   data () {
     return {
-      token: localStorage.getItem('token')
+      token: localStorage.getItem('token'),
+      email: localStorage.getItem('email')
     }
   },
   methods: {
@@ -68,12 +68,16 @@ export default {
     },
     loggedOut () {
       localStorage.removeItem('token')
+      localStorage.removeItem('email')
     },
     goToLogin () {
       this.$router.push({name: 'Login'})
     },
     goToRegister () {
       this.$router.push({name: 'Registro'})
+    },
+    goToProducts () {
+      this.$router.push({name: 'HelloWorld'})
     },
     redirectToAddProduct () {
       this.$router.push({
@@ -90,6 +94,7 @@ export default {
   },
   computed () {
     this.token = localStorage.getItem('token')
+    this.email = localStorage.getItem('email')
     this.isLogged()
   }
 }
