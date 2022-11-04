@@ -76,8 +76,6 @@ class Accounts(Resource):
             msg['From'] = EMAIL_ADDRESS
             msg['To'] = data['email']
 
-            print("Sending confirmation email to: {}".format(msg['To']))
-
             html_message = '''
                             <p>Por favor, sigue este link para activar tu cuenta:</p>
                             <p><a href="{{confirm_url}}">{{confirm_url}}</a></p>
@@ -117,13 +115,11 @@ class Accounts(Resource):
 
     # Genera un nou token de confirmacio
     def generate_confirmation_token(self, email):
-        print("Generating confirmation token")
         from app import app
         serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
         return serializer.dumps(email, salt=app.config['SECURITY_PASSWORD_SALT'])
 
     def confirm_email(self, token):
-        print("Confirm_email")
         email = ''
         try:
             # email = self.confirm_token(token)
@@ -145,13 +141,11 @@ class Accounts(Resource):
 
         user = AccountsModel.get_by_email(email)
         if user.confirmed:
-            print("Account already confirmed!")
             return {'message': "Account already confirmed, please login"}, HTTPStatus.CONFLICT
         else:
             user.confirmed = True
             user.confirmed_on = datetime.datetime.now()
             db.session.add(user)
             db.session.commit()
-            print("Account confirmed!")
             return {'message': "Account email confirmed!"}, HTTPStatus.OK
 
