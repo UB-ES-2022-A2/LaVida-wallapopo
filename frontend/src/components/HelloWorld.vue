@@ -1,7 +1,11 @@
 <template>
-  <main class="hello">
-    <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token" />
-    <div class="container">
+  <div class="products">
+    <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token"/>
+    <NavBarFiltros  @productsList="db=$event" :category2="category"/>
+    <div class="container" style="min-height: 400px">
+      <h3 v-if="category">{{ category }}</h3>
+      <h3 v-else>Todos los productos</h3>
+      <hr class="solid">
       <div class="row">
         <div
           class="col-6 col-lg-3 celda"
@@ -10,63 +14,90 @@
         >
           <CardProduct
             :title="product.name"
+            :img="product.image"
             :price="product.price"
             :desc="product.description"
-            :productState="product.product_status"
+            :productState="product.condition"
             :date="product.date"
-
+            :link="product.id"
           />
         </div>
       </div>
     </div>
-  </main>
+    <Footer/>
+  </div>
 </template>
 
 <script>
 import NavigationBar from './NavigationBar.vue'
+import NavBarFiltros from './NavBarFiltros.vue'
 import CardProduct from './CardProduct.vue'
+import {devWeb, prodWeb} from '../store'
+import Footer from './Footer.vue'
 
 import axios from 'axios'
 export default {
   name: 'HelloWorld',
   components: {
     NavigationBar,
-    CardProduct
+    NavBarFiltros,
+    CardProduct,
+    Footer
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
       db: [],
-      prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
-      devPath: 'http://localhost:5000',
+      prodPath: prodWeb,
+      devPath: devWeb,
       logged: false,
-      token: 'g',
-      email: 'e'
+      token: localStorage.getItem('token'),
+      email: 'e',
+      category: null
     }
   },
 
   methods: {
+    isLogged () {
+      if (this.token !== null) {
+        this.logged = true
+      }
+    },
     getProducts () {
-      const path = this.prodPath + '/products'
-      axios.get(path).then((res) => {
-        console.log(res)
-        let db = res.data.Products_List
-        for (let index = 0; index < db.length; index++) {
-          this.db.push(db[index])
-        }
-      })
+      const path = this.devPath + '/products'
+      axios.get(path)
+        .then((res) => {
+          console.log(res)
+          let db = res.data.Products_List
+          for (let index = 0; index < db.length; index++) {
+            this.db.push(db[index])
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    },
+    getCategory (category) {
+      const path = this.devPath + `/filter/${category}`
+      axios.get(path)
+        .then((res) => {
+          console.log(res)
+          let db = res.data.products_list
+          for (let index = 0; index < db.length; index++) {
+            this.db.push(db[index])
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
-  },
-  created () {
-    this.getProducts()
   },
   mounted () {
-    console.log('ROUTE', this.$route)
-    if (Object.keys(this.$route.params).length !== 0) {
-      this.token = this.$route.params.data.token
-      this.logged = this.$route.params.logged
-      this.email = this.$route.params.email
-    }
+    this.category = this.$route.params.categoria
+    if (this.category) this.getCategory(this.category)
+    else this.getProducts()
+    this.email = localStorage.getItem('email')
+    this.token = localStorage.getItem('token')
+    this.isLogged()
   }
 }
 </script>
@@ -88,7 +119,6 @@ li {
 a {
   color: #42b983;
 }
-
 .celda {
   height: auto;
   align-content: center;

@@ -1,10 +1,8 @@
 <template>
   <nav class="navbar navbar-expand-md style-navbar">
-    <a class="navbar-brand h1" href="/#/">Wallapopo</a>
-    <form class="container-fluid" role="search">
-      <span>
-        <img :src="require('@/assets/icons/search.svg')" alt="search_icon"
-      /></span>
+    <a class="navbar-brand h1" @click="redirectToHome()">Wallapopo</a>
+    <form class="container-fluid" role="search" @click="goToProducts">
+      <font-awesome-icon class="nav-icon" icon="fa-magnifying-glass" />
       <input
         class="form-control"
         type="search"
@@ -12,66 +10,92 @@
         aria-label="Search"
       />
     </form>
-    <div v-if="!logged" class="container">
-      <p class="btn btn-primary">
-        <a href="/#/login">Login</a>
-      </p>
-      <p v-if="!logged"  class="btn btn-secondary ">
-        <a href="/#/register">Register</a>
-      </p>
+    <div v-if="!logged" class="container buttons-session">
+      <div v-on:click="goToLogin" class="btn btn-primary">
+        Login
+      </div>
+      <div v-if="!logged" v-on:click="goToRegister"  class="btn btn-secondary ">
+        Register
+      </div>
     </div>
     <div v-else class="container">
-      <div class="btn"><img src="@/assets/icons/favorite_fill.svg" alt="Favorites"/></div>
-      <div class="btn"><img src="@/assets/icons/mail.svg" alt="Mail"/></div>
+      <div class="btn">
+        <font-awesome-icon class="nav-icon" icon="fa-heart" />
+        </div>
+      <div class="btn"><font-awesome-icon class="nav-icon" icon="fa-envelope" /></div>
 
       <div class="dropdown-dark my-3 text-right">
-        <img src="@/assets/icons/account_circle.svg" alt="User icon" />
+        <div class="btn">
+        <font-awesome-icon class="nav-icon" icon="fa-user-circle" /></div>
         <b-dropdown id="dropdown-1" text="Usuario" class="m-md-2" variant="dark">
-          <b-dropdown-item @click="logout()">Cerrar Sesión</b-dropdown-item>
+          <b-dropdown-item v-b-modal.modal-1 v-on:click="loggedOut()">Cerrar Sesión</b-dropdown-item>
         </b-dropdown>
+        <LogoutModal @loggedStatus="logged=$event" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
       </div>
 
-      <div class="btn">
-        <img src="@/assets/icons/add_circle.svg" alt="User icon" /> Agregar producto
+      <div class="btn btn-product" @click="redirectToAddProduct()">
+        <font-awesome-icon class="nav-icon" icon="fa-circle-plus" />
+        Agregar producto
+
       </div>
     </div>
   </nav>
 </template>
 
 <script>
-import axios from 'axios'
+
+import LogoutModal from './LogoutModal'
 
 export default {
   name: 'NavigationBar',
-  prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
-  devPath: 'http://localhost:5000',
+  components: { LogoutModal },
   props: {
-    logged: Boolean,
-    email: String,
-    token: String
+    logged: Boolean
   },
   data () {
     return {
-
+      token: localStorage.getItem('token'),
+      email: localStorage.getItem('email')
     }
   },
   methods: {
-    logout () {
-      const path = this.prodPath + '/logout/' + this.email
-      axios.post(path, {}, {
-        auth: {username: this.token}
+    isLogged () {
+      if (this.token !== null) {
+        this.logged = true
+      } else {
+        this.logged = false
+      }
+    },
+    loggedOut () {
+      localStorage.removeItem('token')
+      localStorage.removeItem('email')
+    },
+    goToLogin () {
+      this.$router.push({name: 'Login'})
+    },
+    goToRegister () {
+      this.$router.push({name: 'Registro'})
+    },
+    goToProducts () {
+      this.$router.push({name: 'HelloWorld'})
+    },
+    redirectToAddProduct () {
+      this.$router.push({
+        name: 'AddProduct',
+        params: {logged: this.logged, email: this.email, token: this.token}
       })
-        .then(() => {
-          console.log('logged out')
-          this.logged = false
-          this.token = 'g'
-          this.email = 'e'
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-      this.$router.push({ path: '/' })
+    },
+    redirectToHome () {
+      this.$router.push({
+        name: 'Main',
+        params: {logged: this.logged, email: this.email, token: this.token}
+      })
     }
+  },
+  computed () {
+    this.token = localStorage.getItem('token')
+    this.email = localStorage.getItem('email')
+    this.isLogged()
   }
 }
 </script>
@@ -98,7 +122,22 @@ a {
 .container{
   justify-content: end;
 }
-.btn{
-  margin-left: 2px;
+.buttons-session div {
+  margin-left: 3px;
 }
+
+.nav-icon{
+  font-size: 33px;
+  margin-right: 3px;
+  transition: 0.3s;
+}
+.nav-icon:hover{
+  font-size: 35px;
+  color: rgb(59, 187, 170);
+}
+.btn-product{
+  display: contents;
+  justify-content: center;
+}
+
 </style>

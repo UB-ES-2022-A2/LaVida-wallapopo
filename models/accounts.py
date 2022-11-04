@@ -29,14 +29,20 @@ class AccountsModel(db.Model):
     is_admin = db.Column(db.Integer, nullable=False)
     current_token = db.Column(db.String(500), nullable=True, server_default=None)
 
+    # 0 not confirmed email, 1 confirmed email
+    confirmed = db.Column(db.Boolean, nullable=False, default=False)
+    confirmed_on = db.Column(db.DateTime, nullable=True)
 
     # products owned by user
     products = db.relationship('ProductsModel', backref='products', lazy=True)
 
-    def __init__(self, email, username, is_admin=0):
+    def __init__(self, email, username, confirmed, confirmed_on=None, is_admin=0):
         self.email = email
         self.is_admin = is_admin
         self.username = username
+
+        self.confirmed = confirmed
+        self.confirmed_on = confirmed_on
 
     def json(self):
         return {'email': self.email,
@@ -44,10 +50,11 @@ class AccountsModel(db.Model):
                 'name': self.name,
                 'surname': self.surname,
                 'birthday': self.birthday,
-                'is_admin': self.is_admin
+                'is_admin': self.is_admin,
+                'confirmed': self.confirmed
                 }
 
-    def generate_auth_token(self, expiration=1200):
+    def generate_auth_token(self, expiration=3600):
         tk = encode(
             {"email": self.email, "exp": int(time.time()) + expiration},
             secret_key,
@@ -100,7 +107,7 @@ class AccountsModel(db.Model):
         return cls.query.filter(cls.username == username).first()
 
     def hash_password(self, password):
-        self.password = pwd_context.encrypt(password)
+        self.password = pwd_context.hash(password)
 
     def verify_password_(self, password):
         return pwd_context.verify(password, self.password)

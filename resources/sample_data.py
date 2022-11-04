@@ -5,9 +5,9 @@ products = [
      'category': "Niños y Bebés",  # Future impl: make a list of different categories for a single product cat:[]
      'description': "oso de peluche viejo pero en buen estado",
      'date': "04-oct-2022",  # or month in number format.
-     'product_status': "Nuevo",
+     'condition': "Nuevo",
      'status': "En venta",
-     'image': "oso.jpeg",  # same as categories imgs:[]
+     'image': "Oso.jpeg",  # same as categories imgs:[]
      'user_id': ""
      # location:¿??
      },
@@ -17,9 +17,9 @@ products = [
      'category': "Otros",  # Future impl: make a list of different categories for a single product cat:[]
      'description': "juego de parchis edición retro",
      'date': "24-apr-2021",  # or in number format,
-     'product_status': "Casi nuevo",
+     'condition': "Casi nuevo",
      'status': "En venta",
-     'image': "parchis.jpeg",  # same as categories
+     'image': "Parchis.jpeg",  # same as categories
      'user_id': ""
      # location:¿?
      },
@@ -29,9 +29,9 @@ products = [
      'category': "Coches",  # Future impl: make a list of different categories for a single product cat:[]
      'description': "seat ibiza del año 2006, tira como el primer día, asientos de atrás quitados y el aire acondicionado no funciona",
      'date': "09-dic-2020",  # or in number format,
-     'product_status': "Usado",
+     'condition': "Usado",
      'status': "En venta",
-     'image': "seat-ibiza.jpeg",
+     'image': "Seat.jpeg",
      'user_id': ""
      # location:¿?
      },
@@ -41,9 +41,9 @@ products = [
      'category': "Hogar y Jardín",  # Future impl: make a list of different categories for a single product cat:[]
      'description': "vajilla de platos de mi abuela, se han utilizado un par de veces",
      'date': "10-oct-2022",  # or in number format,
-     'product_status': "Casi nuevo",
+     'condition': "Casi nuevo",
      'status': "En venta",
-     'image': "vajilla.jpg",  # same as categories imgs:[]
+     'image': "Vajilla.jpeg",  # same as categories imgs:[]
      'user_id': ""
      # location:¿?
      }
@@ -51,24 +51,34 @@ products = [
 
 accounts = [
  {
+  'email': "admin123@gmail.com",
+  'password': "admin123@gmail.com",
+  'username': "The God",
+  'confirmed': True
+ },
+ {
   'email': "pepe432@gmail.com",
   'password': "pepe123,.",
-  'username': 'pepeman'
+  'username': 'pepeman',
+  'confirmed': True
  },
  {
   'email': "juan35@hotmail.com",
   'password': "quality_2022!",
-  'username': 'juancito'
+  'username': 'juancito',
+  'confirmed': True
  },
  {
   'email': "killer23@gmail.com",
   'password': "magic_p443.",
-  'username': 'the killer god'
+  'username': 'the killer god',
+  'confirmed': True
  },
  {
   'email': "joseramon33@hotmail.com",
   'password': "ramonaPlata22,",
-  'username': 'jose marrano'
+  'username': 'jose marrano',
+  'confirmed': True
  }
 ]
 

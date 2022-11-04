@@ -66,6 +66,7 @@
 <script>
 // import db from '@/hardDB.js'
 import axios from 'axios'
+import { devWeb, prodWeb } from '../store'
 export default {
   data () {
     return {
@@ -80,8 +81,8 @@ export default {
       validEmail: false,
       validName: false,
       password2: '',
-      prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
-      devPath: 'http://localhost:5000',
+      prodPath: prodWeb,
+      devPath: devWeb,
       error: '',
       addUserForm: {
         username: null,
