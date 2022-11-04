@@ -30,9 +30,7 @@
           <p>Estado: {{ productState }}</p>
         </div>
         <div class="row card-text">
-          <p>
-            {{ desc }}
-          </p>
+          {{ desc }}
         </div>
       </div>
     </div>
@@ -86,10 +84,7 @@ export default {
   height: 100px;
   color: rgb(134, 134, 139);
   display: block;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 .row {
   height: 25px;

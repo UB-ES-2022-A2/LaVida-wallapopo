@@ -54,7 +54,7 @@ class AccountsModel(db.Model):
                 'confirmed': self.confirmed
                 }
 
-    def generate_auth_token(self, expiration=1200):
+    def generate_auth_token(self, expiration=3600):
         tk = encode(
             {"email": self.email, "exp": int(time.time()) + expiration},
             secret_key,

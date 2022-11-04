@@ -67,8 +67,9 @@ class Accounts(Resource):
             # print("URL2: ", confirm_url2)
             # TODO: cambiar para coger url en funcion del entorno (local o cloud)
             # 8080 for dev
-            confirm_url = "http://localhost:5000/#/emailConfirmation/validation_token=" + email_token
-            print("URL: ", confirm_url)
+            # export const devWeb = 'http://127.0.0.1:5000/'
+            # export const prodWeb = 'https://firm-affinity-366616.ew.r.appspot.com/'
+            confirm_url = "https://firm-affinity-366616.ew.r.appspot.com/#/emailConfirmation/validation_token=" + email_token
 
             msg = EmailMessage()
             msg['Subject'] = 'Test python email'

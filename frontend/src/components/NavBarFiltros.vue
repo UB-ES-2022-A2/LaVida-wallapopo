@@ -163,6 +163,9 @@ import axios from 'axios'
 import { devWeb, prodWeb } from '../store'
 
 export default {
+  props: {
+    category2: String
+  },
   data () {
     return {
       name: 'navbarfiltros',
@@ -218,7 +221,7 @@ export default {
         if (this.status_nuevo) cond.push('Nuevo')
       }
       const parameters = {
-        category: this.category,
+        category: this.category2 ? this.category2 : this.category,
         conditions: cond,
         date: this.date === -1 ? 0 : this.date,
         price0: this.price0,
@@ -231,6 +234,7 @@ export default {
         })
         .catch((error) => {
           console.error(error)
+          console.log(parameters)
         })
     }
   }

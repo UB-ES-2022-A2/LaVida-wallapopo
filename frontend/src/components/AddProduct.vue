@@ -276,7 +276,6 @@ export default {
   mounted () {
     this.email = localStorage.getItem('email')
     this.token = localStorage.getItem('token')
-    alert(this.email)
     this.isLogged()
   }
 }

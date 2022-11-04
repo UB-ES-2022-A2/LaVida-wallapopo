@@ -1,7 +1,7 @@
 <template>
   <div class="products">
-    <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token" />
-    <NavBarFiltros  @productsList="db=$event"/>
+    <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token"/>
+    <NavBarFiltros  @productsList="db=$event" :category2="category"/>
     <div class="container" style="min-height: 400px">
       <h3 v-if="category">{{ category }}</h3>
       <h3 v-else>Todos los productos</h3>
@@ -51,7 +51,8 @@ export default {
       devPath: devWeb,
       logged: false,
       token: localStorage.getItem('token'),
-      email: 'e'
+      email: 'e',
+      category: null
     }
   },
 

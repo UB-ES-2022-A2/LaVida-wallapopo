@@ -21,7 +21,7 @@
 
 <script>
 import NavigationBar from './NavigationBar.vue'
-/* import {pathWeb} from '../store' */
+import {prodWeb, devWeb} from '../store'
 import Footer from './Footer.vue'
 
 export default {
@@ -34,8 +34,8 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       db: [],
-      prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
-      devPath: 'http://localhost:5000',
+      prodPath: prodWeb,
+      devPath: devWeb,
       logged: false,
       token: 'g',
       email: 'e',
