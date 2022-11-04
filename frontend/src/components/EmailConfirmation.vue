@@ -69,7 +69,7 @@ export default {
     var last = res[res.length - 1]
     var valToken = last.slice(17)
     console.log(valToken)
-    axios.post(this.devPath + '/validation', {
+    axios.post(this.prodPath + '/validation', {
       validation_token: valToken
     }).then((response) => {
       console.log(response)
