@@ -5,6 +5,7 @@ import Login from '@/components/Login'
 import Registro from '@/components/Registro'
 import ForgotPassword from '@/components/ForgotPassword'
 import AddProduct from '@/components/AddProduct'
+import UserProfile from '@/components/UserProfile'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/catalog/add',
       name: 'AddProduct',
       component: AddProduct
+    },
+    {
+      path: '/profile',
+      name: 'UserProfile',
+      component: UserProfile
     }
   ]
 })
