@@ -25,7 +25,9 @@
       <div class="btn"><img src="@/assets/icons/mail.svg" alt="Mail"/></div>
 
       <div class="dropdown-dark my-3 text-right">
-        <img src="@/assets/icons/account_circle.svg" alt="User icon" />
+        <button class="btn" @click="redirectToUserProfile()">
+          <img src="@/assets/icons/account_circle.svg" alt="User icon" /> Tú
+        </button>
         <b-dropdown id="dropdown-1" text="Usuario" class="m-md-2" variant="dark">
           <b-dropdown-item v-b-modal.modal-1>Cerrar Sesión</b-dropdown-item>
         </b-dropdown>
@@ -68,6 +70,12 @@ export default {
         name: 'HelloWorld',
         params: {logged: this.logged, email: this.email, token: this.token}
       })
+    },
+    redirectToUserProfile () {
+      this.$router.push({
+        name: 'UserProfile',
+        params: {logged: this.logged, email: this.email, token: this.token}
+      })
     }
   }
 }
@@ -83,6 +91,7 @@ export default {
   letter-spacing: 5px;
 
 }
+
 a {
   color: inherit;
   text-decoration: inherit;
@@ -90,12 +99,13 @@ a {
 }
 .navbar{
   border-bottom: 1px solid rgb(134, 134, 139);
-  margin-bottom:10px ;
+  margin-bottom:10px;
 }
 .container{
   justify-content: end;
 }
 .btn{
   margin-left: 2px;
+  background-color: white;
 }
 </style>
