@@ -8,10 +8,10 @@
             <div>
               <b-card-text>
                 <div class="form-label-group">
-                  <label for="inputEmail2">Correo</label>
+                  <label for="login_input_emailField">Correo</label>
                   <input
                     type="email"
-                    id="inputEmail2"
+                    id="login_input_emailField"
                     class="form-control"
                     placeholder="Introducir correo"
                     required
@@ -21,10 +21,10 @@
                 </div>
                 <div class="form-label-group">
                   <br />
-                  <label for="inputPassword2">Contraseña</label>
+                  <label for="login_input_pwdField">Contraseña</label>
                   <input
                     type="password"
-                    id="inputPassword2"
+                    id="login_input_pwdField"
                     class="form-control"
                     placeholder="Introducir contraseña"
                     required
@@ -41,6 +41,7 @@
                 >
               </div>
               <button
+              id="login_button_enter"
                 class="btn btn-primary btn-lg my-2"
                 @click="checkLogin()"
                 style="width: 100%"
