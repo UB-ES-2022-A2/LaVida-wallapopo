@@ -33,7 +33,8 @@ import {
   faCoins,
   faTrowelBricks,
   faSeedling,
-  faEllipsis
+  faEllipsis,
+  faBars
 } from '@fortawesome/free-solid-svg-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -64,7 +65,8 @@ library.add(
   faCoins,
   faTrowelBricks,
   faSeedling,
-  faEllipsis
+  faEllipsis,
+  faBars
 )
 
 Vue.use(BootstrapVue)
