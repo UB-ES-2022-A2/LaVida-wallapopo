@@ -1,19 +1,19 @@
 <template>
   <div id="navbarfiltros">
       <button type="button" class="btn btn-outline-dark mx-1" v-b-toggle.sidebar-backdrop>Filtros</button>
-      <b-button variant="info" v-if="chip1" @click="chip1 = false">
+      <b-button variant="info" v-if="chip1" @click="checkChipCategories">
         Categorias
         <font-awesome-icon icon="fa-circle-xmark"/>
       </b-button>
-      <b-button variant="info" v-if="chip2" @click="chip2 = false">
+      <b-button variant="info" v-if="chip2" @click="checkChipPrice">
         Precio
         <font-awesome-icon icon="fa-circle-xmark"/>
       </b-button>
-      <b-button variant="info" v-if="chip3" @click="chip3 = false">
+      <b-button variant="info" v-if="chip3" @click="checkChipStat">
         Estado
         <font-awesome-icon icon="fa-circle-xmark"/>
       </b-button>
-      <b-button variant="info" v-if="chip4" @click="chip4 = false">
+      <b-button variant="info" v-if="chip4" @click="checkChipTime">
         Tiempo
         <font-awesome-icon icon="fa-circle-xmark"/>
       </b-button>
@@ -22,7 +22,6 @@
           id="sidebar-backdrop"
           title="Filtros"
           bg-variant="white"
-          :backdrop-variant="dark"
           backdrop
           shadow
         >
@@ -157,8 +156,8 @@ export default {
         category: category,
         conditions: cond,
         date: this.date === -1 ? 0 : this.date,
-        price0: this.price0,
-        price1: this.price1
+        price0: parseInt(this.price0),
+        price1: parseInt(this.price1)
       }
       axios.post(path, parameters)
         .then((res) => {
@@ -174,7 +173,7 @@ export default {
       if (this.category !== null) {
         this.chip1 = true
       }
-      if (this.price0 !== 0 && this.price1 !== 99999999) {
+      if (parseInt(this.price0) !== 0 || parseInt(this.price1) !== 99999999) {
         this.chip2 = true
       }
       if (this.status_usado || this.status_nuevo || this.status_casi_nuevo) {
@@ -183,6 +182,35 @@ export default {
       if (this.date !== -1) {
         this.chip4 = true
       }
+      if (parseInt(this.price0) === 0 && parseInt(this.price1) === 99999999) {
+        this.chip2 = false
+      }
+      if (!this.status_usado && !this.status_nuevo && !this.status_casi_nuevo) {
+        this.chip3 = false
+      }
+    },
+    checkChipCategories () {
+      this.chip1 = false
+      this.category = null
+      this.applyFilter()
+    },
+    checkChipPrice () {
+      this.chip2 = false
+      this.price0 = 0
+      this.price1 = 99999999
+      this.applyFilter()
+    },
+    checkChipStat () {
+      this.chip3 = false
+      this.status_nuevo = false
+      this.status_casi_nuevo = false
+      this.status_usado = false
+      this.applyFilter()
+    },
+    checkChipTime () {
+      this.chip4 = false
+      this.date = -1
+      this.applyFilter()
     }
   }
 }
