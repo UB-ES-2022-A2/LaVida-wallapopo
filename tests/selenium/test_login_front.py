@@ -23,6 +23,10 @@ def set_webpage(url):
     return driver.get(url)
 
 
+def wait_login(driver):
+    return driver.find_element(By.ID, 'login_div_loginExitoso')
+
+
 def test_make_a_correct_login_filling_with_real_account():
     options = Options()
     # options.add_argument("--window-size=400,800") # small screen
@@ -33,18 +37,19 @@ def test_make_a_correct_login_filling_with_real_account():
     pwd_field = driver.find_element(By.ID, 'login_input_pwdField')
     enter_button = driver.find_element(By.ID, 'login_button_enter')
 
-
     # Fill the fields to make login
-
 
     email_field.send_keys('admin123@gmail.com')
     pwd_field.send_keys('admin123@gmail.com')
 
     # Click "enter" to login
     enter_button.click()
-    g = host2 + '#/'
-    print("JAJAJ",driver.current_url)
-    assert driver.current_url is g
+    login_exitoso = WebDriverWait(driver, timeout=2).until(lambda d: d.find_element(By.ID, "navigationBar_div_addProduct"))
+
+    # Si el login es exitoso se hara display a un nuevo elemento
+
+    assert login_exitoso is not None
+
 
 driver = set_webpage(login_page)
 

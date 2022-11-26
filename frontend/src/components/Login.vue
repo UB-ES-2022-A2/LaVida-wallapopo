@@ -67,6 +67,9 @@
         </div>
       </div>
     </div>
+    <div v-if='logged' id='login_div_loginExitoso'>
+      Login Exitoso
+    </div>
   </div>
 </template>
 
