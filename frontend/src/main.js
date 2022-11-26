@@ -34,7 +34,8 @@ import {
   faTrowelBricks,
   faSeedling,
   faEllipsis,
-  faBars
+  faBars,
+  faCircleXmark
 } from '@fortawesome/free-solid-svg-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -66,7 +67,8 @@ library.add(
   faTrowelBricks,
   faSeedling,
   faEllipsis,
-  faBars
+  faBars,
+  faCircleXmark
 )
 
 Vue.use(BootstrapVue)

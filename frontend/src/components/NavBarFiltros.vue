@@ -1,13 +1,22 @@
 <template>
   <div id="navbarfiltros">
-      <p>
-        <button type="button" class="btn btn-outline-dark mx-1" v-b-toggle.sidebar-backdrop>Filtros</button>
-        <button type="button" class="btn btn-outline-dark mr-1" v-b-toggle.collapse-1>Categorías</button>
-        <button type="button" class="btn btn-outline-dark mr-1" v-b-toggle.collapse-2>Precio</button>
-        <button type="button" class="btn btn-outline-dark mr-1" v-b-toggle.collapse-3>Estado del Producto</button>
-        <button type="button" class="btn btn-outline-dark mr-1" v-b-toggle.collapse-4>Ubicación</button>
-        <button type="button" class="btn btn-outline-dark" v-b-toggle.collapse-5>Tiempo</button>
-      </p>
+      <button type="button" class="btn btn-outline-dark mx-1" v-b-toggle.sidebar-backdrop>Filtros</button>
+      <b-button variant="info" v-if="chip1" @click="chip1 = false">
+        Categorias
+        <font-awesome-icon icon="fa-circle-xmark"/>
+      </b-button>
+      <b-button variant="info" v-if="chip2" @click="chip2 = false">
+        Precio
+        <font-awesome-icon icon="fa-circle-xmark"/>
+      </b-button>
+      <b-button variant="info" v-if="chip3" @click="chip3 = false">
+        Estado
+        <font-awesome-icon icon="fa-circle-xmark"/>
+      </b-button>
+      <b-button variant="info" v-if="chip4" @click="chip4 = false">
+        Tiempo
+        <font-awesome-icon icon="fa-circle-xmark"/>
+      </b-button>
       <div>
         <b-sidebar
           id="sidebar-backdrop"
@@ -57,104 +66,16 @@
               Usado
             </b-form-checkbox>
             <hr/>
-            <p><strong>¿Dónde?</strong></p>
-            <b-form-group label="Escoge una zona:" label-for="bg-zonas" label-cols-sm="4" label-cols-lg="12">
-              <b-form-select id="bg-zonas" v-model="zonas" :options="zonas"></b-form-select>
-            </b-form-group>
-            <hr/>
             <p><strong>¿Desde cuándo?</strong></p>
             <b-form-select v-model="date" :options="tiempo"></b-form-select>
             <hr/>
             <div class="text-right mt-3">
               <button type="button" class="btn btn-secondary" v-b-toggle.sidebar-backdrop>Cancelar</button>
-              <button type="button" class="btn btn-success" @click="applyFilter">Aplicar</button>
+              <button type="button" class="btn btn-success" v-b-toggle.sidebar-backdrop @click="applyFilter">Aplicar</button>
             </div>
           </div>
         </b-sidebar>
       </div>
-      <nav class="navbar navbar-expand-sm">
-        <b-collapse id="collapse-1" class="mt-2">
-          <b-card>
-            <p><strong>¿Qué categoría buscas?</strong></p>
-            <b-form-select v-model="category" :options="categorias"></b-form-select>
-            <div class="text-right mt-3">
-              <button type="button" class="btn btn-secondary" v-b-toggle.collapse-1>Cancelar</button>
-              <button type="button" class="btn btn-success" @click="applyFilter">Aplicar</button>
-            </div>
-          </b-card>
-        </b-collapse>
-        <b-collapse id="collapse-2" class="mt-2">
-          <b-card>
-            <p><strong>¿Cuánto quieres pagar?</strong></p>
-            <div class="row">
-              <div class="col-sm">
-                <p>Desde:</p>
-                <input v-model="price0" type="number" placeholder="0" min="0" :max="price1" step="5">
-              </div>
-              <div class="col-sm">
-                <p>Hasta:</p>
-                <input v-model="price1" type="number" placeholder="10000" :min="price0" step="5">
-              </div>
-            </div>
-            <div class="text-right mt-3">
-              <button type="button" class="btn btn-secondary" v-b-toggle.collapse-2>Cancelar</button>
-              <button type="button" class="btn btn-success" @click="applyFilter">Aplicar</button>
-            </div>
-          </b-card>
-        </b-collapse>
-        <b-collapse id="collapse-3" class="mt-2">
-          <b-card>
-            <p><strong>¿Qué estado buscas?</strong></p>
-            <b-form-checkbox
-              id="checkbox-1"
-              v-model="status_nuevo"
-              name="checkbox-1"
-            >
-              Nuevo
-            </b-form-checkbox>
-            <b-form-checkbox
-              id="checkbox-2"
-              v-model="status_casi_nuevo"
-              name="checkbox-2"
-            >
-              Casi nuevo
-            </b-form-checkbox>
-            <b-form-checkbox
-              id="checkbox-3"
-              v-model="status_usado"
-              name="checkbox-3"
-            >
-              Usado
-            </b-form-checkbox>
-            <div class="text-right mt-3">
-              <button type="button" class="btn btn-secondary" v-b-toggle.collapse-3>Cancelar</button>
-              <button type="button" class="btn btn-success" @click="applyFilter">Aplicar</button>
-            </div>
-          </b-card>
-        </b-collapse>
-        <b-collapse id="collapse-4" class="mt-2">
-          <b-card>
-            <p><strong>¿Dónde?</strong></p>
-            <b-form-group label="Escoge una zona:" label-for="bg-zonas" label-cols-sm="4" label-cols-lg="12">
-              <b-form-select id="bg-zonas" v-model="zonas" :options="zonas"></b-form-select>
-            </b-form-group>
-            <div class="text-right mt-3">
-              <button type="button" class="btn btn-secondary" v-b-toggle.collapse-4>Cancelar</button>
-              <button type="button" class="btn btn-success" @click="applyFilter">Aplicar</button>
-            </div>
-          </b-card>
-        </b-collapse>
-        <b-collapse id="collapse-5" class="mt-2">
-          <b-card>
-            <p><strong>¿Desde cuándo?</strong></p>
-            <b-form-select v-model="date" :options="tiempo"></b-form-select>
-            <div class="text-right mt-3">
-              <button type="button" class="btn btn-secondary" v-b-toggle.collapse-5>Cancelar</button>
-              <button :disabled="date===-1" type="button" class="btn btn-success" @click="applyFilter">Aplicar</button>
-            </div>
-          </b-card>
-        </b-collapse>
-      </nav>
   </div>
 </template>
 
@@ -177,6 +98,10 @@ export default {
       price1: 99999999,
       category: null,
       date: -1,
+      chip1: false,
+      chip2: false,
+      chip3: false,
+      chip4: false,
       prodPath: prodWeb,
       devPath: devWeb,
       zonas: null,
@@ -211,6 +136,7 @@ export default {
   },
   methods: {
     applyFilter () {
+      this.checkChips()
       const path = devWeb + `/filter`
       let cond = []
       if (!this.status_usado && !this.status_nuevo && !this.status_casi_nuevo) {
@@ -243,6 +169,20 @@ export default {
           console.error(error)
           console.log(parameters)
         })
+    },
+    checkChips () {
+      if (this.category !== null) {
+        this.chip1 = true
+      }
+      if (this.price0 !== 0 && this.price1 !== 99999999) {
+        this.chip2 = true
+      }
+      if (this.status_usado || this.status_nuevo || this.status_casi_nuevo) {
+        this.chip3 = true
+      }
+      if (this.date !== -1) {
+        this.chip4 = true
+      }
     }
   }
 }
