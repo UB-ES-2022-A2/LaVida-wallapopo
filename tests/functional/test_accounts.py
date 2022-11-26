@@ -1,7 +1,7 @@
 import requests
 from requests.auth import HTTPBasicAuth
 
-url = "http://localhost:5000/"
+url = "http://127.0.0.1:5000/"
 
 
 def test_accounts_get(client):
@@ -58,7 +58,6 @@ def test_accounts_post(_app, client):
         r = requests.post(url + "API/account", json=json)
         assert r.status_code == 500
         assert r.json() == {'message': 'Error while creating new account'}
-
 
         # Test invalid register with already existing email
         json = {'username': 'pepeman', 'email': 'pepe432@gmail.com', 'password': 'pepe123,.'}
