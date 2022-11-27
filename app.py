@@ -24,7 +24,7 @@ app = Flask(__name__)
 #     template_folder="frontend/dist"
 # )
 
-# Set default environment as developement
+# Set default environment as development, change to 'testing' before running tests
 environment = config['development']
 
 # If it's deployed change environment to production

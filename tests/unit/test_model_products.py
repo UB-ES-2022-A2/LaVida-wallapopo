@@ -1,7 +1,6 @@
 import pytest
 
 import datetime
-from app import app
 from models.products import ProductsModel
 
 
@@ -15,14 +14,14 @@ def test_create_product():
     assert p.condition == "Casi nuevo"
 
 
-def test_json(switch_product):
-    with app.app_context():
+def test_json(_app, switch_product):
+    with _app.app_context():
         date = datetime.datetime.now()
         switch_product.date = date
         expected = {
                     'category': 'Consolas y Videojuegos',
                     'condition': 'Casi nuevo',
-                    'date': '03-Nov-2022',
+                    'date': date.date().strftime("%d-%b-%Y"),
                     'description': 'Apenas la uso y necesito dinero',
                     'id': 99,
                     'image': None,
@@ -36,28 +35,27 @@ def test_json(switch_product):
         assert switch_product.json() == expected
 
 
-def test_get_all():
-    with app.app_context():
+def test_get_all(_app):
+    with _app.app_context():
         result = len(ProductsModel.get_all())
         assert result == 4
 
-"""
-def test_get_all_by_user(pepe_products):
-    with app.app_context():
+
+def test_get_all_by_user(_app, pepe_products):
+    with _app.app_context():
         result = ProductsModel.get_all_by_user("pepe432@gmail.com")
-
         assert len(result) == len(pepe_products)
-"""
 
-def test_get_by_id():
-    with app.app_context():
+
+def test_get_by_id(_app):
+    with _app.app_context():
         result = ProductsModel.get_by_id(1)
 
         assert str(result) == "<ProductsModel 1>"
 
 
-def test_save_product(switch_product):
-    with app.app_context():
+def test_save_product(_app, switch_product):
+    with _app.app_context():
         previous = len(ProductsModel.get_all())
         ProductsModel.save_to_db(switch_product)
         result = len(ProductsModel.get_all())
@@ -66,15 +64,15 @@ def test_save_product(switch_product):
         assert result == 5
 
 
-def test_delete_product():
-    with app.app_context():
+def test_delete_product(_app):
+    with _app.app_context():
         previous = len(ProductsModel.get_all())
-        user = ProductsModel.get_by_id(99)
+        user = ProductsModel.get_by_id(1)
         ProductsModel.delete_from_db(user)
         result = len(ProductsModel.get_all())
 
-        assert previous == 5
-        assert result == 4
+        assert previous == 4
+        assert result == 3
 
 
 

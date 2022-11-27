@@ -1,12 +1,11 @@
-from app import app
 import requests
 from requests.auth import HTTPBasicAuth
 
 url = "http://localhost:5000/"
 
 
-def test_accounts_get():
-    with app.test_client():
+def test_accounts_get(client):
+    with client:
         # Test a valid login
         json = {'email': 'pepe432@gmail.com', 'password': 'pepe123,.'}
         login = requests.post(url + "API/login", json=json)
@@ -44,47 +43,44 @@ def test_accounts_get():
         assert r.json() == expected
 
 
-def test_accounts_post():
-    # Test invalid register with missing email
-    json = {'username': 'dummyname', 'email': None, 'password': 'dummy12.'}
-    account = requests.post(url + "API/account", json=json)
-    assert account.status_code == 500
-    assert account.json() == {'message': 'Internal Server Error'}
+def test_accounts_post(_app, client):
+    with _app.app_context():
+        # Test invalid register with missing data
+        json = {'username': 'dummyname', 'email': None, 'password': 'dummy12.'}
+        r = requests.post(url + "API/account", json=json)
+        assert r.status_code == 500
 
-    # Test invalid register with missing username
-    json = {'username': None, 'email': 'dummy@gmail.com', 'password': 'dummy12.'}
-    account = requests.post(url + "API/account", json=json)
-    assert account.status_code == 500
-    assert account.json() == {'message': 'Error while creating new account'}
+        json = {'username': 'dummyname', 'email': 'dummy@gmail.com', 'password': None}
+        r = requests.post(url + "API/account", json=json)
+        assert r.status_code == 500
 
-    # Test invalid register with missing password
-    json = {'username': 'dummyname', 'email': 'dummy@gmail.com', 'password': None}
-    account = requests.post(url + "API/account", json=json)
-    assert account.status_code == 500
-    assert account.json() == {'message': 'Internal Server Error'}
+        json = {'username': None, 'email': 'dummy@gmail.com', 'password': 'dummy12.'}
+        r = requests.post(url + "API/account", json=json)
+        assert r.status_code == 500
+        assert r.json() == {'message': 'Error while creating new account'}
 
-    # Test invalid register with already existing email
-    json = {'username': 'pepeman', 'email': 'pepe432@gmail.com', 'password': 'pepe123,.'}
-    account = requests.post(url + "API/account", json=json)
-    assert account.status_code == 409
-    assert account.json() == {'message': 'Account with email [pepe432@gmail.com] already exist'}
 
-    # Test valid register
-    # TODO: Add test for the registration of a new account that can be repeated (do not save in the DB permanently)
-    json = {'username': 'dummyname', 'email': 'dummy@gmail.com', 'password': 'dummy12.'}
-    with app.test_client():
-        account = requests.post(url + "API/account", json=json)
-        expected = {
-                    'birthday': None,
-                    'confirmed': False,
-                    'email': 'dummy@gmail.com',
-                    'is_admin': 0,
-                    'name': None,
-                    'surname': None,
-                    'username': 'dummyname'
-                    }
+        # Test invalid register with already existing email
+        json = {'username': 'pepeman', 'email': 'pepe432@gmail.com', 'password': 'pepe123,.'}
+        r = requests.post(url + "API/account", json=json)
+        assert r.status_code == 409
+        assert r.json() == {'message': 'Account with email [pepe432@gmail.com] already exist'}
 
-        assert account.status_code == 200
-        assert account.json() == expected
+        # Test valid register
+        json = {'username': 'dummyname', 'email': 'dummy@gmail.com', 'password': 'dummy12.'}
+        with client:
+            r = requests.post(url + "API/account", json=json)
+            expected = {
+                        'birthday': None,
+                        'confirmed': False,
+                        'email': 'dummy@gmail.com',
+                        'is_admin': 0,
+                        'name': None,
+                        'surname': None,
+                        'username': 'dummyname'
+                        }
+
+            assert r.status_code == 200
+            assert r.json() == expected
 
 
