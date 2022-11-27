@@ -3,10 +3,10 @@ name: Merge Dev with Prod
 on:
   push:
     branches:
-      - Development-Test
+      - Developement-Test
   pull_request:
     branches:
-      - Development-Test
+      - Developement-Test
 jobs:
   build:
     runs-on: ubuntu-latest
