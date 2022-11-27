@@ -38,7 +38,7 @@ class Accounts(Resource):
             data = self.get_data()
             # Check if the email has a valid email format
             if EMAIL_REGEX.match(data['email']) is None:
-                return {'Email [{}] is not a valid format'.format(data['email'])}, \
+                return {'message': 'Email [{}] is not a valid format'.format(data['email'])}, \
                        HTTPStatus.BAD_REQUEST
             account = AccountsModel.get_by_email(data['email'])
             account2 = AccountsModel.get_by_username(data['username'])

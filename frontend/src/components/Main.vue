@@ -40,6 +40,7 @@ export default {
       token: 'g',
       email: 'e',
       categories_list: [
+        'Todas las categorias',
         'Coches',
         'Motos',
         'Motor y Accesorios',
@@ -60,6 +61,7 @@ export default {
         'Otros'
       ],
       icons_list: [
+        'fa-bars',
         'fa-car',
         'fa-motorcycle',
         'fa-helmet-safety',
