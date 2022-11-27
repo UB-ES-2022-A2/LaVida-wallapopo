@@ -22,8 +22,11 @@
           </div>
 
           <div class="col-4 buttons">
-            <button v-if="logged" class="product-button">
-              <font-awesome-icon class="miIcon" icon="fa-heart" />
+            <button class='product-button' v-if='liked && logged' v-on:click="liked=!liked" >
+            <img   src="../assets/heart.png" alt="" style="width: 20px" >
+            </button>
+            <button  class='product-button' v-if='!liked &&logged' v-on:click="liked=!liked" >
+            <img  src="../assets/heart2.png" alt="" style="width: 20px" >
             </button>
             <button v-if="logged" class="product-button">Chat</button>
           </div>
@@ -33,7 +36,7 @@
           :src="require('../assets/' + product.image)"
           alt="Image Product"
         />
-        <div class="card-body">
+        <div class="card-body">{{liked}}
           <div class="price-product row">
             <h5 class="col  product-price">{{ product.price }} EUR</h5>
             <button v-if="logged" class="product-button product-comprar">Comprar</button>
@@ -89,6 +92,7 @@ export default {
       prodPath: prodWeb,
       devPath: devWeb,
       logged: false,
+      liked: false,
       product: {}
     }
   },
