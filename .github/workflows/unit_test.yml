@@ -1,4 +1,4 @@
-name: Merge Dev with Prod
+name: Unit testing
 
 on:
   push:
