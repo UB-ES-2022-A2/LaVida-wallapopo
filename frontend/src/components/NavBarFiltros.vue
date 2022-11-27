@@ -1,22 +1,32 @@
 <template>
   <div id="navbarfiltros">
+    <div class="mb-4">
       <button type="button" class="btn btn-outline-dark mx-1" v-b-toggle.sidebar-backdrop>Filtros</button>
       <b-button variant="info" v-if="chip1" @click="checkChipCategories">
-        Categorias
+        {{this.category}}
         <font-awesome-icon icon="fa-circle-xmark"/>
       </b-button>
       <b-button variant="info" v-if="chip2" @click="checkChipPrice">
-        Precio
+        {{this.price0}} - {{this.price1}}€
         <font-awesome-icon icon="fa-circle-xmark"/>
       </b-button>
-      <b-button variant="info" v-if="chip3" @click="checkChipStat">
-        Estado
+      <b-button variant="info" v-if="chip3" @click="checkChipStat1">
+        Nuevo
+        <font-awesome-icon icon="fa-circle-xmark"/>
+      </b-button>
+      <b-button variant="info" v-if="chip5" @click="checkChipStat2">
+        Casi Nuevo
+        <font-awesome-icon icon="fa-circle-xmark"/>
+      </b-button>
+      <b-button variant="info" v-if="chip6" @click="checkChipStat3">
+        Usado
         <font-awesome-icon icon="fa-circle-xmark"/>
       </b-button>
       <b-button variant="info" v-if="chip4" @click="checkChipTime">
-        Tiempo
+        {{this.tiempo[this.date].text}}
         <font-awesome-icon icon="fa-circle-xmark"/>
       </b-button>
+    </div>
       <div>
         <b-sidebar
           id="sidebar-backdrop"
@@ -94,20 +104,22 @@ export default {
       status_usado: false,
       cond: ['Nuevo', 'Casi nuevo', 'Usado'],
       price0: 0,
-      price1: 99999999,
+      price1: 10000,
       category: null,
       date: -1,
       chip1: false,
       chip2: false,
       chip3: false,
       chip4: false,
+      chip5: false,
+      chip6: false,
       prodPath: prodWeb,
       devPath: devWeb,
       zonas: null,
       tiempo: [
         { value: -1, text: 'Elige un orden', disabled: true },
         { value: 1, text: 'Más recientes' },
-        { value: 0, text: 'Más antiguos' }
+        { value: 2, text: 'Más antiguos' }
       ],
       categorias: [
         { value: null, text: 'Elige una categoria', disabled: true },
@@ -173,20 +185,23 @@ export default {
       if (this.category !== null) {
         this.chip1 = true
       }
-      if (parseInt(this.price0) !== 0 || parseInt(this.price1) !== 99999999) {
+      if (parseInt(this.price0) !== 0 || parseInt(this.price1) !== 10000) {
         this.chip2 = true
       }
-      if (this.status_usado || this.status_nuevo || this.status_casi_nuevo) {
+      if (this.status_nuevo) {
         this.chip3 = true
+      }
+      if (this.status_casi_nuevo) {
+        this.chip5 = true
+      }
+      if (this.status_usado) {
+        this.chip6 = true
       }
       if (this.date !== -1) {
         this.chip4 = true
       }
-      if (parseInt(this.price0) === 0 && parseInt(this.price1) === 99999999) {
+      if (parseInt(this.price0) === 0 && parseInt(this.price1) === 10000) {
         this.chip2 = false
-      }
-      if (!this.status_usado && !this.status_nuevo && !this.status_casi_nuevo) {
-        this.chip3 = false
       }
     },
     checkChipCategories () {
@@ -197,19 +212,27 @@ export default {
     checkChipPrice () {
       this.chip2 = false
       this.price0 = 0
-      this.price1 = 99999999
+      this.price1 = 10000
       this.applyFilter()
     },
-    checkChipStat () {
+    checkChipStat1 () {
       this.chip3 = false
       this.status_nuevo = false
-      this.status_casi_nuevo = false
-      this.status_usado = false
       this.applyFilter()
     },
     checkChipTime () {
       this.chip4 = false
       this.date = -1
+      this.applyFilter()
+    },
+    checkChipStat2 () {
+      this.chip5 = false
+      this.status_casi_nuevo = false
+      this.applyFilter()
+    },
+    checkChipStat3 () {
+      this.chip6 = false
+      this.status_usado = false
       this.applyFilter()
     }
   }
