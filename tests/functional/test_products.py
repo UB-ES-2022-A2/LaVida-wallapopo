@@ -1,5 +1,3 @@
-
-
 def test_products_get(client, first_product):
     # Test a valid product retrieve
     with client:

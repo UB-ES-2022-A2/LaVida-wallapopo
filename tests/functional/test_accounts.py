@@ -1,6 +1,3 @@
-url = "http://localhost:5000/"
-
-
 def test_accounts_get(client):
     with client:
         # Test a valid login
