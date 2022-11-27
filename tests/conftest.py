@@ -178,3 +178,22 @@ def user_auth(_app, client):
 def products_json(client):
     products = client.get("API/products")
     return products.json
+
+
+@pytest.fixture()
+def gmail_imap():
+    import imaplib
+    # account credentials
+    username = "wallapopodummy@gmail.com"
+    password = "uzrvtptxessitpfi"
+    # Gmail provider's IMAP server (from https://www.systoolsgroup.com/imap/)
+    imap_server = "imap.gmail.com"
+    # Create an IMAP4 class with SSL
+    imap = imaplib.IMAP4_SSL(imap_server, 993)
+    # Authenticate
+    imap.login(username, password)
+
+    yield imap
+
+    imap.close()
+    imap.logout()
