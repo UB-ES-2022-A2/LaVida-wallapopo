@@ -95,7 +95,7 @@ export default {
       }
     },
     getProduct () {
-      const path = this.prodPath + `/product/${this.id}`
+      const path = this.devPath + `/product/${this.id}`
       axios.get(path).then((res) => {
         console.log('PRODUCTS request', res)
         this.product = res.data.product
