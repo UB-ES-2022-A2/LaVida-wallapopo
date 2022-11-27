@@ -1,7 +1,3 @@
-import requests
-from requests.auth import HTTPBasicAuth
-
-
 def test_accounts_get(client):
     with client:
         # Test a valid login

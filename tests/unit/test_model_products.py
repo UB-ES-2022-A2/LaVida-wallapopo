@@ -1,5 +1,3 @@
-import pytest
-
 import datetime
 from models.products import ProductsModel
 

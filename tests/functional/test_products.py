@@ -1,4 +1,4 @@
-def test_products_get(_app, first_product):
+def test_products_get(client, first_product):
     # Test a valid product retrieve
     with client:
         r = client.get("API/product/1")
