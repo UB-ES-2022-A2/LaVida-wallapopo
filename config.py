@@ -46,6 +46,7 @@ class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///testing.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    WTF_CSRF_ENABLED = False
     STATIC_FOLDER = "/frontend/dist/static"
     TEMPLATE_FOLDER = "/frontend/dist"
     SECRET_KEY = "kdsfklsmfakfmafmadslvsdfasdf"
