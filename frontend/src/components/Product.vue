@@ -4,7 +4,7 @@
     <div class="container">
       <div class="card">
         <div class="row row-title">
-          <div class="col-6 row">
+          <div class="col-5 row">
             <img
               src="../assets/default-profile.jpg"
               class="rounded-circle"
@@ -13,8 +13,12 @@
             />
             <p class="user-name col-8">{{ product.username }}</p>
           </div>
-          <div class="col-2">
+          <div class="col-3">
             <!-- valoraciones -->
+            <div class="row">
+            <img  v-for='i in 2' :key="i" src="../assets/star2.png" alt="" style="width: 20px">
+            <img  v-for='i in 3' :key="i" src="../assets/star.png" alt="" style="width: 20px">
+            </div>
           </div>
 
           <div class="col-4 buttons">
