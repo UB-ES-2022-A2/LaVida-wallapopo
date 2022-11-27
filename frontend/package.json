@@ -11,9 +11,6 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.2.0",
-    "@fortawesome/free-solid-svg-icons": "^6.2.0",
-    "@fortawesome/vue-fontawesome": "^2.0.8",
     "axios": "^1.1.2",
     "bootstrap-fileinput": "^5.5.2",
     "bootstrap-vue": "^2.22.0",
