@@ -1,6 +1,3 @@
-import pytest
-
-from app import app
 from models.accounts import AccountsModel
 
 

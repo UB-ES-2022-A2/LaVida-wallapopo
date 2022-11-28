@@ -1,7 +1,16 @@
 import pytest
 
-import requests
-from app import app
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_cors import CORS
+from flask_restful import Api
+from config import config
+from resources.accounts import Accounts
+from resources.products import Product, ProductsList, AddProduct
+from resources.session import Login, Logout
+from resources.filters import Filter, FilterCategory
+from resources.validate import Validate
 from db import db
 import random as rand
 from sqlalchemy import exc
@@ -45,11 +54,47 @@ def populate_db():
         db.session.rollback()
 
 
+def create_app():
+    app = Flask(__name__)
+
+    environment = config['development']
+
+    app.config.from_object(environment)
+    app.config['SECURITY_PASSWORD_SALT'] = 'foobar'
+
+    #from db import db
+    db = SQLAlchemy()
+    migrate = Migrate(app, db)
+    db.init_app(app)
+
+    api = Api(app)
+    CORS(app, resources={r'/*': {'origins': '*'}})
+
+    api.add_resource(Accounts, '/API/account/<string:email>', '/API/account')
+    api.add_resource(Validate, '/API/validation/<string:validation_token>', '/API/validation')
+
+    # products
+    api.add_resource(Product, '/API/product/<string:id>')
+    api.add_resource(ProductsList, '/API/products')
+    api.add_resource(AddProduct, '/API/catalog/add/<string:email>')
+
+    # filtering
+    api.add_resource(Filter, '/API/filter')
+    api.add_resource(FilterCategory, '/API/filter/<string:category>')
+
+    # session
+    api.add_resource(Login, '/API/login')
+    api.add_resource(Logout, '/API/logout/<string:email>')
+
+    return app
+
 # --------
 # Fixtures
 # --------
 @pytest.fixture()
 def _app():
+    app = create_app()
+    app.config['TESTING'] = True
     with app.app_context():
         db.create_all()
         populate_db()
@@ -59,14 +104,32 @@ def _app():
 
 @pytest.fixture()
 def client(_app):
-    from app import app
-    return app.test_client()
+    return _app.test_client()
+
+
+@pytest.fixture()
+def auth_header(client):
+    import base64
+
+    json = {'email': 'pepe432@gmail.com', 'password': 'pepe123,.'}
+    login = client.post("API/login", json=json)
+    token = login.json
+    headers = {
+        'Authorization': 'Basic {}'.format(
+            base64.b64encode(
+                '{token}:{password}'.format(
+                    token=token['token'],
+                    password='').encode()
+            ).decode()
+        )
+    }
+    yield headers
 
 
 @pytest.fixture(scope='function')
-def first_product():
-    product = requests.get("http://localhost:5000/API/product/1")
-    return product.json()
+def first_product(client):
+    product = client.get("http://localhost:5000/API/product/1")
+    return product.json
 
 
 @pytest.fixture(scope='function')
@@ -108,6 +171,28 @@ def user_auth(_app, client):
 
 
 @pytest.fixture(scope='function')
-def products_json():
-    products = requests.get("http://localhost:5000/API/products")
-    return products.json()
+def products_json(client):
+    products = client.get("API/products")
+    return products.json
+
+
+@pytest.fixture()
+def gmail_imap():
+    import imaplib
+    # account credentials
+    username = "wallapopodummy@gmail.com"
+    password = "uzrvtptxessitpfi"
+    # Gmail provider's IMAP server (from https://www.systoolsgroup.com/imap/)
+    imap_server = "imap.gmail.com"
+    # Create an IMAP4 class with SSL
+    imap = imaplib.IMAP4_SSL(imap_server, 993)
+    # Authenticate
+    imap.login(username, password)
+
+    yield imap
+
+    imap.close()
+    imap.logout()
+
+
+

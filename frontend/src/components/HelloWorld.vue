@@ -63,7 +63,7 @@ export default {
       }
     },
     getProducts () {
-      const path = this.prodPath + '/products'
+      const path = this.devPath + '/products'
       axios.get(path)
         .then((res) => {
           console.log(res)
@@ -77,7 +77,7 @@ export default {
         })
     },
     getCategory (category) {
-      const path = this.prodPath + `/filter/${category}`
+      const path = this.devPath + `/filter/${category}`
       axios.get(path)
         .then((res) => {
           console.log(res)
