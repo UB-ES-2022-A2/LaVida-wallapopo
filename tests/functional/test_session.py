@@ -1,8 +1,4 @@
-import requests
-from requests.auth import HTTPBasicAuth
 import base64
-
-url = "http://localhost:5000/"
 
 
 def test_login_post(client):
