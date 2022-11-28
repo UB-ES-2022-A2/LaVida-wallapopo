@@ -13,7 +13,9 @@ class Product(Resource):
     # return product by id
     def get(self, id):
         product = ProductsModel.get_by_id(id)
-        return {"product": product.json()}, HTTPStatus.OK if product else HTTPStatus.NOT_FOUND
+        if product is None:
+            return {"message": "Product with ID [{}] does not exist".format(id)}, HTTPStatus.NOT_FOUND
+        return {"product": product.json()}, HTTPStatus.OK
 
 
 class ProductsList(Resource):
