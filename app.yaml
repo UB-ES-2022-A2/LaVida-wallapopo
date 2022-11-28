@@ -5,6 +5,7 @@ entrypoint: gunicorn -b :$PORT app:app
 
 env_variables:
   CLOUD_SQL_USERNAME: root
-  CLOUD_SQL_PASSWORD: rY7>IljSem]}URl^
+  CLOUD_SQL_PASSWORD: V=c+B7)pk"Bs;8
   CLOUD_SQL_DATABASE_NAME: flask-dataset
-  CLOUD_SQL_CONNECTION_NAME: firm-affinity-366616:europe-southwest1:flask-db
+  CLOUD_SQL_CONNECTION_NAME: wallapopo-ub:europe-southwest1:wallapopo-mysql
+
