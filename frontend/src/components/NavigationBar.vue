@@ -136,10 +136,11 @@ a {
   margin-left: 3px;
 }
 
-.nav-icon{
+.nav-icon {
   font-size: 33px;
   margin-right: 3px;
   transition: 0.3s;
+}
 .btn{
   margin-left: 2px;
   background-color: white;
