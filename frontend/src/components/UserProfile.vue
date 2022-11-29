@@ -4,6 +4,8 @@
         <!-- Card perfil usuario -->
         <div class="card bg-light">
           <div class="card-body">
+            <b-button id="profileButton" class="profileButton">Perfil</b-button>
+            <b-button id="reviewsButton" class="reviewsButton">Opiniones</b-button>
             <h5 class="card-title"><b>Tu perfil</b></h5>
             <h6 class="card-subtitle">Aquí podrás ver y editar los datos de tu perfil</h6>
             <br>
@@ -172,6 +174,26 @@ b {
   margin-bottom: 5px;
 }
 
+.profileButton {
+  border-radius: 20px 20px 20px 20px;
+  background-color: #bdf5ff;
+  animation-delay: 1s;
+  margin-bottom: 10px;
+  cursor: grab;
+  color: #1b1e21;
+  border-color: #1b1e21;
+}
+
+.reviewsButton {
+  border-radius: 20px 20px 20px 20px;
+  background-color: #bdf5ff;
+  animation-delay: 1s;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  cursor: grab;
+  color: #1b1e21;
+  border-color: #1b1e21;
+}
 .saveButton {
   border-radius: 20px 20px 20px 20px;
   background-color: #bdf5ff;
