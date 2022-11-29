@@ -247,7 +247,7 @@ export default {
         })
         .catch((error) => {
           console.error(error)
-          alert('Error al añadido producto')
+          alert('Error al añadir el producto')
         })
     },
     onFileChange (e) {
