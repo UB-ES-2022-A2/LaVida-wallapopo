@@ -8,7 +8,7 @@
           v-for="(categoria, index) in categorias"
           :key="categoria.name"
         >
-          <div class="div-1 mb-5" @click="goToCategoria(categoria.name)">
+          <div class="div-1 mb-5" @click="goToProducts(categoria.name)">
             <font-awesome-icon v-bind:icon="icons_list[index]" size="4x" transform="shrink-6"/>
             <p>{{categoria.name}}</p>
           </div>
@@ -39,6 +39,7 @@ export default {
       logged: false,
       token: 'g',
       email: 'e',
+      categoria: null,
       categories_list: [
         'Todas las categorias',
         'Coches',
@@ -94,6 +95,17 @@ export default {
       this.$router.push({
         path: '/categoria/' + categoria
       })
+    },
+    goToProducts (categoria) {
+      if (categoria === 'Todas las categorias') {
+        this.$router.push({
+          path: '/products'
+        })
+      } else {
+        this.$router.push({
+          path: '/categoria/' + categoria
+        })
+      }
     }
   },
   mounted () {
