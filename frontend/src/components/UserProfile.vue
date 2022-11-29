@@ -13,7 +13,7 @@
                 <div class="col"> <h6 class="imSubt"> Foto principal </h6> </div>
                 <div class="col">
                   <div>
-                    <b-img :src="require('../assets/logo_favorito.png')" class="profileImg" v-bind="mainProps" rounded="circle" width="70" height="70" alt="Circle image"></b-img>
+                    <b-img :src="require('../assets/product_placeholder.png')" class="profileImg" v-bind="mainProps" rounded="circle" width="70" height="70" alt="Circle image"></b-img>
                     <b-button id="changeImgButton" class="changeImgButton">Cambiar foto</b-button>
                   </div>
                   <h6 class="imSubt"> Aceptamos formatos .jpg y mínimo 400 x 400px </h6>
@@ -26,7 +26,6 @@
               <div>
                 <b-form-group
                   invalid-feedback="Nombre no puede estar vacío"
-                  :state="nameState"
                 >
                 <div class="row-name">
                   <label>Nombre</label>
@@ -34,9 +33,9 @@
                     type="text"
                     id="input-name"
                     class="form-control"
-                    placeholder="anterior nombre"
+                    placeholder= "Introduce tu nombre"
+                    v-model= this.name
                     maxlength="50"
-                    :state="nameState"
                     autofocus
                     trim
                   />
@@ -47,15 +46,31 @@
                     type="text"
                     id="input-surname"
                     class="form-control"
-                    placeholder="anterior apellido"
+                    placeholder="Introduce un apellido"
+                    v-model=this.surname
                     maxlength="50"
-                    :state="nameState"
                     required
                     autofocus
                     trim
                   />
                 </div>
                 </b-form-group>
+                <div class="row-name">
+                  <label>Nombre de usuario</label>
+                  <br>
+                  <span> {{username}} </span>
+                </div>
+                <div class="row-name">
+                  <label>Email</label>
+                  <br>
+                  <span> {{email}} </span>
+                </div>
+                <div class="row-name">
+                  <label>Fecha de cumpleaños</label>
+                  <br>
+                  <label for="start">Introduce la fecha:</label>
+                  <input type="date" id="start" name="birthday-start">
+                </div>
               </div>
               <div class="row align-items-end">
                 <div class="col"></div>
@@ -70,6 +85,7 @@
 
 <script>
 import NavigationBar from './NavigationBar.vue'
+import axios from 'axios'
 
 export default {
   name: 'UserProfile',
@@ -78,11 +94,43 @@ export default {
   },
   data () {
     return {
+      name: '',
+      surname: '',
+      username: '',
+      birthdate: '',
       logged: true,
-      token: 'g',
-      email: 'e',
+      token: this.$route.params.token,
+      email: this.$route.params.email,
+      devPath: 'http://localhost:5000',
       mainProps: { blank: false, blankColor: '#777', width: 70, height: 70, class: 'profileImg' }
     }
+  },
+
+  created () {
+    const path = this.devPath + '/API/account/' + this.email
+    console.log(this.token)
+    axios.get(path, {
+      auth: {username: this.token}
+    })
+      .then((res) => {
+        console.log(res)
+        if (res.data.account.name != null) {
+          this.name = res.data.account.name
+        }
+        if (res.data.account.surname != null) {
+          this.surname = res.data.account.surname
+        }
+        if (res.data.account.username != null) {
+          this.username = res.data.account.username
+        }
+        if (res.data.account.birthdate != null) {
+          this.birthdate = res.data.account.birthdate
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+        alert('Error al mostrar info del usuario')
+      })
   }
 }
 </script>
@@ -129,7 +177,7 @@ b {
   background-color: #bdf5ff;
   animation-delay: 1s;
   cursor: grab;
-  margin-left: 48px;
+  margin-left: 80px;
   margin-bottom: 5px;
   color: #1b1e21;
   border-color: #1b1e21;
