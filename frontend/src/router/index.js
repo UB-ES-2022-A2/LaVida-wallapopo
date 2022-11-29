@@ -4,7 +4,10 @@ import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
 import Registro from '@/components/Registro'
 import ForgotPassword from '@/components/ForgotPassword'
+import Product from '@/components/Product'
 import AddProduct from '@/components/AddProduct'
+import Main from '@/components/Main'
+import EmailConfirmation from '@/components/EmailConfirmation'
 import UserProfile from '@/components/UserProfile'
 
 Vue.use(Router)
@@ -13,6 +16,16 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'Main',
+      component: Main
+    },
+    {
+      path: '/categoria/:categoria',
+      name: 'HelloWorldCategory',
+      component: HelloWorld
+    },
+    {
+      path: '/products',
       name: 'HelloWorld',
       component: HelloWorld
     },
@@ -32,6 +45,11 @@ export default new Router({
       component: ForgotPassword
     },
     {
+      path: '/product/:id',
+      name: 'Product',
+      component: Product
+    },
+    {
       path: '/catalog/add',
       name: 'AddProduct',
       component: AddProduct
@@ -40,6 +58,11 @@ export default new Router({
       path: '/profile',
       name: 'UserProfile',
       component: UserProfile
+    },
+    {
+      path: '/emailConfirmation/validation_token=:token',
+      name: 'EmailConfirmation',
+      component: EmailConfirmation
     }
   ]
 })
