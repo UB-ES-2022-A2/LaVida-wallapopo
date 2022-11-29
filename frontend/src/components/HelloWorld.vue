@@ -34,7 +34,6 @@ import NavBarFiltros from './NavBarFiltros.vue'
 import CardProduct from './CardProduct.vue'
 import {devWeb, prodWeb} from '../store'
 import Footer from './Footer.vue'
-
 import axios from 'axios'
 export default {
   name: 'HelloWorld',
@@ -55,7 +54,6 @@ export default {
       category: null
     }
   },
-
   methods: {
     isLogged () {
       if (this.token !== null) {
@@ -89,22 +87,6 @@ export default {
         .catch((error) => {
           console.error(error)
         })
-      const path = this.devPath + '/API/products'
-      axios.get(path).then((res) => {
-        console.log(res)
-        let db = res.data.Products_List
-        for (let index = 0; index < db.length; index++) {
-          this.db.push(db[index])
-        }
-      })
-    }
-  },
-  created () {
-    this.getProducts()
-    if (Object.keys(this.$route.params).length !== 0) {
-      this.token = this.$route.params.token
-      this.logged = this.$route.params.logged
-      this.email = this.$route.params.email
     }
   },
   mounted () {
