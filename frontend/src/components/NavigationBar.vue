@@ -25,7 +25,7 @@
 
       <div class="dropdown-dark my-3 text-right">
         <button class="btn" @click="redirectToUserProfile()">
-          <img src="@/assets/icons/account_circle.svg" alt="User icon" /> Tú
+          <img src="@/assets/user.png" alt="User icon" style="width: 20px" /> Tú
         </button>
         <b-dropdown id="dropdown-1" text="Usuario" class="m-md-2" variant="dark">
           <b-dropdown-item v-b-modal.modal-1 v-on:click="loggedOut()">Cerrar Sesión</b-dropdown-item>
