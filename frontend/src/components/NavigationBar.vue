@@ -1,8 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-md style-navbar">
     <a class="navbar-brand h1" @click="redirectToHome()">Wallapopo</a>
-    <form class="container-fluid" role="search" @click="goToProducts">
-      <font-awesome-icon class="nav-icon" icon="fa-magnifying-glass" />
+    <form class="container-fluid" role="search">
       <input
         class="form-control"
         type="search"
@@ -137,10 +136,10 @@ a {
 .nav-icon{
   font-size: 33px;
   margin-right: 3px;
-  transition: 0.3s;
+  transition: 0.3s;}
 .btn{
   margin-left: 2px;
-  background-color: white;
+
 }
 .nav-icon:hover{
   font-size: 35px;
