@@ -1,8 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-md style-navbar">
     <a class="navbar-brand h1" @click="redirectToHome()">Wallapopo</a>
-    <form class="container-fluid" role="search" @click="goToProducts">
-      <font-awesome-icon class="nav-icon" icon="fa-magnifying-glass" />
+    <form class="container-fluid" role="search">
       <input
         class="form-control"
         type="search"
@@ -25,8 +24,9 @@
       <div class="btn"><font-awesome-icon class="nav-icon" icon="fa-envelope" /></div>
 
       <div class="dropdown-dark my-3 text-right">
-        <div class="btn">
-        <font-awesome-icon class="nav-icon" icon="fa-user-circle" /></div>
+        <button class="btn" @click="redirectToUserProfile()">
+          <img src="@/assets/user.png" alt="User icon" style="width: 20px" /> Tú
+        </button>
         <b-dropdown id="dropdown-1" text="Usuario" class="m-md-2" variant="dark">
           <b-dropdown-item v-b-modal.modal-1 v-on:click="loggedOut()">Cerrar Sesión</b-dropdown-item>
         </b-dropdown>
@@ -90,6 +90,12 @@ export default {
         name: 'Main',
         params: {logged: this.logged, email: this.email, token: this.token}
       })
+    },
+    redirectToUserProfile () {
+      this.$router.push({
+        name: 'UserProfile',
+        params: {logged: this.logged, email: this.email, token: this.token}
+      })
     }
   },
   computed () {
@@ -110,6 +116,7 @@ export default {
   letter-spacing: 5px;
 
 }
+
 a {
   color: inherit;
   text-decoration: inherit;
@@ -117,7 +124,7 @@ a {
 }
 .navbar{
   border-bottom: 1px solid rgb(134, 134, 139);
-  margin-bottom:10px ;
+  margin-bottom:10px;
 }
 .container{
   justify-content: end;
@@ -129,7 +136,10 @@ a {
 .nav-icon{
   font-size: 33px;
   margin-right: 3px;
-  transition: 0.3s;
+  transition: 0.3s;}
+.btn{
+  margin-left: 2px;
+
 }
 .nav-icon:hover{
   font-size: 35px;
