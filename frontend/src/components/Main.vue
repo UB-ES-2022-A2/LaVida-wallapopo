@@ -5,11 +5,13 @@
       <div class="pt-5 row text-center">
         <div
           class="col-6 col-lg-3 celda"
-          v-for="(categoria, index) in categorias"
+          v-for="(categoria) in categorias"
           :key="categoria.name"
         >
           <div class="div-1 mb-5" @click="goToProducts(categoria.name)">
-            <font-awesome-icon v-bind:icon="icons_list[index]" size="4x" transform="shrink-6"/>
+            <!--
+              <font-awesome-icon v-bind:icon="icons_list[index]" size="4x" transform="shrink-6"/>
+            !-->
             <p>{{categoria.name}}</p>
           </div>
         </div>

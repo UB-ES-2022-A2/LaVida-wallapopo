@@ -19,7 +19,7 @@
     </div>
     <div v-else class="container">
       <div class="btn">
-        <font-awesome-icon class="nav-icon" icon="fa-heart" />
+        <img src="@/assets/heart.png" alt="User icon" style="width: 20px" />
         </div>
       <div class="btn"><font-awesome-icon class="nav-icon" icon="fa-envelope" /></div>
 
@@ -34,7 +34,7 @@
       </div>
 
       <div class="btn btn-product" @click="redirectToAddProduct()" id='navigationBar_div_addProduct'>
-        <font-awesome-icon class="nav-icon" icon="fa-circle-plus" />
+        <img src="@/assets/add.png" alt="User icon" style="width: 20px" />
         Agregar producto
 
       </div>
