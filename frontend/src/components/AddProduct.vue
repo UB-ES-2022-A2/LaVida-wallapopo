@@ -146,6 +146,7 @@
 import NavigationBar from './NavigationBar.vue'
 import Footer from './Footer'
 import axios from 'axios'
+import {devWeb, prodWeb} from '../store'
 
 export default {
   name: 'addProduct',
@@ -160,13 +161,13 @@ export default {
       price: null,
       state: null,
       images: [],
-      prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
-      devPath: 'http://localhost:5000',
+      prodPath: prodWeb,
+      devPath: devWeb,
       description: '',
       shipment: false,
       logged: false,
       token: 'g',
-      email: 'e',
+      email: localStorage.getItem('email'),
       categories: [
         { value: null, text: 'Selecciona una categoría', disabled: true },
         { value: 'Coches', text: 'Coches' },
@@ -222,8 +223,13 @@ export default {
     }
   },
   methods: {
+    isLogged () {
+      if (this.token !== null) {
+        this.logged = true
+      }
+    },
     addProduct () {
-      const path = this.devPath + '/API/catalog/add/' + this.email
+      const path = this.devPath + '/catalog/add/' + this.email
       /* params used to add a new product */
       const parameters = {
         name: this.name,
@@ -233,7 +239,6 @@ export default {
         description: this.description,
         shipment: this.shipment
       }
-      alert(this.name)
       axios.post(path, parameters, {
         auth: {username: this.token}
       })
@@ -246,6 +251,7 @@ export default {
           })
         })
         .catch((error) => {
+          alert('Ha ocurrido un error al añadir el producto, vuelve a intentarlo más tarde')
           console.error(error)
           alert('Error al añadir el producto')
         })
@@ -268,15 +274,10 @@ export default {
       }
     }
   },
-  created () {
-    this.email = this.$route.params.email
-    if (this.$route.params.logged === undefined) {
-      this.logged = false
-      this.$router.push({ path: '/login' })
-    } else {
-      this.logged = this.$route.params.logged
-    }
-    this.token = this.$route.params.token
+  mounted () {
+    this.email = localStorage.getItem('email')
+    this.token = localStorage.getItem('token')
+    this.isLogged()
   }
 }
 </script>
