@@ -38,7 +38,7 @@ class Accounts(Resource):
             data = self.get_data()
             # Check if the email has a valid email format
             if EMAIL_REGEX.match(data['email']) is None:
-                return {'Email [{}] is not a valid format'.format(data['email'])}, \
+                return {'message': 'Email [{}] is not a valid format'.format(data['email'])}, \
                        HTTPStatus.BAD_REQUEST
             account = AccountsModel.get_by_email(data['email'])
             account2 = AccountsModel.get_by_username(data['username'])
@@ -69,7 +69,7 @@ class Accounts(Resource):
             # 8080 for dev
             # export const devWeb = 'http://127.0.0.1:5000/'
             # export const prodWeb = 'https://firm-affinity-366616.ew.r.appspot.com/'
-            confirm_url = "http://127.0.0.1:5000/#/emailConfirmation/validation_token=" + email_token
+            confirm_url = "https://firm-affinity-366616.ew.r.appspot.com/#/emailConfirmation/validation_token=" + email_token
 
             msg = EmailMessage()
             msg['Subject'] = 'Test python email'
