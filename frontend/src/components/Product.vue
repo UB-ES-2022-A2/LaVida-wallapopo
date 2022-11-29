@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavigationBar  :logged="logged" :key="logged" :token="token"/>
+    <NavigationBar :logged="logged" :key="logged" :token="token" />
     <div class="container">
       <div class="card">
         <div class="row row-title">
@@ -16,38 +16,81 @@
           <div class="col-3">
             <!-- valoraciones -->
             <div class="row">
-            <img  v-for='i in 2' :key="i" src="../assets/star2.png" alt="" style="width: 20px">
-            <img  v-for='i in 3' :key="i" src="../assets/star.png" alt="" style="width: 20px">
+              <img
+                  v-for="i in 2"
+                :key="i"
+                src="../assets/star2.png"
+                alt=""
+                style="width: 20px"
+              />
+              <img
+                v-for="i in 3"
+                :key="i"
+                src="../assets/star.png"
+                alt=""
+                style="width: 20px"
+              />
             </div>
           </div>
 
           <div class="col-4 buttons">
-            <button class='product-button' v-if='liked && logged' v-on:click="liked=!liked" >
-            <img   src="../assets/heart.png" alt="" style="width: 20px" >
+            <button
+              class="product-button"
+              v-if="liked && logged"
+              v-on:click="liked = !liked"
+            >
+              <img src="../assets/heart.png" alt="" style="width: 20px" />
             </button>
-            <button  class='product-button' v-if='!liked &&logged' v-on:click="liked=!liked" >
-            <img  src="../assets/heart2.png" alt="" style="width: 20px" >
+            <button
+              class="product-button"
+              v-if="!liked && logged"
+              v-on:click="liked = !liked"
+            >
+              <img src="../assets/heart2.png" alt="" style="width: 20px" />
             </button>
             <button v-if="logged" class="product-button">Chat</button>
           </div>
         </div>
-        <img
-          class="card-img"
-          :src="require('../assets/' + product.image)"
-          alt="Image Product"
-        />
-        <div class="card-body">{{liked}}
+
+        <!-- Carrousel de imagens-->
+        <div>
+          <b-carousel
+            id="carousel-1"
+            v-model="slide"
+            :interval="4000"
+            controls
+
+            background="#ababab"
+            img-width="1024"
+            img-height="480"
+            style="text-shadow: 1px 1px 2px #333"
+            @sliding-start="onSlideStart"
+            @sliding-end="onSlideEnd"
+          >
+
+            <b-carousel-slide v-for="i in ['Oso.jpeg', 'Seat.jpeg']" :key=i
+            :caption=i
+              :img-src="require('../assets/' + i)"
+              style="height:480px"
+            ></b-carousel-slide>
+
+          </b-carousel>
+        </div>
+
+        <div class="card-body">
           <div class="price-product row">
-            <h5 class="col  product-price">{{ product.price }} EUR</h5>
-            <button v-if="logged" class="product-button product-comprar">Comprar</button>
+            <h5 class="col product-price">{{ product.price }} EUR</h5>
+            <button v-if="logged" class="product-button product-comprar">
+              Comprar
+            </button>
           </div>
-          <hr class="solid">
+          <hr class="solid" />
           <div class="row col">
             <p class="product-name">
               {{ product.name }}
             </p>
           </div>
-          <hr class="solid">
+          <hr class="solid" />
           <div class="row col">
             <p>Estado: {{ product.condition }}</p>
           </div>
@@ -56,13 +99,17 @@
               {{ product.description }}
             </p>
           </div>
-          <hr class="solid">
+          <hr class="solid" />
           <div class="row col">
-            <p style="color:gray">
+            <p style="color: gray">
               {{ product.date }}
             </p>
             <div v-show="product.shipment" class="ml-auto">
-              <font-awesome-icon class="miIcon" icon="fa-truck-fast" style="font-size: 28px" />
+              <font-awesome-icon
+                class="miIcon"
+                icon="fa-truck-fast"
+                style="font-size: 28px"
+              />
               <span>&nbsp;&nbsp;Hago envíos</span>
             </div>
           </div>
@@ -93,7 +140,9 @@ export default {
       devPath: devWeb,
       logged: false,
       liked: false,
-      product: {}
+      product: {},
+      slide: 0,
+      sliding: null
     }
   },
   methods: {
@@ -104,13 +153,21 @@ export default {
     },
     getProduct () {
       const path = this.devPath + `/product/${this.id}`
-      axios.get(path).then((res) => {
-        console.log('PRODUCTS request', res)
-        this.product = res.data.product
-      })
+      axios
+        .get(path)
+        .then((res) => {
+          console.log('PRODUCTS request', res)
+          this.product = res.data.product
+        })
         .catch((error) => {
           console.error(error)
         })
+    },
+    onSlideStart (slide) {
+      this.sliding = true
+    },
+    onSlideEnd (slide) {
+      this.sliding = false
     }
   },
   mounted () {
@@ -124,7 +181,6 @@ export default {
 }
 </script>
 <style scoped>
-
 .container {
   width: 55%;
 }
@@ -141,7 +197,7 @@ export default {
   object-fit: cover;
 }
 hr {
-  width:100%;
+  width: 100%;
 }
 
 .row-title {
@@ -161,13 +217,13 @@ hr {
   margin-left: 5px;
   height: 40px;
 }
-.product-price{
+.product-price {
   margin: 0;
   font-size: 25px;
   font-weight: 700;
 }
-.product-name{
-    margin: auto 0;
+.product-name {
+  margin: auto 0;
   font-size: 25px;
   font-weight: 550;
 }
@@ -184,7 +240,7 @@ hr {
   display: flex;
   justify-content: flex-end;
 }
-.product-comprar{
+.product-comprar {
   width: 100px;
 }
 </style>
