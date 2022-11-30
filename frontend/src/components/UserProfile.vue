@@ -87,6 +87,7 @@
 
 <script>
 import NavigationBar from './NavigationBar.vue'
+import {devWeb, prodWeb} from '../store'
 import axios from 'axios'
 
 export default {
@@ -103,13 +104,14 @@ export default {
       logged: true,
       token: this.$route.params.token,
       email: this.$route.params.email,
-      devPath: 'http://localhost:5000',
+      prodPath: prodWeb,
+      devPath: devWeb,
       mainProps: { blank: false, blankColor: '#777', width: 70, height: 70, class: 'profileImg' }
     }
   },
 
   created () {
-    const path = this.devPath + '/API/account/' + this.email
+    const path = this.devPath + '/account/' + this.email
     console.log(this.token)
     axios.get(path, {
       auth: {username: this.token}
