@@ -89,7 +89,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { devWeb, prodWeb } from '../store'
 
 export default {
@@ -148,7 +147,6 @@ export default {
   methods: {
     applyFilter () {
       this.checkChips()
-      const path = this.devPath + `/filter`
       let cond = []
       if (!this.status_usado && !this.status_nuevo && !this.status_casi_nuevo) {
         cond = this.cond
@@ -171,15 +169,7 @@ export default {
         price0: parseInt(this.price0),
         price1: parseInt(this.price1)
       }
-      axios.post(path, parameters)
-        .then((res) => {
-          console.log(res.data)
-          this.$emit('productsList', res.data.products_list)
-        })
-        .catch((error) => {
-          console.error(error)
-          console.log(parameters)
-        })
+      this.$emit('productsList', parameters)
     },
     checkChips () {
       if (this.category !== null) {
