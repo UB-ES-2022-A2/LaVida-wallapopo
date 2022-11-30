@@ -16,8 +16,7 @@ def test_products_list_get(client, products_json):
         r = client.get("API/products")
         assert r.status_code == 200
         assert r.json == products_json
-
-
+        
 
 def test_add_product_post(_app, client, auth_header):
     with client:
