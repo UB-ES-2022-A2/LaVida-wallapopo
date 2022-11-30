@@ -107,6 +107,7 @@ export default {
       })
         .then((res) => {
           console.log(res)
+          alert('Datos actualizados correctamente!')
         })
         .catch((error) => {
           alert('Ha ocurrido un error al actualizar los datos, vuelve a intentarlo más tarde')
@@ -145,6 +146,11 @@ export default {
 
 <style scoped>
 
+.card.bg-light {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
 
 .imSubt {
   padding-top: 3px;
@@ -160,11 +166,6 @@ export default {
 .container-card {
   background-color: white;
   border-radius: 8px 20px 20px 20px;
-}
-
-.card-body {
-  padding-left: 100px;
-  width: 50%;
 }
 
 .row-name {
