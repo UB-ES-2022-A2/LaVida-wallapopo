@@ -1,14 +1,13 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
-from base import driver,host2
+from base import driver, host2
 
 
 login_page = host2 + '#/login'
 
 
-
-def test_make_a_correct_login_filling_with_real_account():
+def test_make_a_correct_login_filling_with_real_account(client):
 
     driver.get(login_page)
     email_field = driver.find_element(By.ID, 'login_input_emailField')
@@ -28,7 +27,6 @@ def test_make_a_correct_login_filling_with_real_account():
 
     assert login_exitoso is not None
     return driver
-
 
 
 test_make_a_correct_login_filling_with_real_account()
