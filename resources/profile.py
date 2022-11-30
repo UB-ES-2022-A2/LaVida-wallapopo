@@ -21,28 +21,6 @@ class Profile(Resource):
 
         return {'account': account.json()}, HTTPStatus.OK
 
-    def post(self):
-        data = self.get_data()
-        email = data['email']
-        user = AccountsModel.get_by_email(email)
-        # return error message if account doesn't exist
-        if user is None:
-            return {'message': 'This email [{}] does not exist'.format(email)}, HTTPStatus.NOT_FOUND
-
-        try:
-            user.profile_picture = data['image']
-            user.name = data['name']
-            user.surname = data['surname']
-            # user.location = data['location']
-
-            db.session.add(user)
-            db.session.commit()
-
-        except Exception as e:
-            print(e)
-            return {'message': "Error updating the profile"}, HTTPStatus.INTERNAL_SERVER_ERROR
-
-        return {'message': "Profile updated successfully"}, HTTPStatus.OK
 
     @auth.login_required
     def put(self, email):
@@ -53,6 +31,8 @@ class Profile(Resource):
         # return error message if account doesn't exist
         if user is None:
             return {'message': 'This email [{}] does not exist'.format(email)}, HTTPStatus.NOT_FOUND
+        if user.username != g.user.username:
+            return {'message': "Bad authorization user"}, HTTPStatus.UNAUTHORIZED
         if data["name"]:
             user.name = data["name"]
         if data["surname"]:
@@ -61,13 +41,11 @@ class Profile(Resource):
             user.birthday = datetime.date(*map(int, data["birthday"].split('-')))
             print(user.birthday)
 
-
-
-
         db.session.add(user)
         db.session.commit()
         user = AccountsModel.get_by_email(email)
         print(user.json())
+        return {'message': "Profile updated successfully"}, HTTPStatus.OK
 
 
     def get_data(self):
