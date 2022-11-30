@@ -33,12 +33,12 @@
               <div class="row-name">
                 <label><b>Nombre</b></label>
                 <b-form-input type="text" id="input-name" class="form-control" placeholder="Introduce tu nombre"
-                  v-model="name" maxlength="50" autofocus trim />
+                  v-model="name" maxlength="50" autofocus trim v-on:keydown="isLetter($event)" v-on:focusout="removeExtraSpaces($event)"/>
               </div>
               <div class="row-name">
                 <label><b>Apellidos</b></label>
                 <b-form-input type="text" id="input-surname" class="form-control" placeholder="Introduce un apellido"
-                  v-model="surname" maxlength="50" required autofocus trim />
+                  v-model="surname" maxlength="50" required autofocus trim v-on:keydown="isLetter($event)" v-on:focusout="removeExtraSpaces($event)"/>
               </div>
             </b-form-group>
             <div class="row-name">
@@ -54,7 +54,7 @@
             <div class="row-name">
               <label><b>Fecha de cumpleaños:</b></label>
               <br>
-              <input type="date" id="start" name="birthday-start" v-model="birthday">
+              <input :max="new Date().toISOString().split('T')[0]" type="date" id="start" name="birthday-start" v-model="birthday">
             </div>
           </div>
           <div class="row align-items-end">
@@ -94,6 +94,19 @@ export default {
     }
   },
   methods: {
+    isLetter (e) {
+      // Get the character
+      let char = String.fromCharCode(e.keyCode)
+      // Key codes for Backspace, Space, Ctrl, Shift and Arrows
+      const allowedKeys = [8, 32, 16, 17, 37, 38, 39, 40]
+
+      if (/^[A-Za-z]+$/.test(char) || allowedKeys.includes(e.keyCode)) {
+        return true
+      } else e.preventDefault() // If not match, don't add to input text
+    },
+    removeExtraSpaces (e) {
+      e.target.value.replace(/(^\s*)|(\s*$)/gi, '') // Remove spaces at the beginning and end of input text
+    },
     updateProfile () {
       const path = this.devPath + '/profile/' + this.email
       const parameters = {
