@@ -65,6 +65,9 @@ jobs:
           flask db init
           flask db migrate -m "Initial migration".
           flask db upgrade
+        
+      - name: populate db
+        run: python add_data.py
           
       - name: Run the front test script
         run: |
