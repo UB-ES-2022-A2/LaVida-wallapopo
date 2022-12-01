@@ -74,5 +74,6 @@ jobs:
           pip install pytest
           pip install pytest-cov
           python app.py &
-          sleep 5
+          sleep 2
           pytest tests/selenium/test_login_front.py
+          # lol
