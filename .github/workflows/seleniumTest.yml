@@ -30,6 +30,9 @@ jobs:
       - name: Installed package list
         run: apt list --installed
         
+      - name: Install Chrome
+        run: sudo apt install google-chrome-stable
+        
       - name: Install all necessary packages
         run: pip install requests beautifulsoup4 pandas webdriver-manager selenium
         
