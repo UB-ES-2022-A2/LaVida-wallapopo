@@ -19,7 +19,7 @@
     </div>
     <div v-else class="container">
       <div class="btn">
-        <font-awesome-icon class="nav-icon" icon="fa-heart" />
+        <img src="@/assets/heart.png" alt="User icon" style="width: 20px" />
         </div>
       <div class="btn"><font-awesome-icon class="nav-icon" icon="fa-envelope" /></div>
 
@@ -33,8 +33,8 @@
         <LogoutModal @loggedStatus="logged=$event" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
       </div>
 
-      <div class="btn btn-product" @click="redirectToAddProduct()">
-        <font-awesome-icon class="nav-icon" icon="fa-circle-plus" />
+      <div class="btn btn-product" @click="redirectToAddProduct()" id='navigationBar_div_addProduct'>
+        <img src="@/assets/add.png" alt="User icon" style="width: 20px" />
         Agregar producto
 
       </div>
