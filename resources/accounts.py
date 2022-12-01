@@ -100,8 +100,6 @@ class Accounts(Resource):
                 db.session.rollback()  # rollback in case something went wrong
                 return {'message': 'Error while creating new account'}, HTTPStatus.INTERNAL_SERVER_ERROR
 
-    def print_hi(self):
-        print("HI")
 
     def get_data(self):
         parser = reqparse.RequestParser()  # create parameters parser from request
