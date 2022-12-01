@@ -76,4 +76,3 @@ jobs:
           python app.py &
           sleep 5
           pytest tests/selenium/test_login_front.py
-          
