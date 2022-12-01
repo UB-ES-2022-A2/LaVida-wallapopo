@@ -7,7 +7,7 @@ from base import driver, host2
 login_page = host2 + '#/login'
 
 
-def test_make_a_correct_login_filling_with_real_account(client):
+def test_make_a_correct_login_filling_with_real_account():
 
     driver.get(login_page)
     email_field = driver.find_element(By.ID, 'login_input_emailField')
@@ -26,7 +26,5 @@ def test_make_a_correct_login_filling_with_real_account(client):
     # Si el login es exitoso se hara display a un nuevo elemento
 
     assert login_exitoso is not None
-    return driver
-
 
 test_make_a_correct_login_filling_with_real_account()
