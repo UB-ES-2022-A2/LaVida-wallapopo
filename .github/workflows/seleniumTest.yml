@@ -60,6 +60,12 @@ jobs:
           mv frontend/dist/static/* static/
           mv frontend/dist/index.html templates/
           
+      - name: create db
+        run: |
+          flask db init
+          flask db migrate -m "Initial migration".
+          flask db upgrade
+          
       - name: Run the front test script
         run: |
           pip install pytest
