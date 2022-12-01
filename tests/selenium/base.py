@@ -12,7 +12,7 @@ from selenium.common.exceptions import TimeoutException
 host2 = 'http://localhost:5000/'
 login_page = host2 + '#/login'
 
-chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
+chrome_service = Service(ChromeDriverManager().install())
 
 chrome_options = Options()
 options = [
