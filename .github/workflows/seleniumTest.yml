@@ -31,7 +31,7 @@ jobs:
         run: apt list --installed
         
       - name: Remove Chrome
-        run: sudo apt purge google-chrome-stable
+        run: sudo apt install google-chrome-stable
         
       - name: Install all necessary packages
         run: pip install requests beautifulsoup4 pandas webdriver-manager selenium
