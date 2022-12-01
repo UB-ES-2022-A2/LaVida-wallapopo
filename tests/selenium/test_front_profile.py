@@ -1,11 +1,11 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
+from base import login_page, driver
 
-
-def test_check_profile_data(driver):
+def test_check_profile_data():
     # SETUP: LOGIN AS A USER
     base_url = "http://localhost:5000/"
-    driver.get(base_url + "#/login")
+    driver.get(login_page)
 
     # Get login form fields and submit button
     email_field = driver.find_element(By.ID, 'login_input_emailField')
