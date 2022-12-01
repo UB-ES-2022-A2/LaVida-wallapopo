@@ -17,7 +17,6 @@ from resources.profile import Profile
 
 app = Flask(__name__)
 
-
 # app = Flask(
 #     __name__,
 #     static_folder="frontend/dist/static",
