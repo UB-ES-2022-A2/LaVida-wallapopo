@@ -51,8 +51,8 @@ api.add_resource(ProductsList, '/API/products')
 api.add_resource(AddProduct, '/API/catalog/add/<string:email>')
 
 # filtering
-api.add_resource(Filter, '/API/filter')
-api.add_resource(FilterCategory, '/API/filter/<string:category>')
+api.add_resource(Filter, '/API/filter', '/API/filter/<string:text>')
+api.add_resource(FilterCategory, '/API/category/<string:category>')
 
 # session
 api.add_resource(Login, '/API/login')
