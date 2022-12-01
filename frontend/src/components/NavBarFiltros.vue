@@ -148,7 +148,7 @@ export default {
   methods: {
     applyFilter () {
       this.checkChips()
-      const path = this.devPath + `/filter`
+      const path = this.prodPath + `/filter`
       let cond = []
       if (!this.status_usado && !this.status_nuevo && !this.status_casi_nuevo) {
         cond = this.cond
