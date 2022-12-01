@@ -4,27 +4,27 @@
       <button type="button" class="btn btn-outline-dark mx-1" v-b-toggle.sidebar-backdrop>Filtros</button>
       <b-button variant="info" v-if="chip1" @click="checkChipCategories">
         {{this.category}}
-        <font-awesome-icon icon="fa-circle-xmark"/>
+        <img class="pb-1" src="../assets/icons/close.png" alt="" style="width: 15px" >
       </b-button>
       <b-button variant="info" v-if="chip2" @click="checkChipPrice">
         {{this.price0}} - {{this.price1}}€
-        <font-awesome-icon icon="fa-circle-xmark"/>
+        <img class="pb-1" src="../assets/icons/close.png" alt="" style="width: 15px" >
       </b-button>
       <b-button variant="info" v-if="chip3" @click="checkChipStat1">
         Nuevo
-        <font-awesome-icon icon="fa-circle-xmark"/>
+        <img class="pb-1" src="../assets/icons/close.png" alt="" style="width: 15px" >
       </b-button>
       <b-button variant="info" v-if="chip5" @click="checkChipStat2">
         Casi Nuevo
-        <font-awesome-icon icon="fa-circle-xmark"/>
+        <img class="pb-1" src="../assets/icons/close.png" alt="" style="width: 15px" >
       </b-button>
       <b-button variant="info" v-if="chip6" @click="checkChipStat3">
         Usado
-        <font-awesome-icon icon="fa-circle-xmark"/>
+        <img class="pb-1" src="../assets/icons/close.png" alt="" style="width: 15px" >
       </b-button>
       <b-button variant="info" v-if="chip4" @click="checkChipTime">
         {{this.tiempo[this.date].text}}
-        <font-awesome-icon icon="fa-circle-xmark"/>
+        <img class="pb-1" src="../assets/icons/close.png" alt="" style="width: 15px" >
       </b-button>
     </div>
       <div>
