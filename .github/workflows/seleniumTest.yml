@@ -30,14 +30,8 @@ jobs:
       - name: Installed package list
         run: apt list --installed
         
-      - name: Remove Chrome
-        run: sudo apt purge google-chrome-stable
-        
-      - name: Remove default Chromium
-        run: sudo apt purge chromium-browser
-        
-      - name: Install a new Chromium
-        run: sudo apt install -y chromium-browser
+      - name: Install Chrome
+        run: sudo apt install google-chrome-stable
         
       - name: Install all necessary packages
         run: pip install requests beautifulsoup4 pandas webdriver-manager selenium
@@ -47,26 +41,26 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           
-      - name: run npm build and create dist folder
+      - name: Run npm build and create dist folder
         run: | 
           cd frontend
           npm ci
           npm run build 
           
-      - name: update static and templates
+      - name: Update static and templates
         run: |
           rm -rf static/* 
           rm -rf templates/*
           mv frontend/dist/static/* static/
           mv frontend/dist/index.html templates/
           
-      - name: create db
+      - name: Create db
         run: |
           flask db init
           flask db migrate -m "Initial migration".
           flask db upgrade
         
-      - name: populate db
+      - name: Populate db
         run: python add_data.py
           
       - name: Run the front test script
@@ -74,7 +68,8 @@ jobs:
           pip install pytest
           pip install pytest-cov
           python app.py &
-          sleep 5
+          sleep 2
           pytest tests/selenium/test_login_front.py
           pytest tests/selenium/test_register.py
           pytest tests/selenium/test_subir_producto.py
+          

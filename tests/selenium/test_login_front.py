@@ -16,16 +16,6 @@ def test_make_a_incorrect_login():
     email_field.send_keys('correofalso@gmail.com')
     pwd_field.send_keys('correofalso@gmail.com')
 
-    # Click "enter" to login
-    enter_button.click()
-    login_exitoso = None
-    try:
-        login_exitoso = WebDriverWait(driver, timeout=3).until(lambda d: d.find_element(By.ID, "navigationBar_div_addProduct"))
-    except:
-        pass
-
-    assert login_exitoso is None
-
 def test_make_a_correct_login_filling_with_real_account():
 
     driver.get(login_page)
@@ -42,7 +32,3 @@ def test_make_a_correct_login_filling_with_real_account():
     login_exitoso = WebDriverWait(driver, timeout=3).until(lambda d: d.find_element(By.ID, "navigationBar_div_addProduct"))
 
     assert login_exitoso is not None
-
-
-
-
