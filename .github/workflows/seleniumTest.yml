@@ -7,7 +7,7 @@ on:
     branches:
       - SeleniumTest
 jobs:
-  Selenium testing:
+  Selenium-testing:
     runs-on: ubuntu-latest
     steps:
       - name: Check out this repo
