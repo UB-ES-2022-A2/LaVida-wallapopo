@@ -50,7 +50,7 @@ def test_add_product():
     product_price.send_keys('5')
     product_state.select_by_visible_text('Nuevo')
     product_description.send_keys("Un monopolio con tema de motos")
-    product_add_photo.send_keys("C:/Users/migue/Downloads/lena.jpg")
+    product_add_photo.send_keys("frontend/src/assets/Oso.jpeg")
     product_uploadProduct_button.click()
     alert = WebDriverWait(driver, 2).until(EC.alert_is_present())
     alert_text = alert.text
