@@ -13,6 +13,7 @@ from resources.products import Product, ProductsList, AddProduct
 from resources.session import Login, Logout
 from resources.filters import Filter, FilterCategory
 from resources.validate import Validate
+from resources.profile import Profile
 
 app = Flask(__name__)
 
@@ -23,7 +24,7 @@ app = Flask(__name__)
 #     template_folder="frontend/dist"
 # )
 
-# Set default environment as developement
+# Set default environment as development, change to 'testing' before running tests
 environment = config['development']
 
 # If it's deployed change environment to production
@@ -41,8 +42,8 @@ db.init_app(app)
 
 # accounts
 api.add_resource(Accounts, '/API/account/<string:email>', '/API/account')
-
 api.add_resource(Validate, '/API/validation/<string:validation_token>', '/API/validation')
+api.add_resource(Profile, '/API/profile/<string:email>', '/API/profile')
 
 # products
 api.add_resource(Product, '/API/product/<string:id>')

@@ -11,7 +11,7 @@ if os.name == 'nt':
     print("Testing model: products.py")
     subprocess.run(['cmd', '/c', 'pytest', out + '/unit/test_model_products.py'])
     print("Testing resource: accounts.py")
-    subprocess.run(['cmd', '/c', 'pytest', out+'/functional/test_accounts.py'])
+    subprocess.run(['cmd', '/c', 'pytest', out + '/functional/test_accounts.py'])
     print("Testing resource: products.py")
     subprocess.run(['cmd', '/c', 'pytest', out + '/functional/test_products.py'])
     print("Testing resource: session.py")

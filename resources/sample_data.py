@@ -72,7 +72,7 @@ accounts = [
   'email': "killer23@gmail.com",
   'password': "magic_p443.",
   'username': 'the killer god',
-  'confirmed': True
+  'confirmed': False
  },
  {
   'email': "joseramon33@hotmail.com",
