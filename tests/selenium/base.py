@@ -6,10 +6,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from webdriver_manager.core.utils import ChromeType
 
-
-host2 = 'http://localhost:5000/'
-login_page = host2 + '#/login'
+host = 'http://127.0.0.1:5000/'
+login_page = host + '#/login'
+register_page = host + '#/register'
+add_product_page = host + '#/catalog/add'
+profile_page = host + '#/profile'
 
 chrome_service = Service(ChromeDriverManager().install())
 

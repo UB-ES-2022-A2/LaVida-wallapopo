@@ -2,10 +2,10 @@ name: Selenium Testing
 on:
   push:
     branches:
-      - CI-testing
+      - Developement-Test
   pull_request:
     branches:
-      - CI-testing
+      - Developement-Test
 jobs:
   Front-testing:
     runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
       - name: Installed package list
         run: apt list --installed
         
-      - name: Remove Chrome
+      - name: Install Chrome
         run: sudo apt install google-chrome-stable
         
       - name: Install all necessary packages
@@ -41,26 +41,26 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           
-      - name: run npm build and create dist folder
+      - name: Run npm build and create dist folder
         run: | 
           cd frontend
           npm ci
           npm run build 
           
-      - name: update static and templates
+      - name: Update static and templates
         run: |
           rm -rf static/* 
           rm -rf templates/*
           mv frontend/dist/static/* static/
           mv frontend/dist/index.html templates/
           
-      - name: create db
+      - name: Create db
         run: |
           flask db init
           flask db migrate -m "Initial migration".
           flask db upgrade
         
-      - name: populate db
+      - name: Populate db
         run: python add_data.py
           
       - name: Run the front test script
@@ -70,4 +70,6 @@ jobs:
           python app.py &
           sleep 2
           pytest tests/selenium/test_login_front.py
-          # lol
+          pytest tests/selenium/test_register.py
+          pytest tests/selenium/test_subir_producto.py
+          

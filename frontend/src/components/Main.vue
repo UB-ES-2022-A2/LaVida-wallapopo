@@ -1,17 +1,15 @@
 <template>
   <main class="main">
     <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token"/>
-    <div class="div-2 mt-5 container">
-      <div class="pt-5 row text-center">
+    <div class="div-2 my-5 container">
+      <div class="pt-3 row text-center">
         <div
           class="col-6 col-lg-3 celda"
-          v-for="(categoria) in categorias"
+          v-for="(categoria, index) in categorias"
           :key="categoria.name"
         >
-          <div class="div-1 mb-5" @click="goToProducts(categoria.name)">
-            <!--
-              <font-awesome-icon v-bind:icon="icons_list[index]" size="4x" transform="shrink-6"/>
-            !-->
+          <div class="div-1" @click="goToProducts(categoria.name)">
+            <img class="pt-2" :src="require('../assets/icons/categories/'+index+'.png')" alt='Category Image' style="width: 50px"/>
             <p>{{categoria.name}}</p>
           </div>
         </div>
@@ -92,11 +90,6 @@ export default {
           image: this.icons_list[i]
         })
       }
-    },
-    goToCategoria (categoria) {
-      this.$router.push({
-        path: '/categoria/' + categoria
-      })
     },
     goToProducts (categoria) {
       if (categoria === 'Todas las categorias') {
