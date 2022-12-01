@@ -1,7 +1,7 @@
 <template>
-  <div id="footer" bottom="0" position="fixed">
+  <div id="footer">
     <!-- Footer -->
-    <footer class="text-center text-lg-start bg-light text-muted bottom fixed padless">
+    <footer class="page-footer text-center text-lg-start bg-light text-muted padless">
       <!-- Section: Links  -->
       <section class="">
         <div class="d-flex justify-content-center justify-content-lg-between container text-center text-md-start mt-5 p-4 border-bottom">

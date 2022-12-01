@@ -14,11 +14,12 @@
 
 <script>
 import axios from 'axios'
+import {devWeb, prodWeb} from '../store'
 
 export default {
   name: 'LogoutModal',
-  prodPath: 'https://firm-affinity-366616.ew.r.appspot.com',
-  devPath: 'http://localhost:5000',
+  prodPath: prodWeb,
+  devPath: devWeb,
   props: {
     logged: Boolean,
     email: String,
@@ -27,7 +28,7 @@ export default {
   },
   methods: {
     confirmLogout () {
-      const path = this.devPath + '/API/logout/' + this.email
+      const path = this.devPath + '/logout/' + this.email
       axios.post(path, {}, {
         auth: {username: this.token}
       })
