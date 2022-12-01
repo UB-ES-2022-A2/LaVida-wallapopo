@@ -60,12 +60,12 @@
                 <div class="row-name">
                   <label>Nombre de usuario</label>
                   <br>
-                  <span> {{username}} </span>
+                  <span id='userProfile_span_username'> {{username}} </span>
                 </div>
                 <div class="row-name">
                   <label>Email</label>
                   <br>
-                  <span> {{email}} </span>
+                  <span id='userProfile_span_email'> {{email}} </span>
                 </div>
                 <div class="row-name">
                   <label>Fecha de cumpleaños</label>

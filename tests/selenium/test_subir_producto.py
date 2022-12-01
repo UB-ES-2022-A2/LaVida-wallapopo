@@ -5,10 +5,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
-from base import driver, host2
+from base import driver, host, login_page, add_product_page
 from selenium.webdriver.support import expected_conditions as EC
 
-login_page = host2 + '#/login'
+
+
 
 
 def login():
@@ -27,15 +28,11 @@ def login():
     login_exitoso = WebDriverWait(driver, timeout=3).until(
         lambda d: d.find_element(By.ID, "navigationBar_div_addProduct"))
 
-    # Si el login es exitoso se hara display a un nuevo elemento
-
-    assert login_exitoso is not None
     return driver
 
 
-def add_product():
+def test_add_product():
     login()
-    add_product_page = host2 + '#/catalog/add'
     driver.get(add_product_page)
 
     # Get all elements in page
@@ -58,9 +55,8 @@ def add_product():
     alert = WebDriverWait(driver, 2).until(EC.alert_is_present())
     alert_text = alert.text
     alert.accept()
-    print(alert_text)
-    sleep(2)
+
     assert alert_text is not None
 
 
-add_product()
+
