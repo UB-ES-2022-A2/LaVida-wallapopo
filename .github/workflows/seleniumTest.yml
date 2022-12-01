@@ -31,7 +31,7 @@ jobs:
         run: apt list --installed
         
       - name: Install Chrome
-        run: sudo apt install google-chrome-stable
+        run: sudo apt install chromium-browser
         
       - name: Install all necessary packages
         run: pip install requests beautifulsoup4 pandas webdriver-manager selenium
