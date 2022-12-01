@@ -1,10 +1,10 @@
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import TimeoutException
 from webdriver_manager.core.utils import ChromeType
 
@@ -14,8 +14,7 @@ register_page = host + '#/register'
 add_product_page = host + '#/catalog/add'
 profile_page = host + '#/profile'
 
-
-chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
+chrome_service = Service(ChromeDriverManager().install())
 
 chrome_options = Options()
 options = [
@@ -31,5 +30,3 @@ for option in options:
     chrome_options.add_argument(option)
 
 driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
-
-
