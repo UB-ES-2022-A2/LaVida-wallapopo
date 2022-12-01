@@ -3,7 +3,7 @@
     <div class="mb-4">
       <button type="button" class="btn btn-outline-dark mx-1" v-b-toggle.sidebar-backdrop>Filtros</button>
       <b-button variant="info" v-if="chip1" @click="checkChipCategories">
-        {{this.category}}
+        {{ category }}
         <font-awesome-icon icon="fa-circle-xmark"/>
       </b-button>
       <b-button variant="info" v-if="chip2" @click="checkChipPrice">
@@ -115,6 +115,7 @@ export default {
       prodPath: prodWeb,
       devPath: devWeb,
       zonas: null,
+      removeCat: false,
       tiempo: [
         { value: -1, text: 'Elige un orden', disabled: true },
         { value: 1, text: 'Más recientes' },
@@ -144,6 +145,10 @@ export default {
       ]
     }
   },
+  created () {
+    this.category = this.category2
+    this.applyFilter()
+  },
   methods: {
     applyFilter () {
       this.checkChips()
@@ -157,7 +162,8 @@ export default {
       }
 
       let category
-      if (this.category !== null) {
+      if (this.category !== null || this.removeCat) {
+        this.removeCat = false
         category = this.category
       } else {
         category = this.category2 ? this.category2 : this.category
@@ -197,6 +203,7 @@ export default {
     checkChipCategories () {
       this.chip1 = false
       this.category = null
+      this.removeCat = true
       this.applyFilter()
     },
     checkChipPrice () {

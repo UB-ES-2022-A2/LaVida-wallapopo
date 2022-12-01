@@ -82,10 +82,8 @@ export default {
       axios.get(path)
         .then((res) => {
           console.log(res)
-          let db = res.data.Products_List
-          for (let index = 0; index < db.length; index++) {
-            this.db.push(db[index])
-          }
+          this.db = res.data.products_list
+          this.db = this.db.slice()
         })
         .catch((error) => {
           console.error(error)
@@ -96,10 +94,8 @@ export default {
       axios.get(path)
         .then((res) => {
           console.log(res)
-          let db = res.data.products_list
-          for (let index = 0; index < db.length; index++) {
-            this.db.push(db[index])
-          }
+          this.db = res.data.products_list
+          this.db = this.db.slice()
         })
         .catch((error) => {
           console.error(error)
@@ -120,7 +116,7 @@ export default {
           {search: this.search_text},
           this.filters
         )
-        console.log(parameters)
+        this.category = parameters.category
         axios.post(path, parameters)
           .then((res) => {
             console.log(res.data)
@@ -136,6 +132,7 @@ export default {
         axios.get(path)
           .then((res) => {
             console.log(res.data)
+            this.category = null
             this.db = res.data.products_list
             this.db = this.db.slice()
           })
@@ -143,10 +140,12 @@ export default {
             console.error(error)
           })
       } else {
-        this.db = []
         this.getProducts()
       }
     }
+  },
+  created () {
+    this.category = this.$route.params.categoria
   },
   mounted () {
     this.search_text = this.$route.params.search_text
