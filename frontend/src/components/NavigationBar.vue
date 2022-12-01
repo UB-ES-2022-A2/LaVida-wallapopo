@@ -1,15 +1,16 @@
 <template>
   <nav class="navbar navbar-expand-md style-navbar">
     <a class="navbar-brand h1" @click="redirectToHome()">Wallapopo</a>
-    <form class="container-fluid" role="search" @click="goToProducts">
-      <font-awesome-icon class="nav-icon" icon="fa-magnifying-glass" />
-      <input
-        class="form-control"
+    <div class="container-fluid">
+      <font-awesome-icon class="nav-icon" icon="fa-magnifying-glass" @click="onEnter"/>
+      <b-form-input
         type="search"
-        placeholder="Search"
-        aria-label="Search"
+        placeholder="Buscar"
+        aria-label="Buscar"
+        v-model="text"
+        @keydown.enter.native="onEnter"
       />
-    </form>
+    </div>
     <div v-if="!logged" class="container buttons-session">
       <div v-on:click="goToLogin" class="btn btn-primary">
         Login
@@ -20,23 +21,23 @@
     </div>
     <div v-else class="container">
       <div class="btn">
-        <font-awesome-icon class="nav-icon" icon="fa-heart" />
+        <img src="@/assets/heart.png" alt="User icon" style="width: 20px" />
         </div>
       <div class="btn"><font-awesome-icon class="nav-icon" icon="fa-envelope" /></div>
 
       <div class="dropdown-dark my-3 text-right">
-        <div class="btn">
-        <font-awesome-icon class="nav-icon" icon="fa-user-circle" /></div>
+        <button class="btn" @click="redirectToUserProfile()">
+          <img src="@/assets/user.png" alt="User icon" style="width: 20px" /> Tú
+        </button>
         <b-dropdown id="dropdown-1" text="Usuario" class="m-md-2" variant="dark">
           <b-dropdown-item v-b-modal.modal-1 v-on:click="loggedOut()">Cerrar Sesión</b-dropdown-item>
         </b-dropdown>
         <LogoutModal @loggedStatus="logged=$event" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
       </div>
 
-      <div class="btn btn-product" @click="redirectToAddProduct()">
-        <font-awesome-icon class="nav-icon" icon="fa-circle-plus" />
+      <div class="btn btn-product" @click="redirectToAddProduct()" id='navigationBar_div_addProduct'>
+        <img src="@/assets/add.png" alt="User icon" style="width: 20px" />
         Agregar producto
-
       </div>
     </div>
   </nav>
@@ -50,15 +51,27 @@ export default {
   name: 'NavigationBar',
   components: { LogoutModal },
   props: {
-    logged: Boolean
+    logged: Boolean,
+    search_text: String
   },
   data () {
     return {
+      text: this.search_text,
       token: localStorage.getItem('token'),
       email: localStorage.getItem('email')
     }
   },
   methods: {
+    onEnter () {
+      if (this.$route.name === 'Main') {
+        this.$router.push({
+          name: 'HelloWorld',
+          params: {search_text: this.text}}
+        )
+      } else {
+        this.$emit('searchText', this.text)
+      }
+    },
     isLogged () {
       if (this.token !== null) {
         this.logged = true
@@ -90,6 +103,12 @@ export default {
         name: 'Main',
         params: {logged: this.logged, email: this.email, token: this.token}
       })
+    },
+    redirectToUserProfile () {
+      this.$router.push({
+        name: 'UserProfile',
+        params: {logged: this.logged, email: this.email, token: this.token}
+      })
     }
   },
   computed () {
@@ -110,6 +129,7 @@ export default {
   letter-spacing: 5px;
 
 }
+
 a {
   color: inherit;
   text-decoration: inherit;
@@ -117,7 +137,7 @@ a {
 }
 .navbar{
   border-bottom: 1px solid rgb(134, 134, 139);
-  margin-bottom:10px ;
+  margin-bottom:10px;
 }
 .container{
   justify-content: end;
@@ -129,7 +149,10 @@ a {
 .nav-icon{
   font-size: 33px;
   margin-right: 3px;
-  transition: 0.3s;
+  transition: 0.3s;}
+.btn{
+  margin-left: 2px;
+
 }
 .nav-icon:hover{
   font-size: 35px;

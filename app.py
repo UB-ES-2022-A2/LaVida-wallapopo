@@ -13,6 +13,7 @@ from resources.products import Product, ProductsList, AddProduct
 from resources.session import Login, Logout
 from resources.filters import Filter, FilterCategory
 from resources.validate import Validate
+from resources.profile import Profile
 
 app = Flask(__name__)
 
@@ -42,8 +43,8 @@ db.init_app(app)
 
 # accounts
 api.add_resource(Accounts, '/API/account/<string:email>', '/API/account')
-
 api.add_resource(Validate, '/API/validation/<string:validation_token>', '/API/validation')
+api.add_resource(Profile, '/API/profile/<string:email>', '/API/profile')
 
 # products
 api.add_resource(Product, '/API/product/<string:id>')
@@ -51,8 +52,8 @@ api.add_resource(ProductsList, '/API/products')
 api.add_resource(AddProduct, '/API/catalog/add/<string:email>')
 
 # filtering
-api.add_resource(Filter, '/API/filter')
-api.add_resource(FilterCategory, '/API/filter/<string:category>')
+api.add_resource(Filter, '/API/filter', '/API/filter/<string:text>')
+api.add_resource(FilterCategory, '/API/category/<string:category>')
 
 # session
 api.add_resource(Login, '/API/login')
