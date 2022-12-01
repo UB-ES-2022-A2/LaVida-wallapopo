@@ -2,10 +2,10 @@ name: Selenium Testing
 on:
   push:
     branches:
-      - SeleniumTest
+      - Developement-Test
   pull_request:
     branches:
-      - SeleniumTest
+      - Developement-Test
 jobs:
   Front-testing:
     runs-on: ubuntu-latest
