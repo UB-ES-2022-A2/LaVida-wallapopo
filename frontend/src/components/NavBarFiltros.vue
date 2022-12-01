@@ -146,7 +146,7 @@ export default {
     }
   },
   created () {
-    this.category = this.category2
+    if (this.category2) this.category = this.category2
     if (this.category) this.applyFilter()
   },
   methods: {
