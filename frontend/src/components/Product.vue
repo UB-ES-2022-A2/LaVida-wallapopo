@@ -52,7 +52,7 @@
           </div>
         </div>
 
-        <!-- Carrousel de imagens-->
+        <!-- Carrousel de imagenEs-->
         <div>
           <b-carousel
             id="carousel-1"
@@ -67,9 +67,7 @@
             @sliding-start="onSlideStart"
             @sliding-end="onSlideEnd"
           >
-
-            <b-carousel-slide v-for="i in ['Oso.jpeg', 'Seat.jpeg']" :key=i
-            :caption=i
+            <b-carousel-slide v-for="i in ['product_placeholder.png', 'Oso.jpeg', 'Parchis.jpeg']" :key=i
               :img-src="require('../assets/' + i)"
               style="height:480px"
             ></b-carousel-slide>
