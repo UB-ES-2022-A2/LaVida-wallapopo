@@ -11,27 +11,55 @@ jobs:
     runs-on: ubuntu-latest
     strategy: 
       max-parallel: 5
+      matrix:
+        node-version: [16.x]
     steps:
       - name: Check out this repo
         uses: actions/checkout@v3
+        
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
           python-version: '3.9'
+          
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           if [ -requirements.txt ]; then pip install -r requirements.txt; fi
+          
       - name: Installed package list
         run: apt list --installed
+        
       - name: Remove Chrome
         run: sudo apt purge google-chrome-stable
+        
       - name: Remove default Chromium
         run: sudo apt purge chromium-browser
+        
       - name: Install a new Chromium
         run: sudo apt install -y chromium-browser
+        
       - name: Install all necessary packages
         run: pip install requests beautifulsoup4 pandas webdriver-manager selenium
+        
+      - name: Run npm build - Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          
+      - name: run npm build and create dist folder
+        run: | 
+          cd frontend
+          npm ci
+          npm run build 
+          
+      - name: update static and templates
+        run: |
+          rm -rf static/* 
+          rm -rf templates/*
+          mv frontend/dist/static/* static/
+          mv frontend/dist/index.html templates/
+          
       - name: Run the front test script
         run: |
           pip install pytest
