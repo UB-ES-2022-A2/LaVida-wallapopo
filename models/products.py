@@ -100,5 +100,27 @@ class ProductsModel(db.Model):
         return query.order_by(desc(cls.date) if date else cls.date).all()
 
     @classmethod
+    def get_by_search_text_filter(cls, text, cat, price0, price1, date, condition):
+        # first retrieve all the products within the price range and condition
+        query = cls.query
+        # only return products from this category
+        if cat is not None:
+            query = query.filter(cls.category == cat)
+        query = query.filter(
+            (cls.price >= price0) &
+            (cls.price <= price1) &
+            cls.condition.in_(condition)
+        )
+
+        data = query.order_by(desc(cls.date) if date else cls.date)
+        tag = "%{}%".format(text.lower())
+        return data.filter(func.lower(cls.name).like(tag)).all()
+
+    @classmethod
+    def get_by_search_text(cls, text):
+        tag = "%{}%".format(text.lower())
+        return cls.query.filter(func.lower(cls.name).like(tag)).all()
+
+    @classmethod
     def get_by_category(cls, category):
         return cls.query.filter_by(category=category).all()

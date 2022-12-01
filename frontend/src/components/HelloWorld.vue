@@ -1,9 +1,21 @@
 <template>
   <div class="products">
-    <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token"/>
-    <NavBarFiltros  @productsList="db=$event" :category2="category"/>
+    <NavigationBar
+      class="nav-top"
+      @searchText="onChangeSearch($event)"
+      :logged="logged"
+      :key="logged"
+      :email="email"
+      :token="token"
+      :search_text="search_text"
+    />
+    <NavBarFiltros
+      @productsList="onChangeFilters($event)"
+      :category2="category"
+    />
     <div class="container" style="min-height: 400px">
       <h3 v-if="category">{{ category }}</h3>
+      <h3 v-else-if="search_text"> + {{ db.length }} resultados para {{ search_text }}</h3>
       <h3 v-else>Todos los productos</h3>
       <hr class="solid">
       <div class="row">
@@ -52,7 +64,9 @@ export default {
       logged: false,
       token: localStorage.getItem('token'),
       email: 'e',
-      category: null
+      category: null,
+      search_text: null,
+      filters: null
     }
   },
 
@@ -67,33 +81,75 @@ export default {
       axios.get(path)
         .then((res) => {
           console.log(res)
-          let db = res.data.Products_List
-          for (let index = 0; index < db.length; index++) {
-            this.db.push(db[index])
-          }
+          this.db = res.data.Products_List
+          this.db = this.db.slice()
         })
         .catch((error) => {
           console.error(error)
         })
     },
     getCategory (category) {
-      const path = this.devPath + `/filter/${category}`
+      const path = this.devPath + `/category/${category}`
       axios.get(path)
         .then((res) => {
           console.log(res)
-          let db = res.data.products_list
-          for (let index = 0; index < db.length; index++) {
-            this.db.push(db[index])
-          }
+          this.db = res.data.products_list
+          this.db = this.db.slice()
         })
         .catch((error) => {
           console.error(error)
         })
+    },
+    onChangeFilters (param) {
+      this.filters = param
+      this.applyFilter()
+    },
+    onChangeSearch (param) {
+      this.search_text = param
+      this.applyFilter()
+    },
+    applyFilter () {
+      if (this.filters) {
+        const path = this.devPath + `/filter`
+        const parameters = (this.search_text === null) ? this.filters : Object.assign(
+          {search: this.search_text},
+          this.filters
+        )
+        this.category = parameters.category
+        axios.post(path, parameters)
+          .then((res) => {
+            console.log(res.data)
+            this.db = res.data.products_list
+            this.db = this.db.slice()
+          })
+          .catch((error) => {
+            console.error(error)
+            console.log(parameters)
+          })
+      } else if (this.search_text) {
+        const path = this.devPath + `/filter/${this.search_text}`
+        axios.get(path)
+          .then((res) => {
+            console.log(res.data)
+            this.category = null
+            this.db = res.data.products_list
+            this.db = this.db.slice()
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+      } else {
+        this.getProducts()
+      }
     }
   },
-  mounted () {
+  created () {
     this.category = this.$route.params.categoria
-    if (this.category) this.getCategory(this.category)
+    this.search_text = this.$route.params.search_text
+    if (this.search_text) {
+      this.search_text = this.search_text.trim()
+      this.applyFilter()
+    } else if (this.category) this.getCategory(this.category)
     else this.getProducts()
     this.email = localStorage.getItem('email')
     this.token = localStorage.getItem('token')

@@ -91,11 +91,6 @@ export default {
         })
       }
     },
-    goToCategoria (categoria) {
-      this.$router.push({
-        path: '/categoria/' + categoria
-      })
-    },
     goToProducts (categoria) {
       if (categoria === 'Todas las categorias') {
         this.$router.push({

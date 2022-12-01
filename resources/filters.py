@@ -7,6 +7,16 @@ from models.products import ProductsModel, categories_list, condition_list
 
 class Filter(Resource):
 
+    # retrieve by search text only
+    def get(self, text):
+        with lock.lock:
+            if text and text.strip() != '':
+                products = ProductsModel.get_by_search_text(text)
+            else:
+                products = ProductsModel.get_all()
+            products = [x.json() for x in products] if products else []
+            return {"products_list": products}, HTTPStatus.OK
+
     # retrieve products by filters applied
     def post(self):
         with lock.lock:
@@ -31,7 +41,11 @@ class Filter(Resource):
                 return {'message': "One of the filters are not correct".format(data)}, \
                        HTTPStatus.BAD_REQUEST
             # if everything is ok then return the products, if nothing matches, return empty list
-            products = ProductsModel.get_by_filters(category, price0, price1, date, conditions)
+            if data['search'] and data['search'].strip() != '':
+                products = ProductsModel.get_by_search_text_filter(
+                    data['search'], category, price0, price1, date, conditions)
+            else:
+                products = ProductsModel.get_by_filters(category, price0, price1, date, conditions)
             products = [x.json() for x in products] if products else []
             return {"products_list": products}, HTTPStatus.OK
 
@@ -45,6 +59,7 @@ class Filter(Resource):
         parser.add_argument('conditions', type=str, action='append', required=True,
                             help="This field cannot be left blank")
         parser.add_argument('date', type=int, required=True, help="This field cannot be left blank")
+        parser.add_argument('search', type=str, required=False)
 
         return parser.parse_args()
 
