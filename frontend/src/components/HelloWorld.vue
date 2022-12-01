@@ -18,8 +18,7 @@
       <h3 v-else-if="search_text"> + {{ db.length }} resultados para {{ search_text }}</h3>
       <h3 v-else>Todos los productos</h3>
       <hr class="solid">
-      <h3 v-if="!db.length"> WOW SUCH EMPTY :(((</h3>
-      <div v-else class="row">
+      <div class="row">
         <div
           class="col-6 col-lg-3 celda"
           v-for="product in db"
@@ -82,7 +81,7 @@ export default {
       axios.get(path)
         .then((res) => {
           console.log(res)
-          this.db = res.data.products_list
+          this.db = res.data.Products_List
           this.db = this.db.slice()
         })
         .catch((error) => {
@@ -146,10 +145,7 @@ export default {
   },
   created () {
     this.category = this.$route.params.categoria
-  },
-  mounted () {
     this.search_text = this.$route.params.search_text
-    this.category = this.$route.params.categoria
     if (this.search_text) {
       this.search_text = this.search_text.trim()
       this.applyFilter()
