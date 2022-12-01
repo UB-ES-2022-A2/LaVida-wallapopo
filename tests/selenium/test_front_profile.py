@@ -64,4 +64,3 @@ def test_check_profile_data(driver):
 
     driver.close()
     driver.quit()
-
