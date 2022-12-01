@@ -77,7 +77,7 @@ export default {
       }
     },
     getProducts () {
-      const path = this.devPath + '/products'
+      const path = this.prodPath + '/products'
       axios.get(path)
         .then((res) => {
           console.log(res)

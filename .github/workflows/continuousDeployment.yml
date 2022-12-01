@@ -1,0 +1,61 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches: [Production]
+
+jobs:
+  rename-path-in-components:
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          node-version: [16.x]
+
+      steps:
+      - uses: actions/checkout@v3
+      - name: Replace devPath to prodPath in vue components
+        run: |
+          find ./frontend/src/components -name "*.vue" -exec sed -i "s/this.devPath/this.prodPath/g" {} \;
+      
+      - name: Run npm build - Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          
+      - name: run npm build and create dist folder
+        run: | 
+          cd frontend
+          npm ci
+          npm run build 
+          
+      - name: update static and templates
+        run: |
+          rm -rf static/* 
+          rm -rf templates/*
+          mv frontend/dist/static/* static/
+          mv frontend/dist/index.html templates/
+          
+      - name: Github commit and push
+        uses: Smart-Transportation/push@v1.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: Production
+
+  auth-deploy-gcp:
+    runs-on: ubuntu-latest
+    needs: rename-path-in-components
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+    - uses: 'actions/checkout@v3'
+    - name: Authenticate to Google Cloud
+      id: auth
+      uses: google-github-actions/auth@v1
+      with:
+        workload_identity_provider: 'projects/887271496407/locations/global/workloadIdentityPools/github-wif-pool/providers/githubwif'
+        service_account: 'test-wif@wallapopo-ub.iam.gserviceaccount.com'
+        token_format: 'access_token'
+        access_token_lifetime: '300s'
+    - id: 'deploy'
+      uses: 'google-github-actions/deploy-appengine@v1'
