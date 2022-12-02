@@ -185,7 +185,7 @@ export default {
       })
       .catch((error) => {
         console.error(error)
-        alert('Error al mostrar info del usuario')
+        alert('Error al mostrar información del usuario')
       })
   }
 }
