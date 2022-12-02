@@ -1,14 +1,16 @@
 <template>
   <nav class="navbar navbar-expand-md style-navbar">
     <a class="navbar-brand h1" @click="redirectToHome()">Wallapopo</a>
-    <form class="container-fluid" role="search">
-      <input
-        class="form-control"
+    <div class="container-fluid">
+      <font-awesome-icon class="nav-icon" icon="fa-magnifying-glass" @click="onEnter"/>
+      <b-form-input
         type="search"
-        placeholder="Search"
-        aria-label="Search"
+        placeholder="Buscar"
+        aria-label="Buscar"
+        v-model="text"
+        @keydown.enter.native="onEnter"
       />
-    </form>
+    </div>
     <div v-if="!logged" class="container buttons-session">
       <div v-on:click="goToLogin" class="btn btn-primary">
         Login
@@ -19,7 +21,7 @@
     </div>
     <div v-else class="container">
       <div class="btn">
-        <font-awesome-icon class="nav-icon" icon="fa-heart" />
+        <img src="@/assets/heart.png" alt="User icon" style="width: 20px" />
         </div>
       <div class="btn"><font-awesome-icon class="nav-icon" icon="fa-envelope" /></div>
 
@@ -33,10 +35,9 @@
         <LogoutModal @loggedStatus="logged=$event" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
       </div>
 
-      <div class="btn btn-product" @click="redirectToAddProduct()">
-        <font-awesome-icon class="nav-icon" icon="fa-circle-plus" />
+      <div class="btn btn-product" @click="redirectToAddProduct()" id='navigationBar_div_addProduct'>
+        <img src="@/assets/add.png" alt="User icon" style="width: 20px" />
         Agregar producto
-
       </div>
     </div>
   </nav>
@@ -50,15 +51,27 @@ export default {
   name: 'NavigationBar',
   components: { LogoutModal },
   props: {
-    logged: Boolean
+    logged: Boolean,
+    search_text: String
   },
   data () {
     return {
+      text: this.search_text,
       token: localStorage.getItem('token'),
       email: localStorage.getItem('email')
     }
   },
   methods: {
+    onEnter () {
+      if (this.$route.name === 'Main') {
+        this.$router.push({
+          name: 'HelloWorld',
+          params: {search_text: this.text}}
+        )
+      } else {
+        this.$emit('searchText', this.text)
+      }
+    },
     isLogged () {
       if (this.token !== null) {
         this.logged = true

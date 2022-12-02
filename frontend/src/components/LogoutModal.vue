@@ -1,7 +1,7 @@
 <template>
   <b-modal id="modal-1" title="Aviso" header-text-variant="light" header-bg-variant="danger">
     <p class="my-4"><b>¿Estás seguro de que quieres cerrar la sesión actual?</b></p>
-    <template #modal-footer="{ logout, cancel }">
+    <template #modal-footer="{ cancel }">
       <b-button size="sm" variant="outline-danger" @click="confirmLogout(); changeLogged()">
         Cerrar sesión
       </b-button>
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     confirmLogout () {
-      const path = this.prodPath + '/logout/' + this.email
+      const path = this.devPath + '/logout/' + this.email
       axios.post(path, {}, {
         auth: {username: this.token}
       })

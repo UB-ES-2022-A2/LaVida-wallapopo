@@ -3,11 +3,11 @@
     <div class="mb-4">
       <button type="button" class="btn btn-outline-dark mx-1" v-b-toggle.sidebar-backdrop>Filtros</button>
       <b-button variant="info" v-if="chip1" @click="checkChipCategories">
-        {{this.category}}
+        {{ category }}
         <img class="pb-1" src="../assets/icons/close.png" alt="" style="width: 15px" >
       </b-button>
       <b-button variant="info" v-if="chip2" @click="checkChipPrice">
-        {{this.price0}} - {{this.price1}}€
+        {{ price0 }} - {{ price1 }}€
         <img class="pb-1" src="../assets/icons/close.png" alt="" style="width: 15px" >
       </b-button>
       <b-button variant="info" v-if="chip3" @click="checkChipStat1">
@@ -23,7 +23,7 @@
         <img class="pb-1" src="../assets/icons/close.png" alt="" style="width: 15px" >
       </b-button>
       <b-button variant="info" v-if="chip4" @click="checkChipTime">
-        {{this.tiempo[this.date].text}}
+        {{ tiempo[this.date].text }}
         <img class="pb-1" src="../assets/icons/close.png" alt="" style="width: 15px" >
       </b-button>
     </div>
@@ -89,7 +89,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { devWeb, prodWeb } from '../store'
 
 export default {
@@ -116,6 +115,7 @@ export default {
       prodPath: prodWeb,
       devPath: devWeb,
       zonas: null,
+      removeCat: false,
       tiempo: [
         { value: -1, text: 'Elige un orden', disabled: true },
         { value: 1, text: 'Más recientes' },
@@ -145,10 +145,13 @@ export default {
       ]
     }
   },
+  created () {
+    if (this.category2) this.category = this.category2
+    if (this.category) this.applyFilter()
+  },
   methods: {
     applyFilter () {
       this.checkChips()
-      const path = this.prodPath + `/filter`
       let cond = []
       if (!this.status_usado && !this.status_nuevo && !this.status_casi_nuevo) {
         cond = this.cond
@@ -159,7 +162,8 @@ export default {
       }
 
       let category
-      if (this.category !== null) {
+      if (this.category !== null || this.removeCat) {
+        this.removeCat = false
         category = this.category
       } else {
         category = this.category2 ? this.category2 : this.category
@@ -171,15 +175,7 @@ export default {
         price0: parseInt(this.price0),
         price1: parseInt(this.price1)
       }
-      axios.post(path, parameters)
-        .then((res) => {
-          console.log(res.data)
-          this.$emit('productsList', res.data.products_list)
-        })
-        .catch((error) => {
-          console.error(error)
-          console.log(parameters)
-        })
+      this.$emit('productsList', parameters)
     },
     checkChips () {
       if (this.category !== null) {
@@ -207,6 +203,7 @@ export default {
     checkChipCategories () {
       this.chip1 = false
       this.category = null
+      this.removeCat = true
       this.applyFilter()
     },
     checkChipPrice () {
