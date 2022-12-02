@@ -63,13 +63,22 @@ jobs:
       - name: Populate db
         run: python add_data.py
           
-      - name: Run the front test script
+      - name: Start test app
         run: |
           pip install pytest
           pip install pytest-cov
           python app.py &
           sleep 2
-          pytest tests/selenium/test_login_front.py
-          pytest tests/selenium/test_register.py
-          pytest tests/selenium/test_subir_producto.py
+          
+      - name: Run test login
+        run: pytest tests/selenium/test_login_front.py
+
+      - name: Run test register
+        run: pytest tests/selenium/test_register.py
+      
+      - name: Run test add product
+        run: pytest tests/selenium/test_subir_producto.py
+        
+      - name: Run test profile
+        run: pytest tests/selenium/test_front_profile.py 
           
