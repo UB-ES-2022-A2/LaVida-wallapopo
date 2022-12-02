@@ -23,6 +23,7 @@
                 <b-img v-else :src="require('../assets/Oso.jpeg')" class="profileImg" v-bind="mainProps"
                   rounded="circle" width="70" height="70" alt="Circle image"></b-img>
                 <b-btn
+                  id="changeImgButton"
                   rounded
                   dark
                   :loading="isSelecting"
