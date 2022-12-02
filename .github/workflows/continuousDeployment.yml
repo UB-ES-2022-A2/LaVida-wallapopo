@@ -51,11 +51,9 @@ jobs:
     - uses: 'actions/checkout@v3'
     - name: Authenticate to Google Cloud
       id: auth
-      uses: google-github-actions/auth@v1
+      uses: 'google-github-actions/auth@v1'
       with:
         workload_identity_provider: 'projects/887271496407/locations/global/workloadIdentityPools/github-wif-pool/providers/githubwif'
         service_account: 'test-wif@wallapopo-ub.iam.gserviceaccount.com'
-        token_format: 'access_token'
-        access_token_lifetime: '300s'
     - id: 'deploy'
       uses: 'google-github-actions/deploy-appengine@v1'
