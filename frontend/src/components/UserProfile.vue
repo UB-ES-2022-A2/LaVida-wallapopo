@@ -163,7 +163,7 @@ export default {
     }
   },
   created () {
-    const path = this.devPath + '/account/' + this.email
+    const path = this.prodPath + '/account/' + this.email
     console.log(this.token)
     axios.get(path, {
       auth: { username: this.token }
