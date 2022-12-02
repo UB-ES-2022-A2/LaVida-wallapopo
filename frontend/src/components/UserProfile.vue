@@ -41,12 +41,12 @@
                   v-model="surname" maxlength="50" required autofocus trim v-on:keydown="isLetter($event)" v-on:focusout="removeExtraSpaces($event)"/>
               </div>
             </b-form-group>
-            <div class="row-name">
+            <div class="row-name" id="profile-div-username">
               <label><b>Nombre de usuario</b></label>
               <br>
               <span> {{ username }} </span>
             </div>
-            <div class="row-name">
+            <div class="row-name" id="profile-div-email">
               <label><b>Email</b></label>
               <br>
               <span> {{ email }} </span>

@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-md style-navbar">
+  <nav class="navbar navbar-expand-md style-navbar" id="navbar-identifier">
     <a class="navbar-brand h1" @click="redirectToHome()">Wallapopo</a>
     <div class="container-fluid">
       <font-awesome-icon class="nav-icon" icon="fa-magnifying-glass" @click="onEnter"/>
@@ -26,7 +26,7 @@
       <div class="btn"><font-awesome-icon class="nav-icon" icon="fa-envelope" /></div>
 
       <div class="dropdown-dark my-3 text-right">
-        <button class="btn" @click="redirectToUserProfile()">
+        <button id="navbar-button-profile" class="btn" @click="redirectToUserProfile()">
           <img src="@/assets/user.png" alt="User icon" style="width: 20px" /> Tú
         </button>
         <b-dropdown id="dropdown-1" text="Usuario" class="m-md-2" variant="dark">
