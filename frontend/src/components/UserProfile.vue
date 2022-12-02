@@ -38,7 +38,6 @@
                   @change="onFileChanged"
                 >
               </div>
-              <h6 class="imSubt"> Aceptamos formatos .jpg y mínimo 400 x 400px </h6>
             </div>
           </div>
         </div>
@@ -253,16 +252,6 @@ export default {
   animation-delay: 1s;
   cursor: grab;
   margin-left: 80px;
-  margin-bottom: 5px;
-  color: #1b1e21;
-  border-color: #1b1e21;
-}
-
-.changeImgButton {
-  border-radius: 20px 20px 20px 20px;
-  background-color: #bdf5ff;
-  animation-delay: 1s;
-  cursor: grab;
   margin-bottom: 5px;
   color: #1b1e21;
   border-color: #1b1e21;
