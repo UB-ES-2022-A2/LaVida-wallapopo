@@ -77,7 +77,7 @@ export default {
       }
     },
     getProducts () {
-      const path = this.prodPath + '/products'
+      const path = this.devPath + '/products'
       axios.get(path)
         .then((res) => {
           console.log(res)
@@ -89,7 +89,7 @@ export default {
         })
     },
     getCategory (category) {
-      const path = this.prodPath + `/category/${category}`
+      const path = this.devPath + `/category/${category}`
       axios.get(path)
         .then((res) => {
           console.log(res)
@@ -110,7 +110,7 @@ export default {
     },
     applyFilter () {
       if (this.filters) {
-        const path = this.prodPath + `/filter`
+        const path = this.devPath + `/filter`
         const parameters = (this.search_text === null) ? this.filters : Object.assign(
           {search: this.search_text},
           this.filters
@@ -127,7 +127,7 @@ export default {
             console.log(parameters)
           })
       } else if (this.search_text) {
-        const path = this.prodPath + `/filter/${this.search_text}`
+        const path = this.devPath + `/filter/${this.search_text}`
         axios.get(path)
           .then((res) => {
             console.log(res.data)
