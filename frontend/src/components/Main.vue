@@ -61,19 +61,6 @@ export default {
         'Industria y Agricultura',
         'Otros'
       ],
-      icons_list: [
-        'fa-bars',
-        'fa-car',
-        'fa-motorcycle',
-        'fa-helmet-safety',
-        'fa-shirt', 'fa-tv',
-        'fa-mobile', 'fa-computer',
-        'fa-volleyball', 'fa-bicycle',
-        'fa-gamepad', 'fa-house',
-        'fa-fire-burner', 'fa-film',
-        'fa-book', 'fa-baby', 'fa-coins',
-        'fa-trowel-bricks', 'fa-seedling', 'fa-ellipsis'
-      ],
       categorias: []
     }
   },
@@ -86,8 +73,7 @@ export default {
     getCategorias () {
       for (let i = 0; i < this.categories_list.length; i++) {
         this.categorias.push({
-          name: this.categories_list[i],
-          image: this.icons_list[i]
+          name: this.categories_list[i]
         })
       }
     },
