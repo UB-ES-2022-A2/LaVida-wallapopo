@@ -14,6 +14,11 @@ from resources.session import Login, Logout
 from resources.filters import Filter, FilterCategory
 from resources.validate import Validate
 from resources.profile import Profile
+from resources.orders import Orders, Sales, Purchases
+
+from models.orders import OrdersModel
+from models.accounts import AccountsModel
+from models.products import ProductsModel
 
 app = Flask(__name__)
 
@@ -57,6 +62,11 @@ api.add_resource(FilterCategory, '/API/category/<string:category>')
 # session
 api.add_resource(Login, '/API/login')
 api.add_resource(Logout, '/API/logout/<string:email>')
+
+# orders
+api.add_resource(Orders, '/API/order/add/<string:email>')
+api.add_resource(Purchases, '/API/order/purchases/<string:email>')
+api.add_resource(Sales, '/API/order/sales/<string:email>')
 
 
 @app.route('/')

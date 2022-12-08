@@ -47,7 +47,6 @@ class Profile(Resource):
         print(user.json())
         return {'message': "Profile updated successfully"}, HTTPStatus.OK
 
-
     def get_data(self):
         parser = reqparse.RequestParser()  # create parameters parser from request
 
