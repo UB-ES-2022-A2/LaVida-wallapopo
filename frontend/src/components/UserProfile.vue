@@ -1,8 +1,8 @@
 <template>
   <div id="Profile">
     <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token" />
-    <!-- Card perfil usuario -->
-    <div class="card bg-light">
+    <!-- Perfil Usuari -->
+    <div class="card bg-light" v-if="type==='profile'">
       <div class="card-body">
         <b-button id="profileButton" class="profileButton">Perfil</b-button>
         <b-button id="reviewsButton" class="reviewsButton">Opiniones</b-button>
@@ -21,7 +21,6 @@
                   rounded="circle" width="70" height="70" alt="Circle image"></b-img>
                 <b-button id="changeImgButton" class="changeImgButton">Cambiar foto</b-button>
               </div>
-              <h6 class="imSubt"> Aceptamos formatos .jpg y mínimo 400 x 400px </h6>
             </div>
           </div>
         </div>
@@ -66,6 +65,58 @@
         </div>
       </div>
     </div>
+    <!--HISTORIAL DE COMPRES-->
+    <div v-else-if="type==='bought'" id="bought-div">
+      <div class="card bg-light" id="big-card" style="width: 40rem;">
+        <h5 class="card-title"><b>Historial de compras</b></h5>
+        <h6 class="card-subtitle">Productos comprados desde la creación de la cuenta:</h6>
+        <br>
+        <div class="card" id="bought-card" style="width: 39rem;">
+
+          <div class="row no-gutters">
+            <div class="col-auto">
+              <b-img :src="require('../assets/product_placeholder.png')" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+            </div>
+            <div class="col-8">
+              <div class="card-block px-2">
+                <h4 class="card-title">Product Name</h4>
+                <p class="card-text">Category</p>
+              </div>
+            </div>
+            <div class="col">
+              <h5 class="card-text" id="bought-price">Price</h5>
+              <a href="#" class="btn btn-primary">Puntuar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--HISTORIAL DE COMPRES-->
+    <div v-else-if="type==='sold'" id="sold-div">
+      <div class="card bg-light" id="big-card" style="width: 40rem;">
+        <h5 class="card-title"><b>Historial de ventas</b></h5>
+        <h6 class="card-subtitle">Productos vendidos desde la creación de la cuenta:</h6>
+        <br>
+        <div class="card" id="sold-card" style="width: 39rem;">
+
+          <div class="row no-gutters">
+            <div class="col-auto">
+              <b-img :src="require('../assets/product_placeholder.png')" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+            </div>
+            <div class="col-8">
+              <div class="card-block px-2">
+                <h4 class="card-title">Product Name</h4>
+                <p class="card-text">Category</p>
+              </div>
+            </div>
+            <div class="col">
+              <br>
+              <h5 class="card-text" id="bought-price">Price</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -88,6 +139,7 @@ export default {
       logged: true,
       token: this.$route.params.token,
       email: this.$route.params.email,
+      type: this.$route.params.type,
       prodPath: prodWeb,
       devPath: devWeb,
       mainProps: { blank: false, blankColor: '#777', width: 70, height: 70, class: 'profileImg' }

@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-md style-navbar" id="navbar-identifier">
-    <a class="navbar-brand h1" @click="redirectToHome()">Wallapopo</a>
+    <a class="navbar-brand h1" @click="goToHome()">Wallapopo</a>
     <div class="container-fluid">
       <font-awesome-icon class="nav-icon" icon="fa-magnifying-glass" @click="onEnter"/>
       <b-form-input
@@ -26,16 +26,17 @@
       <div class="btn"><font-awesome-icon class="nav-icon" icon="fa-envelope" /></div>
 
       <div class="dropdown-dark my-3 text-right">
-        <button id="navbar-button-profile" class="btn" @click="redirectToUserProfile()">
-          <img src="@/assets/user.png" alt="User icon" style="width: 20px" /> Tú
-        </button>
-        <b-dropdown id="dropdown-1" text="Usuario" class="m-md-2" variant="dark">
+        <b-dropdown id="dropdown-1" :src="require('@/assets/user.png')" alt="User icon" text="Usuario" class="m-md-2" variant="dark">
+          <b-dropdown-item v-b-modal.modal-1 v-on:click="goToUserProfile('profile')">Ver Perfil</b-dropdown-item>
+          <b-dropdown-item v-b-modal.modal-1 v-on:click="goToUserProfile('bought')">Ver historial de compras</b-dropdown-item>
+          <b-dropdown-item v-b-modal.modal-1 v-on:click="goToUserProfile('sold')">Ver historial de ventas</b-dropdown-item>
+
           <b-dropdown-item v-b-modal.modal-1 v-on:click="loggedOut()">Cerrar Sesión</b-dropdown-item>
         </b-dropdown>
         <LogoutModal @loggedStatus="logged=$event" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
       </div>
 
-      <div class="btn btn-product" @click="redirectToAddProduct()" id='navigationBar_div_addProduct'>
+      <div class="btn btn-product" @click="goToAddProduct()" id='navigationBar_div_addProduct'>
         <img src="@/assets/add.png" alt="User icon" style="width: 20px" />
         Agregar producto
       </div>
@@ -92,22 +93,22 @@ export default {
     goToProducts () {
       this.$router.push({name: 'HelloWorld'})
     },
-    redirectToAddProduct () {
+    goToAddProduct () {
       this.$router.push({
         name: 'AddProduct',
         params: {logged: this.logged, email: this.email, token: this.token}
       })
     },
-    redirectToHome () {
+    goToHome () {
       this.$router.push({
         name: 'Main',
         params: {logged: this.logged, email: this.email, token: this.token}
       })
     },
-    redirectToUserProfile () {
+    goToUserProfile (type2) {
       this.$router.push({
         name: 'UserProfile',
-        params: {logged: this.logged, email: this.email, token: this.token}
+        params: {logged: this.logged, email: this.email, token: this.token, type: type2}
       })
     }
   },
