@@ -32,6 +32,7 @@
         <label>Categoría</label>
         <b-form-select
           id="categoryId"
+          name='categoryId'
           v-model="category"
           :state="category != null"
           :options="categories"
@@ -95,6 +96,7 @@
       <b-form-file
         v-model="images"
         multiple
+        id="addProduct_input_subirProducto"
         :state="images.length > 0"
         placeholder="Puedes seleccionar fotos o arrastrar y soltar fotos aquí"
         drop-placeholder="Suelta fotos aquí..."
@@ -134,6 +136,7 @@
       class="btn btn-primary btn-lg my-2"
       @click="addProduct()"
       style="width: 100%"
+      id='addProduct_button_subirProducto'
       :disabled="name.length===0 || category===null || price===null || state===null || images.length===0 || description.length===0"
     >
       Subir producto

@@ -8,6 +8,7 @@ import Product from '@/components/Product'
 import AddProduct from '@/components/AddProduct'
 import Main from '@/components/Main'
 import EmailConfirmation from '@/components/EmailConfirmation'
+import UserProfile from '@/components/UserProfile'
 
 Vue.use(Router)
 
@@ -52,6 +53,11 @@ export default new Router({
       path: '/catalog/add',
       name: 'AddProduct',
       component: AddProduct
+    },
+    {
+      path: '/profile',
+      name: 'UserProfile',
+      component: UserProfile
     },
     {
       path: '/emailConfirmation/validation_token=:token',
