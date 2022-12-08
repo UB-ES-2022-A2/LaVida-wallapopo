@@ -89,47 +89,57 @@
         <h5 class="card-title"><b>Historial de compras</b></h5>
         <h6 class="card-subtitle">Productos comprados desde la creación de la cuenta:</h6>
         <br>
-        <div class="card" id="bought-card" style="width: 39rem;">
-
-          <div class="row no-gutters">
+        <div v-if="(purchases.length === 0)">
+          <a>No se han comprado productos hasta la fecha</a>
+        </div>
+        <div class="card" id="bought-card" v-else v-for="purchase in purchases" :key="purchase.id" style="width: 39rem;">
+          <div class="row no-gutters" v-on:click="goToProduct(purchase.product.id)">
             <div class="col-auto">
               <b-img :src="require('../assets/product_placeholder.png')" class="productImg" width="100" height="100" alt="Circle image"></b-img>
             </div>
-            <div class="col-8">
+            <div class="col-5">
               <div class="card-block px-2">
-                <h4 class="card-title">Product Name</h4>
-                <p class="card-text">Category</p>
+                <h4 class="card-title">{{purchase.product.name}}</h4>
+                <p class="card-text">{{purchase.product.category}}</p>
               </div>
             </div>
+            <div class="col-3">
+              <a style="font-size:14px; margin-left:40px;">{{purchase.date}}</a>
+            </div>
             <div class="col">
-              <h5 class="card-text" id="bought-price">Price</h5>
+              <h5 class="card-text" id="bought-price">{{purchase.product.price}}€</h5>
               <a href="#" class="btn btn-primary">Puntuar</a>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!--HISTORIAL DE COMPRES-->
+    <!--HISTORIAL DE VENDES-->
     <div v-else-if="type==='sold'" id="sold-div">
       <div class="card bg-light" id="big-card" style="width: 40rem;">
         <h5 class="card-title"><b>Historial de ventas</b></h5>
         <h6 class="card-subtitle">Productos vendidos desde la creación de la cuenta:</h6>
         <br>
-        <div class="card" id="sold-card" style="width: 39rem;">
-
-          <div class="row no-gutters">
+        <div v-if="(sales.length === 0)">
+          <a>No se han vendido productos hasta la fecha</a>
+        </div>
+        <div class="card" id="bought-card" v-else v-for="sale in sales" :key="sale.id" style="width: 39rem;">
+          <div class="row no-gutters" v-on:click="goToProduct(purchase.product.id)">
             <div class="col-auto">
               <b-img :src="require('../assets/product_placeholder.png')" class="productImg" width="100" height="100" alt="Circle image"></b-img>
             </div>
-            <div class="col-8">
+            <div class="col-5">
               <div class="card-block px-2">
-                <h4 class="card-title">Product Name</h4>
-                <p class="card-text">Category</p>
+                <h4 class="card-title">{{sale.product.name}}</h4>
+                <p class="card-text">{{sale.product.category}}</p>
               </div>
             </div>
+            <div class="col-3">
+              <a style="font-size:14px; margin-left:40px;">{{sale.date}}</a>
+            </div>
             <div class="col">
-              <br>
-              <h5 class="card-text" id="bought-price">Price</h5>
+              <h5 class="card-text" id="bought-price">{{sale.product.price}}€</h5>
+              <a href="#" class="btn btn-primary">Puntuar</a>
             </div>
           </div>
         </div>
@@ -163,10 +173,17 @@ export default {
       changeImgBoolean: false,
       isSelecting: false,
       selectedFile: null,
+      purchases: [],
+      sales: [],
       mainProps: { blank: false, blankColor: '#777', width: 70, height: 70, class: 'profileImg' }
     }
   },
   methods: {
+    goToProduct (id) {
+      this.$router.push({
+        path: '/product/' + id
+      })
+    },
     handleFileImport () {
       this.isSelecting = true
       // After obtaining the focus when closing the FilePicker, return the button state to normal
@@ -195,7 +212,7 @@ export default {
       e.target.value.replace(/(^\s*)|(\s*$)/gi, '') // Remove spaces at the beginning and end of input text
     },
     updateProfile () {
-      const path = this.prodPath + '/profile/' + this.email
+      const path = this.devPath + '/profile/' + this.email
       const parameters = {
         email: this.email,
         name: this.name,
@@ -213,33 +230,71 @@ export default {
           alert('Ha ocurrido un error al actualizar los datos, vuelve a intentarlo más tarde')
           console.error(error)
         })
+    },
+    getUserInfo () {
+      const path = this.devPath + '/account/' + this.email
+      axios.get(path, {
+        auth: { username: this.token }
+      })
+        .then((res) => {
+          if (res.data.account.name != null) {
+            this.name = res.data.account.name
+          }
+          if (res.data.account.surname != null) {
+            this.surname = res.data.account.surname
+          }
+          if (res.data.account.username != null) {
+            this.username = res.data.account.username
+          }
+          if (res.data.account.birthday != null) {
+            this.birthday = res.data.account.birthday
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          alert('Error al mostrar info del usuario')
+        })
+    },
+    getPurchases () {
+      const path = this.devPath + '/order/purchases/' + this.email
+      axios.get(path, {
+        auth: { username: this.token }
+      })
+        .then((res) => {
+          console.log('purchases')
+          console.log(res.data.orders_list)
+          if (res.data.orders_list != null) {
+            this.purchases = res.data.orders_list
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          alert('Error al mostrar purchases')
+        })
+    },
+    getSales () {
+      const path = this.devPath + '/order/sales/' + this.email
+      axios.get(path, {
+        auth: { username: this.token }
+      })
+        .then((res) => {
+          console.log('sales')
+          console.log(res.data.orders_list)
+          if (res.data.orders_list != null) {
+            this.sales = res.data.orders_list
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          alert('Error al mostrar sales')
+        })
     }
   },
+
   created () {
-    const path = this.devPath + '/account/' + this.email
-    console.log(this.token)
-    axios.get(path, {
-      auth: { username: this.token }
-    })
-      .then((res) => {
-        console.log(res)
-        if (res.data.account.name != null) {
-          this.name = res.data.account.name
-        }
-        if (res.data.account.surname != null) {
-          this.surname = res.data.account.surname
-        }
-        if (res.data.account.username != null) {
-          this.username = res.data.account.username
-        }
-        if (res.data.account.birthday != null) {
-          this.birthday = res.data.account.birthday
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-        alert('Error al mostrar info del usuario')
-      })
+    this.getUserInfo()
+    this.getPurchases()
+    this.getSales()
   }
 }
 </script>

@@ -79,7 +79,7 @@ class Sales(Resource):
 
         orders = OrdersModel.get_sales_by_email(email)
         # return orders if it exists
-        return {"orders_list": [x.json() for x in orders]}, HTTPStatus.OK if orders else HTTPStatus.NOT_FOUND
+        return {"orders_list": [x.json() for x in orders]}, HTTPStatus.OK
 
 
 class Purchases(Resource):
@@ -96,4 +96,4 @@ class Purchases(Resource):
 
         orders = OrdersModel.get_purchases_by_email(email)
         # return orders if it exists
-        return {"orders_list": [x.json() for x in orders]}, HTTPStatus.OK if orders else HTTPStatus.NOT_FOUND
+        return {"orders_list": [x.json() for x in orders]}, HTTPStatus.OK
