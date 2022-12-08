@@ -25,7 +25,7 @@
         </div>
       <div class="btn"><font-awesome-icon class="nav-icon" icon="fa-envelope" /></div>
 
-      <div class="dropdown-dark my-3 text-right">
+      <div class="dropdown-dark my-3 text-right" id="navbar-button-profile">
         <b-dropdown id="dropdown-1" :src="require('@/assets/user.png')" alt="User icon" text="Usuario" class="m-md-2" variant="dark">
           <b-dropdown-item v-b-modal.modal-1 v-on:click="goToUserProfile('profile')">Ver Perfil</b-dropdown-item>
           <b-dropdown-item v-b-modal.modal-1 v-on:click="goToUserProfile('bought')">Ver historial de compras</b-dropdown-item>
