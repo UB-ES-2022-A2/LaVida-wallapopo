@@ -17,9 +17,27 @@
             </div>
             <div class="col">
               <div>
-                <b-img :src="require('../assets/product_placeholder.png')" class="profileImg" v-bind="mainProps"
+              <!-- 1. Create the button that will be clicked to select a file -->
+                <b-img v-if="(changeImgBoolean===true)" :src="require('../assets/product_placeholder.png')" class="profileImg" v-bind="mainProps"
                   rounded="circle" width="70" height="70" alt="Circle image"></b-img>
-                <b-button id="changeImgButton" class="changeImgButton">Cambiar foto</b-button>
+                <b-img v-else :src="require('../assets/Oso.jpeg')" class="profileImg" v-bind="mainProps"
+                  rounded="circle" width="70" height="70" alt="Circle image"></b-img>
+                <b-btn
+                  id="changeImgButton"
+                  rounded
+                  dark
+                  :loading="isSelecting"
+                  @click="handleFileImport"
+                >
+                  Change Profile Image
+                </b-btn>
+                <!-- Create a File Input that will be hidden but triggered with JavaScript -->
+                <input
+                  ref="uploader"
+                  class="d-none"
+                  type="file"
+                  @change="onFileChanged"
+                >
               </div>
             </div>
           </div>
@@ -142,10 +160,27 @@ export default {
       type: this.$route.params.type,
       prodPath: prodWeb,
       devPath: devWeb,
+      changeImgBoolean: false,
+      isSelecting: false,
+      selectedFile: null,
       mainProps: { blank: false, blankColor: '#777', width: 70, height: 70, class: 'profileImg' }
     }
   },
   methods: {
+    handleFileImport () {
+      this.isSelecting = true
+      // After obtaining the focus when closing the FilePicker, return the button state to normal
+      window.addEventListener('focus', () => {
+        this.isSelecting = false
+        this.changeImgBoolean = !this.changeImgBoolean
+      }, { once: true })
+      // Trigger click on the FileInput
+      this.$refs.uploader.click()
+    },
+    onFileChanged (e) {
+      this.selectedFile = e.target.files[0]
+      // TODO: Do whatever you need with the file, liek reading it with FileReader
+    },
     isLetter (e) {
       // Get the character
       let char = String.fromCharCode(e.keyCode)
@@ -271,16 +306,6 @@ export default {
   animation-delay: 1s;
   cursor: grab;
   margin-left: 80px;
-  margin-bottom: 5px;
-  color: #1b1e21;
-  border-color: #1b1e21;
-}
-
-.changeImgButton {
-  border-radius: 20px 20px 20px 20px;
-  background-color: #bdf5ff;
-  animation-delay: 1s;
-  cursor: grab;
   margin-bottom: 5px;
   color: #1b1e21;
   border-color: #1b1e21;
