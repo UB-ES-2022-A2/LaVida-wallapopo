@@ -1,3 +1,5 @@
+import datetime
+
 import pytest
 
 from flask import Flask
@@ -9,6 +11,7 @@ from config import config
 from resources.accounts import Accounts
 from resources.products import Product, ProductsList, AddProduct
 from resources.profile import Profile
+from resources.orders import Orders, Sales, Purchases
 from resources.session import Login, Logout
 from resources.filters import Filter, FilterCategory
 from resources.validate import Validate
@@ -20,6 +23,7 @@ import resources.sample_data as data
 from requests.auth import HTTPBasicAuth
 from models.accounts import AccountsModel
 from models.products import ProductsModel
+from models.orders import OrdersModel
 
 
 def populate_db():
@@ -58,12 +62,12 @@ def populate_db():
 def create_app():
     app = Flask(__name__)
 
-    environment = config['development']
+    environment = config['testing']
 
     app.config.from_object(environment)
     app.config['SECURITY_PASSWORD_SALT'] = 'foobar'
 
-    #from db import db
+    # from db import db
     db = SQLAlchemy()
     migrate = Migrate(app, db)
     db.init_app(app)
@@ -87,6 +91,11 @@ def create_app():
     # session
     api.add_resource(Login, '/API/login')
     api.add_resource(Logout, '/API/logout/<string:email>')
+
+    # orders
+    api.add_resource(Orders, '/API/order/add/<string:email>')
+    api.add_resource(Purchases, '/API/order/purchases/<string:email>')
+    api.add_resource(Sales, '/API/order/sales/<string:email>')
 
     return app
 
@@ -195,6 +204,3 @@ def gmail_imap():
 
     imap.close()
     imap.logout()
-
-
-

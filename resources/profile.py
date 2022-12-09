@@ -6,6 +6,7 @@ from models.accounts import AccountsModel, auth, g
 
 import datetime
 
+
 class Profile(Resource):
 
     @auth.login_required()
@@ -46,7 +47,6 @@ class Profile(Resource):
         user = AccountsModel.get_by_email(email)
         print(user.json())
         return {'message': "Profile updated successfully"}, HTTPStatus.OK
-
 
     def get_data(self):
         parser = reqparse.RequestParser()  # create parameters parser from request
