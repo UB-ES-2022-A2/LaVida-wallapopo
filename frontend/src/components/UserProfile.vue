@@ -124,7 +124,7 @@
           <a>No se han vendido productos hasta la fecha</a>
         </div>
         <div class="card" id="bought-card" v-else v-for="sale in sales" :key="sale.id" style="width: 39rem;">
-          <div class="row no-gutters" v-on:click="goToProduct(purchase.product.id)">
+          <div class="row no-gutters" v-on:click="goToProduct(sale.product.id)">
             <div class="col-auto">
               <b-img :src="require('../assets/product_placeholder.png')" class="productImg" width="100" height="100" alt="Circle image"></b-img>
             </div>
@@ -139,7 +139,6 @@
             </div>
             <div class="col">
               <h5 class="card-text" id="bought-price">{{sale.product.price}}€</h5>
-              <a href="#" class="btn btn-primary">Puntuar</a>
             </div>
           </div>
         </div>
