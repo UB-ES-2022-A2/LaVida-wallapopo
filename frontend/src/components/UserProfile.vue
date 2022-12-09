@@ -313,7 +313,6 @@ export default {
         })
     }
   },
-
   created () {
     this.getUserInfo()
     this.getPurchases()

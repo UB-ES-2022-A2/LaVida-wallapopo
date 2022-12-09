@@ -2,7 +2,6 @@
   <nav class="navbar navbar-expand-md style-navbar" id="navbar-identifier">
     <a class="navbar-brand h1" @click="goToHome()">Wallapopo</a>
     <div class="container-fluid">
-      <font-awesome-icon class="nav-icon" icon="fa-magnifying-glass" @click="onEnter"/>
       <b-form-input
         type="search"
         placeholder="Buscar"
@@ -23,17 +22,16 @@
       <div class="btn">
         <img src="@/assets/heart.png" alt="User icon" style="width: 20px" />
         </div>
-      <div class="btn"><font-awesome-icon class="nav-icon" icon="fa-envelope" /></div>
 
       <div class="dropdown-dark my-3 text-right" id="navbar-button-profile">
         <b-dropdown id="dropdown-1" :src="require('@/assets/user.png')" alt="User icon" text="Usuario" class="m-md-2" variant="dark">
-          <b-dropdown-item v-b-modal.modal-1 v-on:click="goToUserProfile('profile')">Ver Perfil</b-dropdown-item>
-          <b-dropdown-item v-b-modal.modal-1 v-on:click="goToUserProfile('bought')">Ver historial de compras</b-dropdown-item>
-          <b-dropdown-item v-b-modal.modal-1 v-on:click="goToUserProfile('sold')">Ver historial de ventas</b-dropdown-item>
-          <b-dropdown-item v-b-modal.modal-1 v-on:click="goToUserProfile('reviews')">Ver reviews recibidas</b-dropdown-item>
-          <b-dropdown-item v-b-modal.modal-1 v-on:click="loggedOut()">Cerrar Sesión</b-dropdown-item>
+          <b-dropdown-item id="perfil" v-on:click="goToUserProfile('profile')">Ver Perfil</b-dropdown-item>
+          <b-dropdown-item id="compras" v-on:click="goToUserProfile('bought')">Ver historial de compras</b-dropdown-item>
+          <b-dropdown-item id="ventas" v-on:click="goToUserProfile('sold')">Ver historial de ventas</b-dropdown-item>
+          <b-dropdown-item id="reviews" v-on:click="goToUserProfile('reviews')">Ver reviews recibidas</b-dropdown-item>
+          <b-dropdown-item id="cerrar_sesion" v-b-modal.modal-1>Cerrar Sesión</b-dropdown-item>
         </b-dropdown>
-        <LogoutModal @loggedStatus="logged=$event" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
+        <LogoutModal @loggedStatus="loggedOut($event)" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
       </div>
 
       <div class="btn btn-product" @click="goToAddProduct()" id='navigationBar_div_addProduct'>
@@ -80,9 +78,10 @@ export default {
         this.logged = false
       }
     },
-    loggedOut () {
+    loggedOut (logged) {
       localStorage.removeItem('token')
       localStorage.removeItem('email')
+      this.logged = logged
     },
     goToLogin () {
       this.$router.push({name: 'Login'})
@@ -100,16 +99,22 @@ export default {
       })
     },
     goToHome () {
-      this.$router.push({
-        name: 'Main',
-        params: {logged: this.logged, email: this.email, token: this.token}
-      })
+      if (this.$route.name !== 'Main') {
+        this.$router.push({
+          name: 'Main',
+          params: {logged: this.logged, email: this.email, token: this.token}
+        })
+      }
     },
     goToUserProfile (type2) {
-      this.$router.push({
-        name: 'UserProfile',
-        params: {logged: this.logged, email: this.email, token: this.token, type: type2}
-      })
+      console.log(this.$route.name)
+      if (this.$route.name !== 'UserProfile') {
+        console.log('a')
+        this.$router.push({
+          name: 'UserProfile',
+          params: {logged: this.logged, email: this.email, token: this.token, type: type2}
+        })
+      }
     }
   },
   computed () {
