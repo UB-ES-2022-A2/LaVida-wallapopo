@@ -6,6 +6,7 @@ from models.accounts import AccountsModel, auth, g
 
 import datetime
 
+
 class Profile(Resource):
 
     @auth.login_required()
