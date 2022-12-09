@@ -123,7 +123,7 @@
         <div v-if="(sales.length === 0)">
           <a>No se han vendido productos hasta la fecha</a>
         </div>
-        <div class="card" id="bought-card" v-else v-for="sale in sales" :key="sale.id" style="width: 39rem;">
+        <div class="card" id="sold-card" v-else v-for="sale in sales" :key="sale.id" style="width: 39rem;">
           <div class="row no-gutters" v-on:click="goToProduct(sale.product.id)">
             <div class="col-auto">
               <b-img :src="require('../assets/product_placeholder.png')" class="productImg" width="100" height="100" alt="Circle image"></b-img>
@@ -141,6 +141,29 @@
               <h5 class="card-text" id="bought-price">{{sale.product.price}}€</h5>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <!--HISTORIAL DE Reviews-->
+        <!--<div v-if="(reviews.length === 0)">
+          <a>No se han recibido reseñas hasta la fecha</a>
+        </div>
+      posar en el div de card: v-else v-for="review in reviews" :key="review.id" -->
+      <div class="card bg-light" v-else-if="type==='reviews'" id="review-div" style="width: 40rem;">
+      <div class="row">
+        <div class="col-auto">
+          <b-img :src="require('../assets/product_placeholder.png')" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div class="col-5">Nom reviewer</div>
+            <div class="col-6" style="text-align: right; margin-left:30px">estrellas</div>
+          </div>
+          <div class="row-auto">
+            <div class="row-auto" style="text-align: center; font-weight: bold;">nom producte</div>
+            <div class="row-auto" style="text-align: center;">comentari (opcional)</div>
+          </div>
+          <div class="row-8" style="text-align: right; margin-right:10px"> fecha review</div>
         </div>
       </div>
     </div>
@@ -174,6 +197,7 @@ export default {
       selectedFile: null,
       purchases: [],
       sales: [],
+      reviews: [],
       mainProps: { blank: false, blankColor: '#777', width: 70, height: 70, class: 'profileImg' }
     }
   },
@@ -364,4 +388,5 @@ export default {
   color: #1b1e21;
   border-color: #1b1e21;
 }
+
 </style>

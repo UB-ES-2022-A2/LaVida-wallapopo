@@ -30,7 +30,7 @@
           <b-dropdown-item v-b-modal.modal-1 v-on:click="goToUserProfile('profile')">Ver Perfil</b-dropdown-item>
           <b-dropdown-item v-b-modal.modal-1 v-on:click="goToUserProfile('bought')">Ver historial de compras</b-dropdown-item>
           <b-dropdown-item v-b-modal.modal-1 v-on:click="goToUserProfile('sold')">Ver historial de ventas</b-dropdown-item>
-          <!--<b-dropdown-item v-b-modal.modal-1 v-on:click="goToUserProfile('reviews')">Ver reviews recibidas</b-dropdown-item>-->
+          <b-dropdown-item v-b-modal.modal-1 v-on:click="goToUserProfile('reviews')">Ver reviews recibidas</b-dropdown-item>
           <b-dropdown-item v-b-modal.modal-1 v-on:click="loggedOut()">Cerrar Sesión</b-dropdown-item>
         </b-dropdown>
         <LogoutModal @loggedStatus="logged=$event" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
