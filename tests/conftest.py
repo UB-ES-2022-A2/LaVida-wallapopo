@@ -15,6 +15,7 @@ from resources.orders import Orders, Sales, Purchases
 from resources.session import Login, Logout
 from resources.filters import Filter, FilterCategory
 from resources.validate import Validate
+from resources.reviews import Reviews
 from db import db
 import random as rand
 from sqlalchemy import exc
@@ -78,6 +79,7 @@ def create_app():
     api.add_resource(Accounts, '/API/account/<string:email>', '/API/account')
     api.add_resource(Validate, '/API/validation/<string:validation_token>', '/API/validation')
     api.add_resource(Profile, '/API/profile/<string:email>', '/API/profile')
+    api.add_resource(Reviews, '/API/reviews/<string:email>', '/API/reviews')
 
     # products
     api.add_resource(Product, '/API/product/<string:id>')

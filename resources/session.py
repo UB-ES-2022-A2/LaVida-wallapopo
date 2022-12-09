@@ -46,9 +46,7 @@ class Logout(Resource):
 
     @auth.login_required()
     def post(self, email):
-        print("BEFORE")
         account = AccountsModel.get_by_email(email)
-        print("AFTER ", account)
         # return account if it exists
         if account is None:  # return error message if order doesn't exist
             return {'message': 'This email [{}] does not exist'.format(email)}, HTTPStatus.NOT_FOUND
