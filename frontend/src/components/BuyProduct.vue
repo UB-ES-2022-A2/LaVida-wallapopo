@@ -6,11 +6,11 @@
         <h2>Comprar producto</h2>
       </b-row>
       <!-- Card product-->
-      <b-row class="center mb-2 ml-0 mt-2 mr-2">
+      <b-row align-h='center' class=" mb-2 ml-0 mt-2 mr-2" style="width:100%    ">
         <b-card
           no-body
           class="overflow-hidden p-3"
-          style="max-width: 540px, justify-content:center"
+          style="justify-content:center"
         >
           <b-row no-gutters>
             <b-col md="4">
@@ -22,10 +22,9 @@
               ></b-card-img>
             </b-col>
             <b-col md="8">
-              <b-card-body title="Horizontal Card">
+              <b-card-body title="Some ">
                 <b-card-text>
-                  This is a wider card with supporting text as a natural lead-in
-                  to additional content. This content is a little bit longer.
+                  15 euros
                 </b-card-text>
               </b-card-body>
             </b-col>
