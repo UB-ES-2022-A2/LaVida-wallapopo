@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavigationBar :logged="logged" :key="logged" :token="token" />
-    <b-container class="bv-example-row">
+    <b-container class="bv-example-row buyProductCard" :style="cssVars" >
       <b-row align-h="center">
         <h2>Comprar producto</h2>
       </b-row>
@@ -95,6 +95,7 @@
 
 <script>
 import NavigationBar from './NavigationBar.vue'
+import {primary} from '../store'
 
 export default {
   name: 'BuyProdcut',
@@ -117,8 +118,26 @@ export default {
         'Tomatoes',
         'Corn'
       ],
+      color: {
+        primary: primary
+      },
       show: true
+    }
+  },
+  computed: {
+    cssVars () {
+      return {
+        '--primary': this.color.primary
+      }
     }
   }
 }
 </script>
+
+<style scoped>
+.buyProductCard{
+  background-color: var(--primary);
+  border-radius: 5px;
+  border: 2px solid ;
+}
+</style>
