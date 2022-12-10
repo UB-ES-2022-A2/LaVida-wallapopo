@@ -24,6 +24,7 @@
                   rounded="circle" width="70" height="70" alt="Circle image"></b-img>
                 <b-btn
                   id="changeImgButton"
+                  class="chageImgButton"
                   rounded
                   dark
                   :loading="isSelecting"
@@ -247,6 +248,16 @@ export default {
   border-color: #1b1e21;
 }
 
+.chageImgButton {
+  border-radius: 20px 20px 20px 20px;
+  background-color: #bdf5ff;
+  animation-delay: 1s;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  cursor: grab;
+  color: #1b1e21;
+  border-color: #1b1e21;
+}
 .saveButton {
   border-radius: 20px 20px 20px 20px;
   background-color: #bdf5ff;
