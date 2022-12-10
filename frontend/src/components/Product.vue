@@ -17,7 +17,7 @@
             <!-- valoraciones -->
             <div class="row">
               <img
-                  v-for="i in 2"
+                v-for="i in 2"
                 :key="i"
                 src="../assets/star2.png"
                 alt=""
@@ -59,7 +59,6 @@
             v-model="slide"
             :interval="4000"
             controls
-
             background="#ababab"
             img-width="1024"
             img-height="480"
@@ -67,18 +66,27 @@
             @sliding-start="onSlideStart"
             @sliding-end="onSlideEnd"
           >
-            <b-carousel-slide v-for="i in ['product_placeholder.png', 'Oso.jpeg', 'Parchis.jpeg']" :key=i
+            <b-carousel-slide
+              v-for="i in [
+                'product_placeholder.png',
+                'Oso.jpeg',
+                'Parchis.jpeg',
+              ]"
+              :key="i"
               :img-src="require('../assets/' + i)"
-              style="height:480px"
+              style="height: 480px"
             ></b-carousel-slide>
-
           </b-carousel>
         </div>
 
         <div class="card-body">
           <div class="price-product row">
             <h5 class="col product-price">{{ product.price }} EUR</h5>
-            <button v-if="logged" class="product-button product-comprar">
+            <button
+              v-if="logged"
+              class="product-button product-comprar"
+              v-on:click="goToBuy"
+            >
               Comprar
             </button>
           </div>
@@ -160,6 +168,11 @@ export default {
         .catch((error) => {
           console.error(error)
         })
+    },
+    goToBuy () {
+      this.$router.push({
+        path: '/buy/' + this.product.id
+      })
     },
     onSlideStart (slide) {
       this.sliding = true
