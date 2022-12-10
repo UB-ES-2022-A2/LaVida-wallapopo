@@ -9,6 +9,7 @@ from flask_restful import Api
 from config import config
 from db import db
 from resources.accounts import Accounts
+from resources.favourites import Favourite, FavouritesList, AddFavourite
 from resources.products import Product, ProductsList, AddProduct
 from resources.session import Login, Logout
 from resources.filters import Filter, FilterCategory
@@ -49,6 +50,11 @@ api.add_resource(Profile, '/API/profile/<string:email>', '/API/profile')
 api.add_resource(Product, '/API/product/<string:id>')
 api.add_resource(ProductsList, '/API/products')
 api.add_resource(AddProduct, '/API/catalog/add/<string:email>')
+
+#favourites
+#api.add_resource(Favourite, '/API/')
+#api.add_resource(FavouritesList, '')
+#api.add_resource(AddFavourite,'')
 
 # filtering
 api.add_resource(Filter, '/API/filter', '/API/filter/<string:text>')
