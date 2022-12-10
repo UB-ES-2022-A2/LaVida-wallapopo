@@ -214,6 +214,7 @@ hr {
   transition: 0.5s;
   margin-left: 5px;
   height: 40px;
+  cursor: pointer;
 }
 .product-price {
   margin: 0;
@@ -226,7 +227,7 @@ hr {
   font-weight: 550;
 }
 .product-button:hover {
-  background-color: red;
+  background-color: darkgray;
 }
 .user-name {
   margin: 0;
