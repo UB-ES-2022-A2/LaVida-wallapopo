@@ -20,6 +20,8 @@ from resources.reviews import Reviews
 from models.orders import OrdersModel
 from models.accounts import AccountsModel
 from models.products import ProductsModel
+from models.favourites import FavouritesModel
+from models.reviews import ReviewsModel
 
 app = Flask(__name__)
 
