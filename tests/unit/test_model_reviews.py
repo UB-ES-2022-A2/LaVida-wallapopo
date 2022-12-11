@@ -14,14 +14,15 @@ def test_create_review():
 
 def test_json(_app, dummy_review):
     with _app.app_context():
+        current_date = datetime.date.today()
         user = dummy_review.json()['product']['user']
         username = dummy_review.json()['product']['username']
         assert dummy_review.json() == {'comment': '',
- 'date': '2022-12-10',
+ 'date': current_date.strftime('%Y-%m-%d'),
  'id': 1,
  'product': {'category': 'Otros',
              'condition': 'Casi nuevo',
-             'date': '10-Dec-2022',
+             'date': current_date.strftime("%d-%b-%Y"),
              'description': 'juego de parchis edición retro',
              'id': 2,
              'image': 'Parchis.jpeg',

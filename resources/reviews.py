@@ -17,7 +17,7 @@ class Reviews(Resource):
         account = AccountsModel.get_by_email(email)
         # return account if it exists
         if account is None:  # return error message if order doesn't exist
-            return {'message': 'account with email [pepe433@gmail.com] does not exist'.format(email)}, HTTPStatus.NOT_FOUND
+            return {'message': 'account with email [{}] does not exist'.format(email)}, HTTPStatus.NOT_FOUND
         # return error if the account email doesn't match
         if account.username != g.user.username:
             return {'message': "Bad authorization user"}, HTTPStatus.BAD_REQUEST
@@ -48,7 +48,6 @@ class Reviews(Resource):
             orders = OrdersModel.get_purchases_by_email(data['email'])
             order = next((o for o in orders if o.buyer_id == data['email'] and o.product_id == product.id), None)
             # return error if the user hasn't purchased this product
-            print(orders)
             if order is None:
                 return {'message': "user with email [{}] hasn't purchased product with id [{}]".format(
                     data['email'], product.id)}, HTTPStatus.CONFLICT

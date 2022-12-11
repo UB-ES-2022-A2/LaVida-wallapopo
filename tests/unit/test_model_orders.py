@@ -16,6 +16,7 @@ def test_create_order():
 
 def test_json(_app, dummy_order):
     with _app.app_context():
+        current_date = datetime.date.today()
         user = dummy_order.json()['product']['user']
         username = dummy_order.json()['product']['username']
         assert dummy_order.json() == {'buyer': {'birthday': None,
@@ -25,15 +26,15 @@ def test_json(_app, dummy_order):
            'name': None,
            'surname': None,
            'username': 'pepeman'},
- 'cc_expiration_date': '03/2025',
+ 'cc_expiration_date': '03/25',
  'cc_owner': 'Pepe',
  'credit_card': 1234567890,
  'cvc': 123,
- 'date': '2022-12-10',
+ 'date': current_date.strftime('%Y-%m-%d'),
  'id': 1,
  'product': {'category': 'Otros',
              'condition': 'Casi nuevo',
-             'date': '10-Dec-2022',
+             'date': current_date.strftime("%d-%b-%Y"),
              'description': 'juego de parchis edición retro',
              'id': 2,
              'image': 'Parchis.jpeg',
