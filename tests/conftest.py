@@ -26,6 +26,7 @@ from models.accounts import AccountsModel
 from models.products import ProductsModel
 from models.orders import OrdersModel
 from models.reviews import ReviewsModel
+from models.favourites import FavouritesModel
 
 
 def populate_db():
@@ -105,6 +106,8 @@ def create_app():
 # --------
 # Fixtures
 # --------
+
+
 @pytest.fixture()
 def _app():
     app = create_app()
@@ -166,6 +169,7 @@ def switch_product():
     p.user_id = "pepe432@gmail.com"
     return p
 
+
 @pytest.fixture(scope='function')
 def dummy_order():
     o = OrdersModel("pepe432@gmail.com", "killer23@gmail.com", 2, 1234567890, 123, "Pepe",
@@ -174,12 +178,23 @@ def dummy_order():
     o = OrdersModel.get_purchases_by_email("pepe432@gmail.com")[-1]
     return o
 
+
 @pytest.fixture(scope='function')
 def dummy_review():
     r = ReviewsModel("pepe432@gmail.com", "killer23@gmail.com", 2, 4, "")
     r.save_to_db()
     r = ReviewsModel.get_reviews_by_email("killer23@gmail.com")[-1]
     return r
+
+
+@pytest.fixture(scope='function')
+def dummy_favourite():
+    f = FavouritesModel('admin123@gmail.com', 1)
+    f.save_to_db()
+    f = FavouritesModel.get_by_email("admin123@gmail.com")[-1]
+    u = ProductsModel.get_by_id(1)
+    return f, u
+
 
 @pytest.fixture(scope='function')
 def pepe_products(_app):
