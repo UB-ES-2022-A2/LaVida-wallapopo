@@ -66,7 +66,11 @@
 <script>
 // import db from '@/hardDB.js'
 import axios from 'axios'
+import JQuery from 'jquery'
 import { devWeb, prodWeb } from '../store'
+/* eslint-disable */
+let $ = JQuery
+var bootbox = require('bootbox')
 export default {
   data () {
     return {
