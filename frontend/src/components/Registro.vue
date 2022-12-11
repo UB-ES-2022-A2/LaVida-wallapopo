@@ -166,6 +166,24 @@ export default {
       this.validEmail = email.match(reg)
     },
     checkUsername () {
+      bootbox.confirm({
+        backdrop: true,
+        centerVertical: true,
+        message: 'Deseas añadir una reseña para el vendedor?',
+        callback: function (result) {
+          if (result) {
+            bootbox.prompt({
+              backdrop: true,
+              centerVertical: true,
+              inputType: 'textarea',
+              title: 'Añade un comentario a tu reseña',
+              callback: function (result) {
+                console.log(result);
+              }
+            });
+          }
+        }
+      });
       var name = this.addUserForm.username
       this.validName = name.length >= 4 && name.length <= 20
     }
