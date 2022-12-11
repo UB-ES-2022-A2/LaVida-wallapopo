@@ -1,9 +1,9 @@
 from http import HTTPStatus
 from flask_restful import Resource, reqparse
+from sqlalchemy import exc
 
 from db import db
 from models.accounts import AccountsModel, auth, g
-import lock
 
 import datetime
 
@@ -25,29 +25,27 @@ class Profile(Resource):
 
     @auth.login_required
     def put(self, email):
-        with lock.lock:
-            data = self.get_data()
-            for i in data:
-                print(i)
-            user = AccountsModel.get_by_email(email)
-            # return error message if account doesn't exist
-            if user is None:
-                return {'message': 'This email [{}] does not exist'.format(email)}, HTTPStatus.NOT_FOUND
-            if user.username != g.user.username:
-                return {'message': "Bad authorization user"}, HTTPStatus.UNAUTHORIZED
-            if data["name"]:
-                user.name = data["name"]
-            if data["surname"]:
-                user.surname = data["surname"]
-            if data["birthday"]:
-                user.birthday = datetime.date(*map(int, data["birthday"].split('-')))
-                print(user.birthday)
+        data = self.get_data()
+        user = AccountsModel.get_by_email(email)
+        # return error message if account doesn't exist
+        if user is None:
+            return {'message': 'This email [{}] does not exist'.format(email)}, HTTPStatus.NOT_FOUND
+        if user.username != g.user.username:
+            return {'message': "Bad authorization user"}, HTTPStatus.UNAUTHORIZED
+        if data["name"]:
+            user.name = data["name"]
+        if data["surname"]:
+            user.surname = data["surname"]
+        if data["birthday"]:
+            user.birthday = datetime.date(*map(int, data["birthday"].split('-')))
 
+        try:
             db.session.add(user)
             db.session.commit()
-            user = AccountsModel.get_by_email(email)
-            print(user.json())
             return {'message': "Profile updated successfully"}, HTTPStatus.OK
+        except exc.SQLAlchemyError:
+            db.session.rollback()  # rollback in case something went wrong
+            return {'message': 'Error while modifying user information'}, HTTPStatus.INTERNAL_SERVER_ERROR
 
     def get_data(self):
         parser = reqparse.RequestParser()  # create parameters parser from request
