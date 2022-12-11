@@ -43,8 +43,9 @@ class Orders(Resource):
                     data['credit_card'],
                     data['cvc'],
                     data['cc_owner'],
-                    datetime.date(*map(int, cc_exp_date))
+                    datetime.datetime.strptime(data['cc_exp_date'], '%m/%y')
                 )
+                print("HOLAAAA")
                 product.status = 'Vendido'
                 new_order.save_to_db()
                 return new_order.json(), HTTPStatus.OK

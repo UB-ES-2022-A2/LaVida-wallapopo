@@ -36,73 +36,76 @@
       <!-- Formulario -->
 
       <b-form v-if="show" class="ml-0 mr-2">
+        <!--Numero de tarjeta de credito-->
         <b-form-group
-          id="input-group-1"
+          id="buyProduct_input_creditCard_group"
           label="Tarjeta de credito"
-          label-for="input-1"
+          label-for="buyProduct_input_creditCard"
           description="We'll never share your credit card  with anyone else."
         >
           <b-form-input
-            id="input-1"
+            id="buyProduct_input_creditCard"
             v-model="form.credit_card"
             type="email"
             placeholder="Mete tu tarjeta :D"
             required
           ></b-form-input>
         </b-form-group>
+        <!--Propietario de la tarjeta-->
         <b-form-group
-          id="input-group-1"
+          id="buyProduct_input_owner_group"
           label="Propietario de Tarjeta"
-          label-for="input-2"
+          label-for="buyProduct_input_owner"
         >
           <b-form-input
-            id="input-2"
+            id="buyProduct_input_owner"
             v-model="form.name"
-            placeholder="Nombre "
+            placeholder="Nombre Apellidos"
             required
           ></b-form-input>
         </b-form-group>
+        <!--CVC and experation date-->
         <b-row cols="2">
           <b-col>
-            <b-form-group id="input-group-3" label="CVC" label-for="input-3">
+            <b-form-group id="buyProduct_input_cvc_group" label="CVC" label-for="buyProduct_input_cvc">
               <b-form-input
-                id="input-1"
+                id="buyProduct_input_cvc"
                 v-model="form.cvc"
-                type="email"
-                placeholder="Mete tu tarjeta :D"
+                placeholder="Ej. 123"
                 required
               ></b-form-input>
             </b-form-group>
           </b-col>
           <b-col>
-            <b-form-group id="input-group-3" label="Date" label-for="input-3">
+            <b-form-group id="buyProduct_input_expDate_group" label="Date" label-for="buyProduct_input_expDate">
               <b-form-input
-                id="input-1"
+                id="buyProduct_input_expDate"
                 v-model="form.exp_date"
-                type="email"
-                placeholder="Mete tu tarjeta :D"
+                placeholder="Ej. MM/YY"
                 required
               ></b-form-input>
             </b-form-group>
           </b-col>
         </b-row>
         <b-row align-h="center">
-          <b-col><b-button type="reset">Cancelar</b-button></b-col>
+          <b-col><b-button type="reset" variant="danger" @click="onReset">Cancelar</b-button></b-col>
           <b-col
-            ><b-button type="submit" v-b-modal.modal-2>Comprar</b-button></b-col
+            ><b-button type="submit" variant="success" v-b-modal.modal-2>Comprar</b-button></b-col
           >
         </b-row>
         <!-- Modal de confirmacion-->
         <b-modal id="modal-2" title="Confirmar pago" hide-footer ref="my-modal">
-          <p class="my-4">Hello from modal!</p>
-          <b-button class="mt-3" variant="danger" block @click="hideModal"
+          <p class="my-4" id='buyProduct_p_textModal' >{{textLabel}} <b>{{product.name}}</b> </p>
+          <b-button class="mt-3" variant="danger"  @click="hideModal"
             >Cancelar</b-button
           >
-          <b-button class="mt-3" variant="success" block @click="confirmPayment"
+          <b-button class="mt-3" variant="success"  @click="confirmPayment"
             >Comprar</b-button
           >
+          <b-alert id='buyProduct_alert_buyConfirmation' show variant="warning" class="mt-2">Estado de compra</b-alert>
         </b-modal>
       </b-form>
+
     </b-container>
   </div>
 </template>
@@ -129,31 +132,31 @@ export default {
         name: '',
         credit_card: '',
         cvc: '',
-        exp_date: '',
-        checked: []
+        exp_date: ''
       },
       color: {
         primary: primaryColor,
         secondary: secondaryColor
       },
       product: {
-        name: ' ',
+        name: 'algo',
         image: 'Oso.jpeg',
         price: ' '
       },
+      textLabel: 'Por favor confirma la compra de',
       show: true
     }
   },
   methods: {
-    onsubmit (event) {
-      event.preventDefault()
-      alert(JSON.stringify(this.form))
-    },
-    onReset (event) {
-      console.log(event)
+
+    onReset () {
       this.form.email = ''
       this.form.name = ''
       this.form.cvc = ''
+      this.form.exp_date = ''
+      this.$router.push({
+        path: '/product/' + this.id
+      })
     },
     isLogged () {
       if (this.token !== null) {
@@ -164,23 +167,30 @@ export default {
       this.$refs['my-modal'].hide()
     },
     confirmPayment () {
-      this.$refs['my-modal'].hide()
       let dataToSend = {
-        product_id: this.id | ' ',
-        credit_card: this.form.credit_card | ' ',
-        cvc: this.form.cvc | ' ',
-        cc_owner: this.form.name | ' ',
-        cc_exp_date: this.form.exp_date | ' '
+        product_id: this.id,
+        credit_card: this.form.credit_card,
+        cvc: this.form.cvc,
+        cc_owner: this.form.name,
+        cc_exp_date: this.form.exp_date
       }
 
       const path = this.devPath + `/order/add/${this.email}`
       console.log(dataToSend)
-
       axios.post(path, dataToSend, {
         auth: { username: this.token }
       })
         .then((res) => {
           console.log('RESPOND ORDER', res)
+          this.textLabel = 'Exito en la compra de'
+          document.getElementById('buyProduct_alert_buyConfirmation').textContent = 'Exito'
+          setTimeout(() => this.$refs['my-modal'].hide(), 2000)
+          // TODO GO TO REVIEWS
+        }).catch((err) => {
+          console.log(err)
+          this.textLabel = 'Error en la compra de'
+          document.getElementById('buyProduct_alert_buyConfirmation').textContent = 'Error en la compra'
+          setTimeout(() => this.$refs['my-modal'].hide(), 2000)
         })
     },
     getProduct () {
@@ -219,5 +229,8 @@ export default {
 .buyProductCard {
   border-radius: 15px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+#buyProduct_alert_buyConfirmation{
+  transition: 0.5s;
 }
 </style>
