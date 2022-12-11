@@ -1,7 +1,6 @@
 import base64
 
 
-
 def test_post_orders(client):
     with client:
         # Login

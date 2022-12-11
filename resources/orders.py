@@ -33,9 +33,6 @@ class Orders(Resource):
 
             # add new order to db
             try:
-                cc_exp_date = '1/' + data['cc_exp_date']
-                cc_exp_date = cc_exp_date.split('/')
-                cc_exp_date.reverse()
                 new_order = OrdersModel(
                     email,
                     product.user_id,
@@ -43,7 +40,7 @@ class Orders(Resource):
                     data['credit_card'],
                     data['cvc'],
                     data['cc_owner'],
-                    datetime.date(*map(int, cc_exp_date))
+                    datetime.datetime.strptime(data['cc_exp_date'], '%m/%y')
                 )
                 product.status = 'Vendido'
                 new_order.save_to_db()

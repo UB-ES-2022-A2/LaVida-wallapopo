@@ -142,7 +142,7 @@ export default {
       e.target.value.replace(/(^\s*)|(\s*$)/gi, '') // Remove spaces at the beginning and end of input text
     },
     updateProfile () {
-      const path = this.prodPath + '/profile/' + this.email
+      const path = this.devPath + '/profile/' + this.email
       const parameters = {
         email: this.email,
         name: this.name,
@@ -163,7 +163,7 @@ export default {
     }
   },
   created () {
-    const path = this.prodPath + '/account/' + this.email
+    const path = this.devPath + '/account/' + this.email
     console.log(this.token)
     axios.get(path, {
       auth: { username: this.token }
