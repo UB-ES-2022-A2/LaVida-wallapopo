@@ -142,4 +142,3 @@ def test_delete_favourites(client):
         r = client.delete("API/favourites", json=json, headers=headers)
         assert r.status_code == 200
         assert r.json == {'message': "product with id [1] deleted from favourites"}
-
