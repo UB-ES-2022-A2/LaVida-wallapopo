@@ -56,3 +56,11 @@ def test_delete_favourite(_app, dummy_favourite):
 
         assert previous == 1
         assert result == 0
+
+
+def test_get_fav(_app, dummy_favourite):
+    with _app.app_context():
+        result = FavouritesModel.get_fav('admin123@gmail.com', 1)
+
+        assert result.user_id == 'admin123@gmail.com'
+        assert result.product_id == 1

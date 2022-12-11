@@ -1,7 +1,6 @@
 import datetime
 from http import HTTPStatus
 
-import flask
 from flask_restful import Resource, reqparse
 from itsdangerous import URLSafeTimedSerializer
 from sqlalchemy import exc

@@ -16,6 +16,7 @@ from resources.validate import Validate
 from resources.profile import Profile
 from resources.orders import Orders, Sales, Purchases
 from resources.reviews import Reviews
+from resources.favourites import Favourites
 
 from models.orders import OrdersModel
 from models.accounts import AccountsModel
@@ -71,6 +72,9 @@ api.add_resource(Logout, '/API/logout/<string:email>')
 api.add_resource(Orders, '/API/order/add/<string:email>')
 api.add_resource(Purchases, '/API/order/purchases/<string:email>')
 api.add_resource(Sales, '/API/order/sales/<string:email>')
+
+# favourites
+api.add_resource(Favourites, '/API/favourites', '/API/favourites/<string:email>')
 
 
 @app.route('/')

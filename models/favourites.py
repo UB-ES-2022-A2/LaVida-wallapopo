@@ -39,5 +39,10 @@ class FavouritesModel(db.Model):
         return cls.query.filter_by(user_id=user_id).all()
 
     @classmethod
+    def get_fav(cls, user_id, product_id):
+        query = cls.query.filter(cls.user_id == user_id)
+        return query.filter(cls.product_id == product_id).first()
+
+    @classmethod
     def get_all(cls):
         return cls.query.all()
