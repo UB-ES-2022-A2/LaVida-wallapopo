@@ -1,5 +1,5 @@
 from db import db
-from sqlalchemy.sql import func
+from sqlalchemy.sql import func, desc
 
 
 class OrdersModel(db.Model):
@@ -50,11 +50,13 @@ class OrdersModel(db.Model):
 
     @classmethod
     def get_purchases_by_email(cls, email):  # returns all orders by email
-        return cls.query.filter_by(buyer_id=email).all()
+        query = cls.query.filter_by(buyer_id=email)
+        return query.order_by(desc(cls.date)).all()
 
     @classmethod
     def get_sales_by_email(cls, email):  # returns all products sold by email
-        return cls.query.filter_by(seller_id=email).all()
+        query = cls.query.filter_by(seller_id=email)
+        return query.order_by(desc(cls.date)).all()
 
     def save_to_db(self):
         db.session.add(self)
