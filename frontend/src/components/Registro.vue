@@ -179,6 +179,37 @@ export default {
               title: 'Añade un comentario a tu reseña',
               callback: function (result) {
                 console.log(result);
+                bootbox.prompt({
+                  backdrop: true,
+                  centerVertical: true,
+                  inputType: 'select',
+                  title: 'Dale una calificación a tu reseña',
+                  inputOptions: [
+                    {
+                      text: '1 estrella',
+                      value: 1,
+                    },
+                    {
+                      text: '2 estrellas',
+                      value: 2,
+                    },
+                    {
+                      text: '3 estrellas',
+                      value: 3,
+                    },
+                    {
+                      text: '4 estrellas',
+                      value: 4,
+                    },
+                    {
+                      text: '5 estrellas',
+                      value: 5,
+                    },
+                  ],
+                  callback: function (result) {
+                    console.log(result);
+                  }
+                });
               }
             });
           }
