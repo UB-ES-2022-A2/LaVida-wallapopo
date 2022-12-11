@@ -15,6 +15,7 @@ from resources.filters import Filter, FilterCategory
 from resources.validate import Validate
 from resources.profile import Profile
 from resources.orders import Orders, Sales, Purchases
+from resources.reviews import Reviews
 
 from models.orders import OrdersModel
 from models.accounts import AccountsModel
@@ -49,6 +50,7 @@ db.init_app(app)
 api.add_resource(Accounts, '/API/account/<string:email>', '/API/account')
 api.add_resource(Validate, '/API/validation/<string:validation_token>', '/API/validation')
 api.add_resource(Profile, '/API/profile/<string:email>', '/API/profile')
+api.add_resource(Reviews, '/API/reviews/<string:email>', '/API/reviews')
 
 # products
 api.add_resource(Product, '/API/product/<string:id>')

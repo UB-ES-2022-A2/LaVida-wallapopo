@@ -15,6 +15,7 @@ from resources.orders import Orders, Sales, Purchases
 from resources.session import Login, Logout
 from resources.filters import Filter, FilterCategory
 from resources.validate import Validate
+from resources.reviews import Reviews
 from db import db
 import random as rand
 from sqlalchemy import exc
@@ -24,6 +25,7 @@ from requests.auth import HTTPBasicAuth
 from models.accounts import AccountsModel
 from models.products import ProductsModel
 from models.orders import OrdersModel
+from models.reviews import ReviewsModel
 
 
 def populate_db():
@@ -78,6 +80,7 @@ def create_app():
     api.add_resource(Accounts, '/API/account/<string:email>', '/API/account')
     api.add_resource(Validate, '/API/validation/<string:validation_token>', '/API/validation')
     api.add_resource(Profile, '/API/profile/<string:email>', '/API/profile')
+    api.add_resource(Reviews, '/API/reviews/<string:email>', '/API/reviews')
 
     # products
     api.add_resource(Product, '/API/product/<string:id>')
@@ -163,6 +166,20 @@ def switch_product():
     p.user_id = "pepe432@gmail.com"
     return p
 
+@pytest.fixture(scope='function')
+def dummy_order():
+    o = OrdersModel("pepe432@gmail.com", "killer23@gmail.com", 2, 1234567890, 123, "Pepe",
+                    datetime.datetime(2025, 3, 3, 10, 10, 10))
+    o.save_to_db()
+    o = OrdersModel.get_purchases_by_email("pepe432@gmail.com")[-1]
+    return o
+
+@pytest.fixture(scope='function')
+def dummy_review():
+    r = ReviewsModel("pepe432@gmail.com", "killer23@gmail.com", 2, 4, "")
+    r.save_to_db()
+    r = ReviewsModel.get_reviews_by_email("killer23@gmail.com")[-1]
+    return r
 
 @pytest.fixture(scope='function')
 def pepe_products(_app):
