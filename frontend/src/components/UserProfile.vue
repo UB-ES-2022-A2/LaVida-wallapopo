@@ -1,83 +1,90 @@
 <template>
   <div id="Profile">
     <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token" />
-    <!-- Card perfil usuario -->
-    <div class="card bg-light">
-      <div class="card-body">
-        <b-button id="profileButton" class="profileButton">Perfil</b-button>
-        <b-button id="reviewsButton" class="reviewsButton">Opiniones</b-button>
-        <h5 class="card-title"><b>Tu perfil</b></h5>
-        <h6 class="card-subtitle">Aquí podrás ver y editar los datos de tu perfil</h6>
-        <br>
-        <div id="imProfile" class="container-card">
-          <b> Imagen de perfil </b>
-          <div class="row">
-            <div class="col">
-              <h6 class="imSubt"> Foto principal </h6>
+    <div class="row">
+      <div class="col-2">
+        <Menu />
+      </div>
+      <div class="col">
+        <!-- Card perfil usuario -->
+        <div class="card bg-light">
+          <div class="card-body">
+            <b-button id="profileButton" class="profileButton">Perfil</b-button>
+            <b-button id="reviewsButton" class="reviewsButton">Opiniones</b-button>
+            <h5 class="card-title"><b>Tu perfil</b></h5>
+            <h6 class="card-subtitle">Aquí podrás ver y editar los datos de tu perfil</h6>
+            <br>
+            <div id="imProfile" class="container-card">
+              <b> Imagen de perfil </b>
+              <div class="row">
+                <div class="col">
+                  <h6 class="imSubt"> Foto principal </h6>
+                </div>
+                <div class="col">
+                  <div>
+                  <!-- 1. Create the button that will be clicked to select a file -->
+                    <b-img v-if="(changeImgBoolean===true)" :src="require('../assets/product_placeholder.png')" class="profileImg" v-bind="mainProps"
+                      rounded="circle" width="70" height="70" alt="Circle image"></b-img>
+                    <b-img v-else :src="require('../assets/Oso.jpeg')" class="profileImg" v-bind="mainProps"
+                      rounded="circle" width="70" height="70" alt="Circle image"></b-img>
+                    <b-btn
+                      id="changeImgButton"
+                      rounded
+                      dark
+                      :loading="isSelecting"
+                      @click="handleFileImport"
+                    >
+                      Change Profile Image
+                    </b-btn>
+                    <!-- Create a File Input that will be hidden but triggered with JavaScript -->
+                    <input
+                      ref="uploader"
+                      class="d-none"
+                      type="file"
+                      @change="onFileChanged"
+                    >
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="col">
+            <br>
+            <div id="publicInfo" class="container-card">
+              <b> Información pública </b>
               <div>
-              <!-- 1. Create the button that will be clicked to select a file -->
-                <b-img v-if="(changeImgBoolean===true)" :src="require('../assets/product_placeholder.png')" class="profileImg" v-bind="mainProps"
-                  rounded="circle" width="70" height="70" alt="Circle image"></b-img>
-                <b-img v-else :src="require('../assets/Oso.jpeg')" class="profileImg" v-bind="mainProps"
-                  rounded="circle" width="70" height="70" alt="Circle image"></b-img>
-                <b-btn
-                  id="changeImgButton"
-                  rounded
-                  dark
-                  :loading="isSelecting"
-                  @click="handleFileImport"
-                >
-                  Change Profile Image
-                </b-btn>
-                <!-- Create a File Input that will be hidden but triggered with JavaScript -->
-                <input
-                  ref="uploader"
-                  class="d-none"
-                  type="file"
-                  @change="onFileChanged"
-                >
+                <b-form-group invalid-feedback="Nombre no puede estar vacío">
+                  <div class="row-name">
+                    <label><b>Nombre</b></label>
+                    <b-form-input type="text" id="input-name" class="form-control" placeholder="Introduce tu nombre"
+                      v-model="name" maxlength="50" autofocus trim v-on:keydown="isLetter($event)" v-on:focusout="removeExtraSpaces($event)"/>
+                  </div>
+                  <div class="row-name">
+                    <label><b>Apellidos</b></label>
+                    <b-form-input type="text" id="input-surname" class="form-control" placeholder="Introduce un apellido"
+                      v-model="surname" maxlength="50" required autofocus trim v-on:keydown="isLetter($event)" v-on:focusout="removeExtraSpaces($event)"/>
+                  </div>
+                </b-form-group>
+                <div class="row-name" id="profile-div-username">
+                  <label><b>Nombre de usuario</b></label>
+                  <br>
+                  <span> {{ username }} </span>
+                </div>
+                <div class="row-name" id="profile-div-email">
+                  <label><b>Email</b></label>
+                  <br>
+                  <span> {{ email }} </span>
+                </div>
+                <div class="row-name">
+                  <label><b>Fecha de cumpleaños:</b></label>
+                  <br>
+                  <input :max="new Date().toISOString().split('T')[0]" type="date" id="start" name="birthday-start" v-model="birthday">
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <br>
-        <div id="publicInfo" class="container-card">
-          <b> Información pública </b>
-          <div>
-            <b-form-group invalid-feedback="Nombre no puede estar vacío">
-              <div class="row-name">
-                <label><b>Nombre</b></label>
-                <b-form-input type="text" id="input-name" class="form-control" placeholder="Introduce tu nombre"
-                  v-model="name" maxlength="50" autofocus trim v-on:keydown="isLetter($event)" v-on:focusout="removeExtraSpaces($event)"/>
+              <div class="row align-items-end">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col"><b-button id="saveBUtton" class="saveButton" @click="updateProfile()">Guardar</b-button>
+                </div>
               </div>
-              <div class="row-name">
-                <label><b>Apellidos</b></label>
-                <b-form-input type="text" id="input-surname" class="form-control" placeholder="Introduce un apellido"
-                  v-model="surname" maxlength="50" required autofocus trim v-on:keydown="isLetter($event)" v-on:focusout="removeExtraSpaces($event)"/>
-              </div>
-            </b-form-group>
-            <div class="row-name" id="profile-div-username">
-              <label><b>Nombre de usuario</b></label>
-              <br>
-              <span> {{ username }} </span>
-            </div>
-            <div class="row-name" id="profile-div-email">
-              <label><b>Email</b></label>
-              <br>
-              <span> {{ email }} </span>
-            </div>
-            <div class="row-name">
-              <label><b>Fecha de cumpleaños:</b></label>
-              <br>
-              <input :max="new Date().toISOString().split('T')[0]" type="date" id="start" name="birthday-start" v-model="birthday">
-            </div>
-          </div>
-          <div class="row align-items-end">
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"><b-button id="saveBUtton" class="saveButton" @click="updateProfile()">Guardar</b-button>
             </div>
           </div>
         </div>
@@ -88,13 +95,15 @@
 
 <script>
 import NavigationBar from './NavigationBar.vue'
+import Menu from './MenuLateral.vue'
 import { devWeb, prodWeb } from '../store'
 import axios from 'axios'
 
 export default {
   name: 'UserProfile',
   components: {
-    NavigationBar
+    NavigationBar,
+    Menu
   },
   data () {
     return {
@@ -194,7 +203,6 @@ export default {
 <style scoped>
 
 .card.bg-light {
-  margin: auto;
   width: 50%;
   padding: 10px;
 }
