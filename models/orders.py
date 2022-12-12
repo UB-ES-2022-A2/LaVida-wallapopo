@@ -40,7 +40,7 @@ class OrdersModel(db.Model):
             'credit_card': self.credit_card,
             'cc_owner': self.cc_owner,
             'cvc': self.cvc,
-            'cc_expiration_date': self.cc_expiration_date.strftime('%m/%Y'),
+            'cc_expiration_date': self.cc_expiration_date.strftime('%m/%y'),
             'date': self.date.strftime('%Y-%m-%d')
         }
 
