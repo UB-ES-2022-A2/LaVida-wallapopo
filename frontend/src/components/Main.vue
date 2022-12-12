@@ -92,10 +92,10 @@ export default {
   mounted () {
     this.token = localStorage.getItem('token')
     this.email = localStorage.getItem('email')
+    this.isLogged()
   },
   created () {
     this.getCategorias()
-    this.isLogged()
   }
 }
 </script>
