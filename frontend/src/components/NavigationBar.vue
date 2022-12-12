@@ -93,10 +93,12 @@ export default {
       this.$router.push({name: 'HelloWorld'})
     },
     goToAddProduct () {
-      this.$router.push({
-        name: 'AddProduct',
-        params: {logged: this.logged, email: this.email, token: this.token}
-      })
+      if (this.$route.name !== 'AddProduct') {
+        this.$router.push({
+          name: 'AddProduct',
+          params: {logged: this.logged, email: this.email, token: this.token}
+        })
+      }
     },
     goToHome () {
       if (this.$route.name !== 'Main') {
@@ -107,13 +109,13 @@ export default {
       }
     },
     goToUserProfile (type2) {
-      console.log(this.$route.name)
       if (this.$route.name !== 'UserProfile') {
-        console.log('a')
         this.$router.push({
           name: 'UserProfile',
           params: {logged: this.logged, email: this.email, token: this.token, type: type2}
         })
+      } else {
+        this.$emit('type', type2)
       }
     }
   },

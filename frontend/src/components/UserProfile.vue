@@ -1,6 +1,6 @@
 <template>
   <div id="Profile">
-    <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token" />
+    <NavigationBar class="nav-top" @type="onChangeSearch($event)" :logged="logged" :key="logged" :email="email" :token="token" />
     <!-- Perfil Usuari -->
     <div class="card bg-light" v-if="type==='profile'">
       <div class="card-body">
@@ -189,7 +189,7 @@ export default {
       logged: true,
       token: this.$route.params.token,
       email: this.$route.params.email,
-      type: this.$route.params.type,
+      type: null,
       prodPath: prodWeb,
       devPath: devWeb,
       changeImgBoolean: false,
@@ -311,9 +311,13 @@ export default {
           console.error(error)
           alert('Error al mostrar sales')
         })
+    },
+    onChangeSearch (param) {
+      this.type = param
     }
   },
   created () {
+    this.type = this.$route.params.type
     this.getUserInfo()
     this.getPurchases()
     this.getSales()
