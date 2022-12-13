@@ -195,7 +195,8 @@ export default {
           console.error(error)
         })
       } else {
-        axios.delete(this.devPath + '/favourites', {auth: {username: this.token}}).then((response) => {
+        axios.delete(this.devPath + '/favourites', {auth: {username: this.token},
+          data: {email: this.email, product_id: this.id}}).then((response) => {
           console.log(response)
           alert('Producto eliminado de favoritos correctamente')
         }).catch((error) => {
