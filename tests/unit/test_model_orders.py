@@ -31,7 +31,7 @@ def test_json(_app, dummy_order):
                     'cc_owner': 'Pepe',
                     'credit_card': 1234567890,
                     'cvc': 123,
-                    'date': current_date.strftime('%Y-%m-%d'),
+                    'date': current_date.strftime('%d-%m-%Y'),
                     'id': 1,
                     'product': {'category': 'Otros',
                                 'condition': 'Casi nuevo',
