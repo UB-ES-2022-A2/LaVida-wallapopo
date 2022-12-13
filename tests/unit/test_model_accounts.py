@@ -19,7 +19,7 @@ def test_json(dummy_user):
         'name': None, 'surname': None,
         'birthday': None, 'is_admin': 0,
         'confirmed': False,
-        'profile': 'https://storage.googleapis.com/wallapopo-img/default-profile.jpg'
+        'profile': None
     }
     assert dummy_user.json() == expected
 

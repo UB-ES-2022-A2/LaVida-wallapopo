@@ -17,6 +17,7 @@ from resources.filters import Filter, FilterCategory
 from resources.validate import Validate
 from resources.reviews import Reviews
 from resources.favourites import Favourites
+from resources.images import ImagesUsers, ImagesProducts
 from db import db
 import random as rand
 from sqlalchemy import exc
@@ -103,6 +104,10 @@ def create_app():
     api.add_resource(Orders, '/API/order/add/<string:email>')
     api.add_resource(Purchases, '/API/order/purchases/<string:email>')
     api.add_resource(Sales, '/API/order/sales/<string:email>')
+
+    # images
+    api.add_resource(ImagesUsers, '/API/upload/profile/<string:email>')
+    api.add_resource(ImagesProducts, '/API/upload/product/<string:id>')
 
     return app
 
