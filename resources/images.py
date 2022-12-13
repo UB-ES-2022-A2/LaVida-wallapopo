@@ -14,13 +14,13 @@ from models.products import ProductsModel
 
 class ImagesProducts(Resource):
 
+    # Process the uploaded file and upload it to Google Cloud Storage.
     def post(self, id):
         with lock.lock:
-            """Process the uploaded file and upload it to Google Cloud Storage."""
             uploaded_files = request.files.getlist('file')
 
             if not uploaded_files:
-                return 'No file uploaded.', 400
+                return {'message': 'No file uploaded'}, HTTPStatus.BAD_REQUEST
 
             # Create a Cloud Storage client.
             gcs = storage.Client.from_service_account_json('wallapopo-ub-d41a3647fa63.json')
@@ -38,10 +38,9 @@ class ImagesProducts(Resource):
                     content_type=file.content_type
                 )
                 product.images(blob.public_url)
-
             try:
                 product.save_to_db()
-                return {'message': 'Images uploaded successfully'}
+                return {'message': 'Images uploaded successfully'}, HTTPStatus.OK
             except exc.SQLAlchemyError:
                 db.session.rollback()  # rollback in case something went wrong
                 return {'message': 'Error while uploading images'}, HTTPStatus.INTERNAL_SERVER_ERROR
@@ -49,13 +48,13 @@ class ImagesProducts(Resource):
 
 class ImagesUsers(Resource):
 
+    # Process the uploaded file and upload it to Google Cloud Storage.
     def post(self, email):
         with lock.lock:
-            """Process the uploaded file and upload it to Google Cloud Storage."""
             uploaded_file = request.files['file']
 
             if not uploaded_file:
-                return 'No file uploaded.', 400
+                return {'message': 'No file uploaded'}, HTTPStatus.BAD_REQUEST
 
             # Create a Cloud Storage client.
             gcs = storage.Client.from_service_account_json('wallapopo-ub-d41a3647fa63.json')

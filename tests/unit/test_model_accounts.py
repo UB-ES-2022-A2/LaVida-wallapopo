@@ -13,7 +13,14 @@ def test_create_user():
 
 
 def test_json(dummy_user):
-    expected = {'email': 'dummy@gmail.com', 'username': 'dummyname', 'name': None, 'surname': None, 'birthday': None, 'is_admin': 0, 'confirmed': False}
+    expected = {
+        'email': 'dummy@gmail.com',
+        'username': 'dummyname',
+        'name': None, 'surname': None,
+        'birthday': None, 'is_admin': 0,
+        'confirmed': False,
+        'profile': 'https://storage.googleapis.com/wallapopo-img/default-profile.jpg'
+    }
     assert dummy_user.json() == expected
 
 

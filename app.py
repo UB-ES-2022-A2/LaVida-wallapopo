@@ -51,6 +51,7 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 migrate = Migrate(app, db)
 db.init_app(app)
 
+# images
 api.add_resource(ImagesUsers, '/API/upload/profile/<string:email>')
 api.add_resource(ImagesProducts, '/API/upload/product/<string:id>')
 
