@@ -2,7 +2,6 @@
   <nav class="navbar navbar-expand-md style-navbar" id="navbar-identifier">
     <a class="navbar-brand h1" @click="redirectToHome()">Wallapopo</a>
     <div class="container-fluid">
-      <font-awesome-icon class="nav-icon" icon="fa-magnifying-glass" @click="onEnter"/>
       <b-form-input
         type="search"
         placeholder="Buscar"
@@ -23,7 +22,6 @@
       <div class="btn">
         <img src="@/assets/heart.png" alt="User icon" style="width: 20px" />
         </div>
-      <div class="btn"><font-awesome-icon class="nav-icon" icon="fa-envelope" /></div>
 
       <div class="dropdown-dark my-3 text-right">
         <button id="navbar-button-profile" class="btn" @click="redirectToUserProfile()">

@@ -82,6 +82,45 @@
 
 <br>
 
+###  Modelo de favourites.py (models/favourites.py):
+
+#### Elementos / columnas obligatorios:
+
+- Asumimos que todos los elementos de esta tabla tienen nullable=False
+- La variable que encontramos en favourites.py -> `user_id = db.Column(db.String(50), db.ForeignKey('accounts.email'))`
+  y `product_id = db.Column(db.Integer, db.ForeignKey('products.id'))` es un elemento o columna más de nuestra 
+  tabla favourites que nos servirá para saber de qué usuario son nuestros productos. <br>
+
+| Element     |                 Info                  |
+|-------------|:-------------------------------------:|
+| id          |           Int - primary_key           |
+| user_id     |                String                 |
+| product_id  |                 Int                   |
+| user        |             AccountsModel             |
+| product     |             ProductsModel             |
+
+<br>
+
+###  Modelo de orders.py (models/orders.py):
+
+#### Elementos / columnas obligatorios:
+
+- Asumimos que todos los elementos de esta tabla tienen nullable=False
+- La tabla contiene la información necesaría para hacer una transacción.
+
+| Element                |                 Info                  |
+|------------------------|:-------------------------------------:|
+| id                     |           Int - primary_key           |
+| buyer_id               |                  Int                  |
+| seller_id              |                  Int                  |
+| product_id             |                  Int                  |
+| credit_card            |           Int(Número largo)           |
+| cvc                    |                  Int                  |
+| cc_expiration_date     |        DateTime(validez tarjeta)      |
+| cc_owner               |          String(Dueño tarjeta)        |
+| date                   |         DateTime(Fecha de compra)     |
+<br>
+
 ## API Endpoints:
 
 ### Accounts
@@ -129,3 +168,28 @@
 `Logout, '/API/logout/'string:email''`
 
 - Se encarga de cerrar la sesión del usuario controlando la autenticidad de la cuenta mediante el token del usuario.
+
+
+### Favourites
+
+`/API/favourites`, `/API/favourites/<string:email>`
+
+- Se encarga de añadir productos a la lista de favoritos, eliminar de la lista de favoritos y devolver todos
+  los productos añadido a la lista de favoritos para un usuario en concreto.
+
+### Orders
+`/API/order/add/<string:email>`
+
+- Marca un producto como vendido y también genera una transacción con la información de compra
+
+### Purchases
+
+`/API/order/purchases/<string:email>`
+
+- Devueve el listado de todas las compras del usuario (más recientes primero)
+
+### Sales
+
+`/API/order/sales/<string:email>`
+
+- Devuelve el listado de todas las ventas del usuario (más recientes primero)

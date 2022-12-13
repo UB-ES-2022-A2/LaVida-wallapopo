@@ -1,6 +1,4 @@
 from db import db
-from models.accounts import AccountsModel
-from sqlalchemy.sql import func, desc
 
 
 class FavouritesModel(db.Model):
@@ -8,45 +6,43 @@ class FavouritesModel(db.Model):
 
     # favourite product basic information
     id = db.Column(db.Integer, primary_key=True)  # primary key
-    name = db.Column(db.String(50), nullable=False)  # string with a max length of 50
-    liked = db.Column(db.Boolean, nullable=False, server_default=False)  # or "0" boolean that indicates if prod is fav
-    # or not
 
     # foreign keys
     user_id = db.Column(db.String(50), db.ForeignKey('accounts.email'))
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
 
-    def __init__(self, name, liked):
-        self.name = name
-        self.liked = liked
+    # relationships
+    user = db.relationship("AccountsModel", foreign_keys=[user_id])
+    product = db.relationship("ProductsModel", foreign_keys=[product_id])
+
+    def __init__(self, user_id, product_id):
+        self.user_id = user_id
+        self.product_id = product_id
 
     def json(self):
         return {
             'id': self.id,
-            'name': self.name,
-            'liked': self.liked,
-            'user': self.user_id,
-            'username': AccountsModel.get_by_email(self.user_id).json()['username'],
+            'user': self.user.json(),
+            'product': self.product.json()
         }
 
-    """def save_to_db(self):
+    def save_to_db(self):
         db.session.add(self)
         db.session.commit()
 
     def delete_from_db(self):
         db.session.delete(self)
-        db.session.commit()"""
-
-
-    @classmethod
-    def get_by_id(cls, id):
-        return cls.query().get(id)
-
+        db.session.commit()
 
     @classmethod
-    def get_products_by_fav(cls):
-        query = cls.query()
-        if cls.liked:
-            query = query.filter(cls.liked).all()
+    def get_by_email(cls, user_id):
+        return cls.query.filter_by(user_id=user_id).all()
 
-        return query
+    @classmethod
+    def get_fav(cls, user_id, product_id):
+        query = cls.query.filter(cls.user_id == user_id)
+        return query.filter(cls.product_id == product_id).first()
 
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()

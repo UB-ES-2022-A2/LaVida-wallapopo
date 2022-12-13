@@ -15,6 +15,15 @@ from resources.session import Login, Logout
 from resources.filters import Filter, FilterCategory
 from resources.validate import Validate
 from resources.profile import Profile
+from resources.orders import Orders, Sales, Purchases
+from resources.reviews import Reviews
+from resources.favourites import Favourites
+
+from models.orders import OrdersModel
+from models.accounts import AccountsModel
+from models.products import ProductsModel
+from models.favourites import FavouritesModel
+from models.reviews import ReviewsModel
 
 app = Flask(__name__)
 
@@ -45,6 +54,7 @@ db.init_app(app)
 api.add_resource(Accounts, '/API/account/<string:email>', '/API/account')
 api.add_resource(Validate, '/API/validation/<string:validation_token>', '/API/validation')
 api.add_resource(Profile, '/API/profile/<string:email>', '/API/profile')
+api.add_resource(Reviews, '/API/reviews/<string:email>', '/API/reviews')
 
 # products
 api.add_resource(Product, '/API/product/<string:id>')
@@ -63,6 +73,14 @@ api.add_resource(FilterCategory, '/API/category/<string:category>')
 # session
 api.add_resource(Login, '/API/login')
 api.add_resource(Logout, '/API/logout/<string:email>')
+
+# orders
+api.add_resource(Orders, '/API/order/add/<string:email>')
+api.add_resource(Purchases, '/API/order/purchases/<string:email>')
+api.add_resource(Sales, '/API/order/sales/<string:email>')
+
+# favourites
+api.add_resource(Favourites, '/API/favourites', '/API/favourites/<string:email>')
 
 
 @app.route('/')
