@@ -85,7 +85,7 @@
     </div>
     <!--HISTORIAL DE COMPRES-->
     <div v-else-if="type==='bought'" id="bought-div">
-      <div class="card bg-light" id="big-card" style="width: 40rem;">
+      <div class="card bg-light" id="big-card1" style="width: 40rem;">
         <h5 class="card-title"><b>Historial de compras</b></h5>
         <h6 class="card-subtitle">Productos comprados desde la creación de la cuenta:</h6>
         <br>
@@ -107,7 +107,7 @@
               <a style="font-size:14px; margin-left:40px;">{{purchase.date}}</a>
             </div>
             <div class="col">
-              <h5 class="card-text" id="bought-price">{{purchase.product.price}}€</h5>
+              <h5 class="card-text" id="bought-price1">{{purchase.product.price}}€</h5>
               <a href="#" class="btn btn-primary">Puntuar</a>
             </div>
           </div>
@@ -172,13 +172,15 @@
 
 <script>
 import NavigationBar from './NavigationBar.vue'
+import Menu from './MenuLateral.vue'
 import { devWeb, prodWeb } from '../store'
 import axios from 'axios'
 
 export default {
   name: 'UserProfile',
   components: {
-    NavigationBar
+    NavigationBar,
+    Menu
   },
   data () {
     return {

@@ -67,6 +67,5 @@ class AddProduct(Resource):
         parser.add_argument("condition", type=str, required=True, help="This field cannot be left blank")
         parser.add_argument("description", type=str, required=True, help="This field cannot be left blank")
         parser.add_argument("shipment", type=bool, required=True, help="This field cannot be left blank")
-        # TODO add images
 
         return parser.parse_args()

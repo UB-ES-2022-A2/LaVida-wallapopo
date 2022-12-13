@@ -26,7 +26,7 @@
         >
           <CardProduct
             :title="product.name"
-            :img="product.image"
+            :img="product.image[0]"
             :price="product.price"
             :desc="product.description"
             :productState="product.condition"

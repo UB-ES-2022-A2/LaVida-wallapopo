@@ -8,4 +8,6 @@ env_variables:
   CLOUD_SQL_PASSWORD: V=c\+B7\)pk"Bs;8
   CLOUD_SQL_DATABASE_NAME: flask-dataset
   CLOUD_SQL_CONNECTION_NAME: wallapopo-ub:europe-southwest1:wallapopo-mysql
+  CLOUD_STORAGE_BUCKET: wallapopo-img
+  GOOGLE_APPLICATION_CREDENTIALS: wallapopo-ub-d41a3647fa63.json
 

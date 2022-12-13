@@ -1,5 +1,4 @@
 import os
-from time import sleep
 
 from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.by import By
@@ -8,9 +7,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from base import driver, host, login_page, add_product_page
 from selenium.webdriver.support import expected_conditions as EC
-
-
-
 
 
 def login():
@@ -53,7 +49,7 @@ def test_add_product():
     product_description.send_keys("Un monopolio con tema de motos")
     product_add_photo.send_keys(os.path.join(os.getcwd(), 'frontend/src/assets/Oso.jpeg'))
     product_uploadProduct_button.click()
-    alert = WebDriverWait(driver, 2).until(EC.alert_is_present())
+    alert = WebDriverWait(driver, 10).until(EC.alert_is_present())
     alert_text = alert.text
     alert.accept()
 
