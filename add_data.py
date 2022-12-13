@@ -21,7 +21,7 @@ accounts = []
 for product in data.products:
     productModel = ProductsModel(name=product['name'], category=product['category'], description=product['description'],
                                  price=product['price'], condition=product['condition'])
-    productModel.image = product['image']
+    productModel._images = product['image']
     products.append(productModel)
 
 for account in data.accounts:

@@ -45,7 +45,7 @@ class ProductsModel(db.Model):
                         )
 
     def get_images(self):
-        return [x for x in self._images.split(';-;')]
+        return [x for x in self._images.split(';-;')] if self._images else None
 
     def images(self, value):
         if self._images == 'https://storage.googleapis.com/wallapopo-img/product_placeholder.png':

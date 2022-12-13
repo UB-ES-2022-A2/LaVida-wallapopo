@@ -40,7 +40,7 @@ def populate_db():
                                     description=product['description'], price=product['price'],
                                     condition=product['condition'])
 
-        new_product.image = product['image']
+        new_product._images = product['image']
         products.append(new_product)
 
     for account in data.accounts:
