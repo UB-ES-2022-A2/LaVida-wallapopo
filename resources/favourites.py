@@ -76,9 +76,9 @@ class Favourites(Resource):
             if account is None:
                 return {'message': "account with email [{}] does not exist".format(data['email'])}, HTTPStatus.CONFLICT
 
-            #return error if the account username doesn't match
-            #if account.username != g.user.username:
-            #return {'message': "Bad authorization user"}, HTTPStatus.BAD_REQUEST
+            # return error if the account username doesn't match
+            if account.username != g.user.username:
+                return {'message': "Bad authorization user"}, HTTPStatus.BAD_REQUEST
 
             # return error if product does not exist
             if product is None:
