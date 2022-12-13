@@ -104,11 +104,6 @@
         @change="onFileChange"
       >
       </b-form-file>
-      <form action = "http://localhost:5000/uploading" method = "POST"
-         enctype = "multipart/form-data" multiple>
-         <input type="file" name="file" multiple="">
-        <input type="submit" value="add">
-      </form>
       <div class="row" style="margin-top:14px">
         <div
           class=" col-6 col-lg-3"

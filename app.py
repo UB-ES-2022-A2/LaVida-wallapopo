@@ -1,11 +1,10 @@
 import os
 
-from flask import Flask, request
+from flask import Flask
 from flask import render_template
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api
-from google.cloud import storage
 
 from config import config
 from db import db
@@ -86,34 +85,6 @@ api.add_resource(Favourites, '/API/favourites', '/API/favourites/<string:email>'
 @app.route('/')
 def render_vue():
     return render_template("index.html")
-
-
-@app.route('/uploading', methods=['POST'])
-def upload() -> str:
-    """Process the uploaded file and upload it to Google Cloud Storage."""
-    uploaded_file = request.files.get('file')
-
-    if not uploaded_file:
-        return 'No file uploaded.', 400
-
-    # Create a Cloud Storage client.
-    print('hi')
-    print(os.environ)
-    gcs = storage.Client.from_service_account_json('wallapopo-ub-d41a3647fa63.json')
-
-    # Get the bucket that the file will be uploaded to.
-    bucket = gcs.get_bucket('wallapopo-img')
-
-    # Create a new blob and upload the file's content.
-    blob = bucket.blob('profile/1/'+uploaded_file.filename)
-
-    blob.upload_from_string(
-        uploaded_file.read(),
-        content_type=uploaded_file.content_type
-    )
-
-    # The public URL can be used to directly access the uploaded file via HTTP.
-    return blob.public_url
 
 
 if __name__ == '__main__':
