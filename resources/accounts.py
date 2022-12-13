@@ -1,7 +1,6 @@
 import datetime
 from http import HTTPStatus
 
-import flask
 from flask_restful import Resource, reqparse
 from itsdangerous import URLSafeTimedSerializer
 from sqlalchemy import exc
@@ -33,7 +32,6 @@ class Accounts(Resource):
 
     # register new accounts
     def post(self):
-        print("POST")
         with lock.lock:
             data = self.get_data()
             # Check if the email has a valid email format
