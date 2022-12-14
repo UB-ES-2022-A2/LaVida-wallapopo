@@ -291,7 +291,9 @@ export default {
         comment: this.reviewMessage
       }
       console.log(dataToSend)
-      axios.post(this.devPath + '/reviews', dataToSend).then((response) => {
+      axios.post(this.devPath + '/reviews', dataToSend, {
+        auth: {username: this.token}
+      }).then((response) => {
         console.log(response)
         alert('Review enviada correctamente')
       }).catch(err => {
