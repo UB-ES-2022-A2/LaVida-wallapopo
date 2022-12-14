@@ -14,7 +14,9 @@ class Filter(Resource):
                 products = ProductsModel.get_by_search_text(text)
             else:
                 products = ProductsModel.get_all()
-            products = [x.json() for x in products] if products else []
+            # select non-sold products only
+            products_list = [product for product in products if product.status != "Vendido"]
+            products = [x.json() for x in products_list] if products else []
             return {"products_list": products}, HTTPStatus.OK
 
     # retrieve products by filters applied
@@ -46,7 +48,10 @@ class Filter(Resource):
                     data['search'], category, price0, price1, date, conditions)
             else:
                 products = ProductsModel.get_by_filters(category, price0, price1, date, conditions)
-            products = [x.json() for x in products] if products else []
+
+            # select non-sold products only
+            products_list = [product for product in products if product.status != "Vendido"]
+            products = [x.json() for x in products_list] if products else []
             return {"products_list": products}, HTTPStatus.OK
 
     def get_data(self):
@@ -73,9 +78,12 @@ class FilterCategory(Resource):
 
             # check if everything is valid
             if not_valid:
-                return {'message': "Invalid cateogry".format(category)}, \
+                return {'message': "Invalid category".format(category)}, \
                        HTTPStatus.BAD_REQUEST
             # if everything is ok then return the products, if nothing matches, return empty list
             products = ProductsModel.get_by_category(category)
-            products = [x.json() for x in products] if products else []
+            # select non-sold products only
+            products_list = [product for product in products if product.status != "Vendido"]
+            products = [x.json() for x in products_list] if products else []
+
             return {"products_list": products}, HTTPStatus.OK
