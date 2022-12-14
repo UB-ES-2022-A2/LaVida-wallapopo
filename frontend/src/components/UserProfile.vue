@@ -93,7 +93,7 @@
           <a>No se han comprado productos hasta la fecha</a>
         </div>
         <div class="card" id="bought-card" v-else v-for="purchase in purchases" :key="purchase.id" style="width: 39rem;">
-          <div class="row no-gutters" v-on:click="goToProduct(purchase.product.id)">
+          <div class="row no-gutters"> <!--v-on:click="goToProduct(purchase.product.id)"-->
             <div class="col-auto">
               <b-img :src="purchase.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
             </div>
@@ -108,7 +108,7 @@
             </div>
             <div class="col">
               <h5 class="card-text" id="bought-price1">{{purchase.product.price}}€</h5>
-              <b-button class="mt-3" variant="success" @click="openReviewModal(purchase.product.id)">Puntuar</b-button>
+              <b-button class="mt-3" variant="success" v-on:click="openReviewModal(purchase.product.id)">Puntuar</b-button>
             </div>
           </div>
         </div>
@@ -220,6 +220,7 @@ export default {
       changeImgBoolean: false,
       isSelecting: false,
       selectedFile: null,
+      rating: 4,
       stars: 1,
       reviewMessage: '',
       product_id: null,
@@ -288,6 +289,15 @@ export default {
       this.modalShow = !this.modalShow
     },
     sendReview () {
+      let reviewed = false
+      for (let i = 0; i < this.purchases.length; i++) {
+        if (this.purchases[i]['product_id'] === this.product_id) {
+          reviewed = this.purchases[i]['reviewed']
+        }
+      }
+      console.log('REVIEW DATA')
+      console.log(reviewed)
+
       let dataToSend = {
         email: this.email,
         product_id: this.product_id,
@@ -295,14 +305,25 @@ export default {
         comment: this.reviewMessage
       }
       console.log(dataToSend)
-      axios.post(this.devPath + '/reviews', dataToSend, {
-        auth: {username: this.token}
-      }).then((response) => {
-        console.log(response)
-        alert('Review enviada correctamente')
-      }).catch(err => {
-        console.log(err)
-      })
+      if (reviewed) {
+        axios.put(this.devPath + '/reviews/' + this.product_id, dataToSend, {
+          auth: {username: this.token}
+        }).then((response) => {
+          console.log(response)
+          alert('Review actualizada correctamente')
+        }).catch(err => {
+          console.log(err)
+        })
+      } else {
+        axios.post(this.devPath + '/reviews', dataToSend, {
+          auth: {username: this.token}
+        }).then((response) => {
+          console.log(response)
+          alert('Review enviada correctamente')
+        }).catch(err => {
+          console.log(err)
+        })
+      }
     },
     getUserInfo () {
       const path = this.devPath + '/account/' + this.email
@@ -369,6 +390,7 @@ export default {
       })
         .then((res) => {
           console.log('reviews')
+          console.log(res.data)
           console.log(res.data.reviews_list)
           if (res.data.reviews_list != null) {
             this.reviews = res.data.reviews_list

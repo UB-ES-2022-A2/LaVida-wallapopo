@@ -89,15 +89,18 @@ class Reviews(Resource):
             if product is None:
                 return {'message': "product with id [{}] doesn't exist".format(data['product_id'])}, HTTPStatus.CONFLICT
 
-            orders = OrdersModel.get_purchases_by_email(data['email'])
-            order = next((o for o in orders if o.product_id == data['product_id']), None)
+            orders = OrdersModel.get_all()
+            order = next((o for o in orders if o.product_id == id), None)
             # if order exists, update the reviewed status
             if order is None:
                 return {'message': "this order doesn't exist"}, HTTPStatus.CONFLICT
             order.reviewed = True
 
             # get review by id and update its fields
-            review = ReviewsModel.get_by_id(id)
+            reviews = ReviewsModel.get_all()
+            review = next((r for r in reviews if r.product_id == id), None)
+            if review is None:
+                return {'message': "this review doesn't exist"}, HTTPStatus.CONFLICT
 
             if data["stars"]:
                 review.stars = data["stars"]

@@ -4,6 +4,7 @@ from sqlalchemy.sql import func, desc
 
 class OrdersModel(db.Model):
     __tablename__ = 'orders'
+    __table_args__ = (db.UniqueConstraint('buyer_id', 'product_id'),)
 
     id = db.Column(db.Integer, primary_key=True)
     buyer_id = db.Column(db.String(50), db.ForeignKey('accounts.email'), nullable=False)

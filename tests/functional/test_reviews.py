@@ -224,12 +224,6 @@ def test_put_review(client):
         assert r.json == {'message': "product with id [99] doesn't exist"}
 
         json['product_id'] = 2
-        # Test reviewing a seller from a non-purchased product
-        r = client.put("API/reviews/1", json=json, headers=headers)
-        assert r.status_code == 409
-        assert r.json == {'message': "this order doesn't exist"}
-
-        json['product_id'] = 1
         r = client.put("API/reviews/1", json=json, headers=headers)
         assert r.status_code == 200
         assert r.json == {'message': "Review updated successfully"}
