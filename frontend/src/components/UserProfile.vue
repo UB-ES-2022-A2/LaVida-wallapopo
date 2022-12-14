@@ -93,9 +93,10 @@
           <a>No se han comprado productos hasta la fecha</a>
         </div>
         <div class="card" id="bought-card" v-else v-for="purchase in purchases" :key="purchase.id" style="width: 39rem;">
-          <div class="row no-gutters" v-on:click="goToProduct(purchase.product.id)">
-            <div class="col-auto">
-              <b-img :src="require('../assets/product_placeholder.png')" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+          <div class="row no-gutters">
+            <div class="col-auto" v-on:click="goToProduct(purchase.product.id)">
+              <b-img :src="require('../assets/product_placeholder.png')" class="productImg" width="100" height="100"
+                alt="Circle image"></b-img>
             </div>
             <div class="col-5">
               <div class="card-block px-2">
@@ -108,10 +109,27 @@
             </div>
             <div class="col">
               <h5 class="card-text" id="bought-price1">{{purchase.product.price}}€</h5>
-              <a href="#" class="btn btn-primary">Puntuar</a>
+              <b-button class="mt-3" variant="success" @click="modalShow = !modalShow">Puntuar</b-button>
             </div>
           </div>
         </div>
+        <!--Modal de pregunta reseña-->
+        <b-modal v-model="modalShow" id="askReview" title="Deseas añadir una reseña para el vendedor?" no-stacking hide-footer>
+          <b-button class="mt-3" variant="danger" @click="$bvModal.hide('askReview')">No</b-button>
+          <b-button class="mt-3" variant="success" v-b-modal.modal-3>Si!</b-button>
+        </b-modal>
+        <!--Modal de reseña-->
+        <b-modal id="modal-3" title="Ayuda al vendedor a mejorar añadiendo una reseña" hide-footer ref="review-modal">
+          <div>
+            <b-form-rating v-model="stars" size="lg" show-value no-border></b-form-rating>
+            <p class="mt-2">Tu valoración: {{ stars }}</p>
+            <b-form-textarea id="textarea-auto-height" placeholder="Dile al vendedor lo que te ha gustado... O lo que no!"
+              v-model="reviewMessage" rows="3" max-rows="8">
+            </b-form-textarea>
+            <p class="mt-2">Tu mensaje: {{ reviewMessage }}</p>
+            <b-button class="mt-3" @click="sendReview">Enviar reseña</b-button>
+          </div>
+        </b-modal>
       </div>
     </div>
     <!--HISTORIAL DE VENDES-->
@@ -197,6 +215,10 @@ export default {
       changeImgBoolean: false,
       isSelecting: false,
       selectedFile: null,
+      stars: 1,
+      reviewMessage: '',
+      product_id: null,
+      modalShow: false,
       purchases: [],
       sales: [],
       reviews: [],
@@ -255,6 +277,26 @@ export default {
           alert('Ha ocurrido un error al actualizar los datos, vuelve a intentarlo más tarde')
           console.error(error)
         })
+    },
+    openReviewModal (id) {
+      this.product_id = id
+      this.isModalVisible = true
+      console.log('Opening modal...' + this.product_id + '' + this.isModalVisible)
+    },
+    sendReview (id) {
+      let dataToSend = {
+        email: this.email,
+        product_id: id,
+        stars: this.stars,
+        comment: this.reviewMessage
+      }
+      console.log(dataToSend)
+      axios.post(this.devPath + '/reviews', dataToSend).then((response) => {
+        console.log(response)
+        alert('Review enviada correctamente')
+      }).catch(err => {
+        console.log(err)
+      })
     },
     getUserInfo () {
       const path = this.devPath + '/account/' + this.email

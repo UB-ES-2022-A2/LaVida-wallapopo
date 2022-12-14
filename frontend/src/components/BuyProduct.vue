@@ -209,7 +209,6 @@ export default {
           this.textLabel = 'Exito en la compra de'
           document.getElementById('buyProduct_alert_buyConfirmation').textContent = 'Exito'
           setTimeout(() => this.$refs['my-modal'].hide(), 2000)
-          // TODO GO TO REVIEWS
         }).catch((err) => {
           console.log(err)
           this.textLabel = 'Error en la compra de'
@@ -218,21 +217,17 @@ export default {
         })
     },
     sendReview() {
-
       let dataToSend = {
         email: this.email,
         product_id: this.id,
         stars: this.stars,
         comment: this.message
       }
-
       axios.post(this.devPath + '/reviews', dataToSend).then((response) => {
         console.log(response)
         alert('Review enviada correctamente')
       }).catch(err => {
         console.log(err)
-        this.error = err.response.data
-        alert(this.error)
       })
     },
     getProduct () {
