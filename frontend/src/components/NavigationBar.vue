@@ -28,14 +28,14 @@
       <div class="btn btn-light">
         <img src="@/assets/heart2.png" alt="User icon" style="width: 20px" />
       </div>
-        <button id="navbar-button-profile" class="btn mr-1" @click="redirectToUserProfile()">
-    
+        <button id="navbar-button-profile" class="btn mr-1" @click="redirectToUserProfile()"></button>
+
         <div class="dropdown-dark my-3 text-right">
           <button id="navbar-button-profile" class="btn" @click="redirectToUserProfile()">
             <img src="@/assets/user.png" alt="User icon" style="width: 20px" /> Tú
           </button>
         </div>
-        
+
       <div class="dropdown-dark">
         <b-dropdown id="dropdown-1" text="Usuario" class="mr-1" variant="dark">
           <b-dropdown-item v-b-modal.modal-1 v-on:click="loggedOut()">Cerrar Sesión</b-dropdown-item>

@@ -89,22 +89,39 @@
         </b-row>
         <b-row align-h="center">
           <b-col><b-button type="reset" variant="danger" @click="onReset">Cancelar</b-button></b-col>
-          <b-col
-            ><b-button type="submit" variant="success" v-b-modal.modal-2>Comprar</b-button></b-col
-          >
-        </b-row>
-        <!-- Modal de confirmacion-->
-        <b-modal id="modal-2" title="Confirmar pago" hide-footer ref="my-modal">
-          <p class="my-4" id='buyProduct_p_textModal' >{{textLabel}} <b>{{product.name}}</b> </p>
-          <b-button class="mt-3" variant="danger"  @click="hideModal"
-            >Cancelar</b-button
-          >
-          <b-button class="mt-3" variant="success"  @click="confirmPayment"
-            >Comprar</b-button
-          >
-          <b-alert id='buyProduct_alert_buyConfirmation' show variant="warning" class="mt-2">Estado de compra</b-alert>
-        </b-modal>
-      </b-form>
+          <b-col><b-button type="submit" variant="success" v-b-modal.modal-2>Comprar</b-button></b-col>
+          </b-row>
+          <!-- Modal de confirmacion-->
+          <b-modal id="modal-2" title="Confirmar pago" hide-footer ref="my-modal">
+            <p class="my-4" id='buyProduct_p_textModal'>{{textLabel}} <b>{{product.name}}</b> </p>
+            <b-button class="mt-3" variant="danger" @click="hideModal">Cancelar</b-button>
+            <b-button class="mt-3" variant="success" @click="confirmPayment" v-b-modal.askReview>Comprar</b-button>
+            <b-alert id='buyProduct_alert_buyConfirmation' show variant="warning" class="mt-2">Estado de compra</b-alert>
+          </b-modal>
+
+          <!--Modal de pregunta reseña-->
+          <b-modal id="askReview" title="Deseas añadir una reseña para el vendedor?" no-stacking hide-footer>
+            <b-button class="mt-3" variant="danger" @click="$bvModal.hide('askReview')">No</b-button>
+            <b-button class="mt-3" variant="success" v-b-modal.modal-3>Si!</b-button>
+          </b-modal>
+
+          <!--Modal de reseña-->
+          <b-modal id="modal-3" title="Ayuda al vendedor a mejorar añadiendo una reseña" hide-footer ref="review-modal">
+            <div>
+              <b-form-rating v-model="stars" size="lg" show-value no-border></b-form-rating>
+              <p class="mt-2">Tu valoración: {{ stars }}</p>
+              <b-form-textarea
+                id="textarea-auto-height"
+                placeholder="Dile al vendedor lo que te ha gustado... O lo que no!"
+                v-model="reviewMessage"
+                rows="3"
+                max-rows="8">
+              </b-form-textarea>
+              <p class="mt-2">Tu mensaje: {{ reviewMessage }}</p>
+              <b-button class="mt-3" @click="sendReview">Enviar reseña</b-button>
+            </div>
+          </b-modal>
+          </b-form>
 
     </b-container>
   </div>
@@ -114,6 +131,11 @@
 import NavigationBar from './NavigationBar.vue'
 import { primaryColor, devWeb, prodWeb, secondaryColor } from '../store'
 import axios from 'axios'
+import JQuery from 'jquery'
+/* eslint-disable */
+let $ = JQuery
+/* eslint-disable */
+var bootbox = require('bootbox')
 
 export default {
   name: 'BuyProdcut',
@@ -127,6 +149,9 @@ export default {
       prodPath: prodWeb,
       devPath: devWeb,
       logged: false,
+      stars: 1,
+      reviewMessage: '',
+      showModal: false,
       form: {
         email: '',
         name: '',
@@ -148,7 +173,6 @@ export default {
     }
   },
   methods: {
-
     onReset () {
       this.form.email = ''
       this.form.name = ''
@@ -192,6 +216,24 @@ export default {
           document.getElementById('buyProduct_alert_buyConfirmation').textContent = 'Error en la compra'
           setTimeout(() => this.$refs['my-modal'].hide(), 2000)
         })
+    },
+    sendReview() {
+
+      let dataToSend = {
+        email: this.email,
+        product_id: this.id,
+        stars: this.stars,
+        comment: this.message
+      }
+
+      axios.post(this.devPath + '/reviews', dataToSend).then((response) => {
+        console.log(response)
+        alert('Review enviada correctamente')
+      }).catch(err => {
+        console.log(err)
+        this.error = err.response.data
+        alert(this.error)
+      })
     },
     getProduct () {
       const path = this.devPath + `/product/${this.id}`
