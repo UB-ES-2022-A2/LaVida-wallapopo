@@ -101,8 +101,8 @@
 
           <!--Modal de pregunta reseña-->
           <b-modal id="askReview" title="Deseas añadir una reseña para el vendedor?" no-stacking hide-footer>
-            <b-button class="mt-3" variant="danger" @click="$bvModal.hide('askReview')">No</b-button>
-            <b-button class="mt-3" variant="success" v-b-modal.modal-3>Si!</b-button>
+            <b-button class="mt-3" variant="danger" @click="$bvModal.hide('askReview')" v-on:click="onReset">No</b-button>
+            <b-button class="mt-3" variant="success" v-b-modal.modal-3>Sí</b-button>
           </b-modal>
 
           <!--Modal de reseña-->
@@ -203,12 +203,12 @@ export default {
           console.log('RESPOND ORDER', res)
           this.textLabel = 'Exito en la compra de'
           document.getElementById('buyProduct_alert_buyConfirmation').textContent = 'Exito'
-          setTimeout(() => this.$refs['my-modal'].hide(), 2000)
+          setTimeout(() => this.$refs['my-modal'].hide(), 1000)
         }).catch((err) => {
           console.log(err)
           this.textLabel = 'Error en la compra de'
           document.getElementById('buyProduct_alert_buyConfirmation').textContent = 'Error en la compra'
-          setTimeout(() => this.$refs['my-modal'].hide(), 2000)
+          setTimeout(() => this.$refs['my-modal'].hide(), 1000)
         })
     },
     sendReview () {
@@ -224,8 +224,12 @@ export default {
       }).then((response) => {
         console.log(response)
         alert('Review enviada correctamente')
+        setTimeout(() => this.$refs['review-modal'].hide(), 100)
+        this.onReset()
       }).catch(err => {
         console.log(err)
+        alert('Error al enviar la review')
+        this.onReset()
       })
     },
     getProduct () {
