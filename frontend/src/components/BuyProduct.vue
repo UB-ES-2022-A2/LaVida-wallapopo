@@ -77,7 +77,7 @@
             </b-form-group>
           </b-col>
           <b-col>
-            <b-form-group id="buyProduct_input_expDate_group" label="Date" label-for="buyProduct_input_expDate">
+            <b-form-group id="buyProduct_input_expDate_group" label="Fecha de vencimiento" label-for="buyProduct_input_expDate">
               <b-form-input
                 id="buyProduct_input_expDate"
                 v-model="form.exp_date"
@@ -131,11 +131,6 @@
 import NavigationBar from './NavigationBar.vue'
 import { primaryColor, devWeb, prodWeb, secondaryColor } from '../store'
 import axios from 'axios'
-import JQuery from 'jquery'
-/* eslint-disable */
-let $ = JQuery
-/* eslint-disable */
-var bootbox = require('bootbox')
 
 export default {
   name: 'BuyProdcut',
@@ -216,7 +211,7 @@ export default {
           setTimeout(() => this.$refs['my-modal'].hide(), 2000)
         })
     },
-    sendReview() {
+    sendReview () {
       let dataToSend = {
         email: this.email,
         product_id: this.id,
