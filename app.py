@@ -17,6 +17,7 @@ from resources.profile import Profile
 from resources.orders import Orders, Sales, Purchases
 from resources.reviews import Reviews
 from resources.favourites import Favourites
+from resources.images import ImagesUsers, ImagesProducts
 
 from models.orders import OrdersModel
 from models.accounts import AccountsModel
@@ -43,11 +44,16 @@ if os.environ.get('GAE_ENV') == 'standard':
 app.config.from_object(environment)
 app.config['SECURITY_PASSWORD_SALT'] = 'foobar'
 
+
 api = Api(app)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 migrate = Migrate(app, db)
 db.init_app(app)
+
+# images
+api.add_resource(ImagesUsers, '/API/upload/profile/<string:email>')
+api.add_resource(ImagesProducts, '/API/upload/product/<string:id>')
 
 # accounts
 api.add_resource(Accounts, '/API/account/<string:email>', '/API/account')

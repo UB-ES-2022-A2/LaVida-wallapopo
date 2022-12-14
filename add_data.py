@@ -8,8 +8,6 @@ import resources.sample_data as data
 from models.accounts import AccountsModel
 # import models here
 from models.products import ProductsModel
-from models.orders import OrdersModel
-import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
@@ -23,7 +21,7 @@ accounts = []
 for product in data.products:
     productModel = ProductsModel(name=product['name'], category=product['category'], description=product['description'],
                                  price=product['price'], condition=product['condition'])
-    productModel.image = product['image']
+    productModel._images = product['image']
     products.append(productModel)
 
 for account in data.accounts:
@@ -38,12 +36,9 @@ for product in products:
     i = accounts.index(user)
     product.user_id = accounts[i].email
 
-
 try:
     db.session.add_all(products)
     db.session.add_all(accounts)
     db.session.commit()
-    print('Data added successfully')
 except exc.SQLAlchemyError:
     db.session.rollback()
-    print('Error')

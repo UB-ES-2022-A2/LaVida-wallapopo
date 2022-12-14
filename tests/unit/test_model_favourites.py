@@ -17,7 +17,9 @@ def test_json(_app, dummy_favourite):
                              'surname': None,
                              'birthday': None,
                              'is_admin': 0,
-                             'confirmed': True},
+                             'confirmed': True,
+                             'profile': 'https://storage.googleapis.com/wallapopo-img/default-profile.jpg'
+                             },
                     'product': dummy_favourite[1].json()
                     }
         assert dummy_favourite[0].json() == expected

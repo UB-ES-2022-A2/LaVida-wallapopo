@@ -18,16 +18,20 @@ def test_check_profile_data():
 
     # Submit the form and login
     enter_button.click()
-    login_successfully = WebDriverWait(driver, timeout=2).until(
+
+    login_successfully = WebDriverWait(driver, timeout=5).until(
         lambda d: d.find_element(By.ID, "navbar-identifier"))
 
     assert login_successfully is not None
 
     # Look for the profile button at the navbar and click it
-    profile_button = driver.find_element(By.ID, 'navbar-button-profile')
+    dropdown_button = driver.find_element(By.ID, 'navbar-button-profile')
+    dropdown_button.click()
+
+    profile_button = driver.find_element(By.ID, 'perfil')
     profile_button.click()
 
-    profile_page = WebDriverWait(driver, timeout=2).until(
+    profile_page = WebDriverWait(driver, timeout=5).until(
         lambda d: d.find_element(By.ID, "Profile"))
 
     assert profile_page is not None

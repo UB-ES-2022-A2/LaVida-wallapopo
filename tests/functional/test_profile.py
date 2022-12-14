@@ -36,7 +36,8 @@ def test_get_profile(client, auth_header):
                 'is_admin': 0,
                 'name': None,
                 'surname': None,
-                'username': 'pepeman'
+                'username': 'pepeman',
+                'profile': 'https://storage.googleapis.com/wallapopo-img/default-profile.jpg'
             }
         }
 

@@ -17,7 +17,7 @@ def test_json(_app, dummy_review):
         current_date = datetime.date.today()
         user = dummy_review.json()['product']['user']
         username = dummy_review.json()['product']['username']
-        assert dummy_review.json() == {'comment': '',
+        expected = {'comment': '',
  'date': current_date.strftime('%Y-%m-%d'),
  'id': 1,
  'product': {'category': 'Otros',
@@ -25,7 +25,7 @@ def test_json(_app, dummy_review):
              'date': current_date.strftime("%d-%b-%Y"),
              'description': 'juego de parchis edición retro',
              'id': 2,
-             'image': 'Parchis.jpeg',
+             'image': ['Parchis.jpeg'],
              'name': 'Parchis',
              'price': 20.0,
              'shipment': False,
@@ -39,15 +39,18 @@ def test_json(_app, dummy_review):
               'is_admin': 0,
               'name': None,
               'surname': None,
-              'username': 'the killer god'},
+              'username': 'the killer god',
+              'profile': 'https://storage.googleapis.com/wallapopo-img/default-profile.jpg'},
  'reviewer': {'birthday': None,
               'confirmed': True,
               'email': 'pepe432@gmail.com',
               'is_admin': 0,
               'name': None,
               'surname': None,
-              'username': 'pepeman'},
+              'username': 'pepeman',
+              'profile': 'https://storage.googleapis.com/wallapopo-img/default-profile.jpg'},
  'stars': 4}
+        assert dummy_review.json() == expected
 
 
 def test_get_all(_app, dummy_review):
