@@ -1,8 +1,11 @@
 <template>
   <nav class="navbar navbar-expand-md style-navbar" id="navbar-identifier">
+    <div class="row container-fluid">
+      <div class="col-md-3 col-sm-12">
     <a class="navbar-brand h1" @click="redirectToHome()">Wallapopo</a>
+    </div>
+    <div class="col-md-5 col-sm-12">
     <div class="container-fluid">
-      <font-awesome-icon class="nav-icon" icon="fa-magnifying-glass" @click="onEnter"/>
       <b-form-input
         type="search"
         placeholder="Buscar"
@@ -11,7 +14,9 @@
         @keydown.enter.native="onEnter"
       />
     </div>
-    <div v-if="!logged" class="container buttons-session">
+    </div>
+    <div class="col-md-4 col-sm-12">
+    <div v-if="!logged" class="container ">
       <div v-on:click="goToLogin" class="btn btn-primary">
         Login
       </div>
@@ -19,26 +24,31 @@
         Register
       </div>
     </div>
-    <div v-else class="container">
-      <div class="btn">
-        <img src="@/assets/heart.png" alt="User icon" style="width: 20px" />
+    <div v-else class="container d-flex">
+      <div class="btn btn-light">
+        <img src="@/assets/heart2.png" alt="User icon" style="width: 20px" />
+      </div>
+        <button id="navbar-button-profile" class="btn mr-1" @click="redirectToUserProfile()">
+    
+        <div class="dropdown-dark my-3 text-right">
+          <button id="navbar-button-profile" class="btn" @click="redirectToUserProfile()">
+            <img src="@/assets/user.png" alt="User icon" style="width: 20px" /> Tú
+          </button>
         </div>
-      <div class="btn"><font-awesome-icon class="nav-icon" icon="fa-envelope" /></div>
-
-      <div class="dropdown-dark my-3 text-right">
-        <button id="navbar-button-profile" class="btn" @click="redirectToUserProfile()">
-          <img src="@/assets/user.png" alt="User icon" style="width: 20px" /> Tú
-        </button>
-        <b-dropdown id="dropdown-1" text="Usuario" class="m-md-2" variant="dark">
+        
+      <div class="dropdown-dark">
+        <b-dropdown id="dropdown-1" text="Usuario" class="mr-1" variant="dark">
           <b-dropdown-item v-b-modal.modal-1 v-on:click="loggedOut()">Cerrar Sesión</b-dropdown-item>
         </b-dropdown>
         <LogoutModal @loggedStatus="logged=$event" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
       </div>
 
-      <div class="btn btn-product" @click="redirectToAddProduct()" id='navigationBar_div_addProduct'>
+      <div class="btn btn-light" @click="redirectToAddProduct()" id='navigationBar_div_addProduct'>
         <img src="@/assets/add.png" alt="User icon" style="width: 20px" />
         Agregar producto
       </div>
+    </div>
+    </div>
     </div>
   </nav>
 </template>
@@ -142,9 +152,6 @@ a {
 .container{
   justify-content: end;
 }
-.buttons-session div {
-  margin-left: 3px;
-}
 
 .nav-icon{
   font-size: 33px;
@@ -157,10 +164,6 @@ a {
 .nav-icon:hover{
   font-size: 35px;
   color: rgb(59, 187, 170);
-}
-.btn-product{
-  display: contents;
-  justify-content: center;
 }
 
 </style>

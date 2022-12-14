@@ -49,7 +49,7 @@ class AccountsModel(db.Model):
                 'username': self.username,
                 'name': self.name,
                 'surname': self.surname,
-                'birthday': self.birthday.strftime('%Y-%m-%d') if self.birthday else None,
+                'birthday': self.birthday.strftime('%d-%m-%Y') if self.birthday else None,
                 'is_admin': self.is_admin,
                 'confirmed': self.confirmed
                 }

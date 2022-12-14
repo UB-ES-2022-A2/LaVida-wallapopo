@@ -103,7 +103,7 @@ export default {
       this.$router.push({path: '/login'})
     },
     registerUser () {
-      axios.post(this.prodPath + '/account', this.addUserForm).then((response) => {
+      axios.post(this.devPath + '/account', this.addUserForm).then((response) => {
         console.log(response)
         alert('Usuario registrado correctamente')
         this.redirectToLogin()

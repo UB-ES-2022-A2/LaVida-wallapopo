@@ -1,2 +1,20 @@
 export const devWeb = 'http://127.0.0.1:5000/API'
-export const prodWeb = 'http://127.0.0.1:5000/API'
+export const prodWeb = 'https://wallapopo-ub.ew.r.appspot.com/API'
+
+export const primaryColor = '#48BEFF'
+export const dangerColor = '#F06C6E'
+export const secondaryColor = '#14453D'
+export const succesColor = '#43C59E'
+export const warningColor = '#FFCF40'
+
+export const primaryColorLight = '#6ccbff'
+export const dangerColorLight = '#f3898b'
+export const secondaryColorLight = '#426a63'
+export const succesColorLight = '#68d0b1'
+export const warningColorLight = '#ffd866'
+
+export const primaryColorDark = '#3998cc'
+export const dangerColorDark = '#c05658'
+export const secondaryColorDark = '#103730'
+export const succesColorDark = '#359d7e'
+export const warningColorDark = '#cca533'
