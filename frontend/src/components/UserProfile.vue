@@ -93,10 +93,9 @@
           <a>No se han comprado productos hasta la fecha</a>
         </div>
         <div class="card" id="bought-card" v-else v-for="purchase in purchases" :key="purchase.id" style="width: 39rem;">
-          <div class="row no-gutters">
-            <div class="col-auto" v-on:click="goToProduct(purchase.product.id)">
-              <b-img :src="require('../assets/product_placeholder.png')" class="productImg" width="100" height="100"
-                alt="Circle image"></b-img>
+          <div class="row no-gutters" v-on:click="goToProduct(purchase.product.id)">
+            <div class="col-auto">
+              <b-img :src="purchase.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
             </div>
             <div class="col-5">
               <div class="card-block px-2">
@@ -144,7 +143,7 @@
         <div class="card" id="sold-card" v-else v-for="sale in sales" :key="sale.id" style="width: 39rem;">
           <div class="row no-gutters" v-on:click="goToProduct(sale.product.id)">
             <div class="col-auto">
-              <b-img :src="require('../assets/product_placeholder.png')" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+              <b-img :src="sale.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
             </div>
             <div class="col-5">
               <div class="card-block px-2">
@@ -163,25 +162,31 @@
       </div>
     </div>
     <!--HISTORIAL DE Reviews-->
-        <!--<div v-if="(reviews.length === 0)">
-          <a>No se han recibido reseñas hasta la fecha</a>
-        </div>
-      posar en el div de card: v-else v-for="review in reviews" :key="review.id" -->
-      <div class="card bg-light" v-else-if="type==='reviews'" id="review-div" style="width: 40rem;">
-      <div class="row">
-        <div class="col-auto">
-          <b-img :src="require('../assets/product_placeholder.png')" class="productImg" width="100" height="100" alt="Circle image"></b-img>
-        </div>
-        <div class="col">
-          <div class="row">
-            <div class="col-5">Nom reviewer</div>
-            <div class="col-6" style="text-align: right; margin-left:30px">estrellas</div>
+    <div v-else-if="type==='reviews'" id="review-div">
+      <div class="card bg-light" id="big-card" style="width: 40rem;">
+        <h5 class="card-title"><b>Historial de reviews</b></h5>
+        <h6 class="card-subtitle">Reviews recibidas desde la creación de la cuenta:</h6>
+        <br>
+
+        <div class="card" id="review-card" v-for="review in reviews" :key="review.id" style="width: 39rem;">
+          <div class="row" v-on:click="goToProduct(review.product.id)">
+            <div class="col-auto">
+              <b-img :src="review.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col-5">{{review.reviewer.name}}</div>
+                <div class="col-6" style="text-align: right; margin-left:30px">
+                  <b-form-rating v-model="rating" id="estrellas"></b-form-rating>
+                </div>
+              </div>
+              <div class="row-auto">
+                <div class="row-auto" style="text-align: center; font-weight: bold;">{{review.product.name}}</div>
+                <div v-if="review.comment" class="row-auto" style="text-align: center;">{{review.comment}}</div>
+              </div>
+              <div class="row-8" style="text-align: right; margin-right:10px">{{review.date}}</div>
+            </div>
           </div>
-          <div class="row-auto">
-            <div class="row-auto" style="text-align: center; font-weight: bold;">nom producte</div>
-            <div class="row-auto" style="text-align: center;">comentari (opcional)</div>
-          </div>
-          <div class="row-8" style="text-align: right; margin-right:10px"> fecha review</div>
         </div>
       </div>
     </div>
@@ -357,6 +362,23 @@ export default {
           alert('Error al mostrar sales')
         })
     },
+    getReviews () {
+      const path = this.devPath + '/reviews/' + this.email
+      axios.get(path, {
+        auth: { username: this.token }
+      })
+        .then((res) => {
+          console.log('reviews')
+          console.log(res.data.reviews_list)
+          if (res.data.reviews_list != null) {
+            this.reviews = res.data.reviews_list
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          alert('Error al mostrar reviews')
+        })
+    },
     onChangeSearch (param) {
       this.type = param
     }
@@ -366,6 +388,7 @@ export default {
     this.getUserInfo()
     this.getPurchases()
     this.getSales()
+    this.getReviews()
   }
 }
 </script>
