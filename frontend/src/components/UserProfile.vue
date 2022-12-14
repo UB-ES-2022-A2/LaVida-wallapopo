@@ -109,7 +109,7 @@
             </div>
             <div class="col">
               <h5 class="card-text" id="bought-price1">{{purchase.product.price}}€</h5>
-              <b-button class="mt-3" variant="success" @click="modalShow = !modalShow">Puntuar</b-button>
+              <b-button class="mt-3" variant="success" @click="openReviewModal(purchase.product.id)">Puntuar</b-button>
             </div>
           </div>
         </div>
@@ -280,13 +280,12 @@ export default {
     },
     openReviewModal (id) {
       this.product_id = id
-      this.isModalVisible = true
-      console.log('Opening modal...' + this.product_id + '' + this.isModalVisible)
+      this.modalShow = !this.modalShow
     },
-    sendReview (id) {
+    sendReview () {
       let dataToSend = {
         email: this.email,
-        product_id: id,
+        product_id: this.product_id,
         stars: this.stars,
         comment: this.reviewMessage
       }

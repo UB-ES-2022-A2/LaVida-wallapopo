@@ -221,7 +221,7 @@ export default {
         email: this.email,
         product_id: this.id,
         stars: this.stars,
-        comment: this.message
+        comment: this.reviewMessage
       }
       console.log(dataToSend)
       axios.post(this.devPath + '/reviews', dataToSend, {
