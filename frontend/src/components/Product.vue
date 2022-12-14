@@ -17,50 +17,58 @@
             <!-- valoraciones -->
             <div class="row">
               <img
-                v-for="i in 2"
-                :key="i+'good'"
+                  v-for="i in 2"
+                :key="i"
                 src="../assets/star2.png"
                 alt=""
                 style="width: 20px"
               />
               <img
-                v-for="j in 3"
-                :key="j + 'bad'"
+                v-for="i in 3"
+                :key="i"
                 src="../assets/star.png"
                 alt=""
                 style="width: 20px"
               />
             </div>
           </div>
-            <!-- Botonoes  -->
-          <div class="col-4 buttons">
-          </div>
 
+          <div class="col-4 buttons">
+            <button
+              class="product-button"
+              v-if="liked && logged"
+              v-on:click="liked = !liked"
+            >
+              <img src="../assets/heart.png" alt="" style="width: 20px" />
+            </button>
+            <button
+              class="product-button"
+              v-if="!liked && logged"
+              v-on:click="liked = !liked"
+            >
+              <img src="../assets/heart2.png" alt="" style="width: 20px" />
+            </button>
+            <button v-if="logged" class="product-button">Chat</button>
+          </div>
         </div>
 
-        <!-- Carrousel de imagenEs-->
+        <!-- Carrousel de imagenes-->
         <div>
           <b-carousel
             id="carousel-1"
             v-model="slide"
             :interval="4000"
             controls
+            indicators
             background="#ababab"
             img-width="1024"
             img-height="480"
-            style="text-shadow: 1px 1px 2px #333"
             @sliding-start="onSlideStart"
             @sliding-end="onSlideEnd"
           >
-            <b-carousel-slide
-              v-for="i in [
-                'product_placeholder.png',
-                'Oso.jpeg',
-                'Parchis.jpeg',
-              ]"
-              :key="i"
-              :img-src="require('../assets/' + i)"
-              style="height: 480px"
+            <b-carousel-slide v-for="image in product.image" :key=image
+              :img-src="image"
+              style="height:480px"
             ></b-carousel-slide>
           </b-carousel>
         </div>
@@ -68,26 +76,7 @@
         <div class="card-body">
           <div class="price-product row">
             <h5 class="col product-price">{{ product.price }} EUR</h5>
-                        <button
-              class="btn btn-light btn-large"
-              v-if="liked && logged"
-              v-on:click="liked = !liked"
-            >
-              <img src="../assets/heart.png" alt="" style="width: 20px" />
-            </button>
-            <button
-              class="btn btn-light btn-large"
-              v-if="!liked && logged"
-              v-on:click="liked = !liked"
-            >
-              <img src="../assets/heart2.png" alt="" style="width: 20px" />
-            </button>
-            <button
-              v-if="logged && product.status ==='Vendido' " class="btn btn-secondary btn-lg disabled ml-2">
-              Vendido
-            </button>
-            <button
-              v-if="logged && product.status !=='Vendido' " class="btn btn-success btn-lg ml-2" v-on:click="goToBuy">
+            <button v-if="logged" class="product-button product-comprar">
               Comprar
             </button>
           </div>
@@ -112,7 +101,11 @@
               {{ product.date }}
             </p>
             <div v-show="product.shipment" class="ml-auto">
-              <img src="../assets/shippment.png" alt="" style="width: 20px" />
+              <font-awesome-icon
+                class="miIcon"
+                icon="fa-truck-fast"
+                style="font-size: 28px"
+              />
               <span>&nbsp;&nbsp;Hago envíos</span>
             </div>
           </div>
@@ -166,11 +159,6 @@ export default {
           console.error(error)
         })
     },
-    goToBuy () {
-      this.$router.push({
-        path: '/buy/' + this.product.id
-      })
-    },
     onSlideStart (slide) {
       this.sliding = true
     },
@@ -204,6 +192,7 @@ export default {
   height: 550px;
   object-fit: cover;
 }
+
 hr {
   width: 100%;
 }
@@ -213,7 +202,18 @@ hr {
   align-items: center;
   margin-left: 0;
 }
-
+.product-button {
+  border-radius: 20px;
+  border: 1px solid rgb(184, 184, 184);
+  background-color: rgb(207, 197, 197);
+  color: white;
+  width: 80px;
+  padding: 0 15px;
+  align-items: center;
+  transition: 0.5s;
+  margin-left: 5px;
+  height: 40px;
+}
 .product-price {
   margin: 0;
   font-size: 25px;
@@ -224,7 +224,9 @@ hr {
   font-size: 25px;
   font-weight: 550;
 }
-
+.product-button:hover {
+  background-color: red;
+}
 .user-name {
   margin: 0;
   font-size: 20px;

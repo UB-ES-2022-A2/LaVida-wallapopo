@@ -92,6 +92,7 @@ def test_get_favourites(client):
         assert r.status_code == 200
         assert r.json['favourites_list'] != []
 
+
 def test_delete_favourites(client):
     with client:
         # Login

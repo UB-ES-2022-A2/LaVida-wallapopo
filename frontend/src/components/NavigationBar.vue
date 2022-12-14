@@ -1,10 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-md style-navbar" id="navbar-identifier">
-    <div class="row container-fluid">
-      <div class="col-md-3 col-sm-12">
-    <a class="navbar-brand h1" @click="redirectToHome()">Wallapopo</a>
-    </div>
-    <div class="col-md-5 col-sm-12">
+    <a class="navbar-brand h1" @click="goToHome()">Wallapopo</a>
     <div class="container-fluid">
       <b-form-input
         type="search"
@@ -14,9 +10,7 @@
         @keydown.enter.native="onEnter"
       />
     </div>
-    </div>
-    <div class="col-md-4 col-sm-12">
-    <div v-if="!logged" class="container ">
+    <div v-if="!logged" class="container buttons-session">
       <div v-on:click="goToLogin" class="btn btn-primary">
         Login
       </div>
@@ -24,31 +18,26 @@
         Register
       </div>
     </div>
-    <div v-else class="container d-flex">
-      <div class="btn btn-light">
-        <img src="@/assets/heart2.png" alt="User icon" style="width: 20px" />
-      </div>
-        <button id="navbar-button-profile" class="btn mr-1" @click="redirectToUserProfile()"></button>
-
-        <div class="dropdown-dark my-3 text-right">
-          <button id="navbar-button-profile" class="btn" @click="redirectToUserProfile()">
-            <img src="@/assets/user.png" alt="User icon" style="width: 20px" /> Tú
-          </button>
+    <div v-else class="container">
+      <div class="btn">
+        <img src="@/assets/heart.png" alt="User icon" style="width: 20px" />
         </div>
 
-      <div class="dropdown-dark">
-        <b-dropdown id="dropdown-1" text="Usuario" class="mr-1" variant="dark">
-          <b-dropdown-item v-b-modal.modal-1 v-on:click="loggedOut()">Cerrar Sesión</b-dropdown-item>
+      <div class="dropdown-dark my-3 text-right" id="navbar-button-profile">
+        <b-dropdown id="dropdown-1" :src="require('@/assets/user.png')" alt="User icon" text="Usuario" class="m-md-2" variant="dark">
+          <b-dropdown-item id="perfil" v-on:click="goToUserProfile('profile')">Ver Perfil</b-dropdown-item>
+          <b-dropdown-item id="compras" v-on:click="goToUserProfile('bought')">Ver historial de compras</b-dropdown-item>
+          <b-dropdown-item id="ventas" v-on:click="goToUserProfile('sold')">Ver historial de ventas</b-dropdown-item>
+          <b-dropdown-item id="reviews" v-on:click="goToUserProfile('reviews')">Ver reviews recibidas</b-dropdown-item>
+          <b-dropdown-item id="cerrar_sesion" v-b-modal.modal-1>Cerrar Sesión</b-dropdown-item>
         </b-dropdown>
-        <LogoutModal @loggedStatus="logged=$event" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
+        <LogoutModal @loggedStatus="loggedOut($event)" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
       </div>
 
-      <div class="btn btn-light" @click="redirectToAddProduct()" id='navigationBar_div_addProduct'>
+      <div class="btn btn-product" @click="goToAddProduct()" id='navigationBar_div_addProduct'>
         <img src="@/assets/add.png" alt="User icon" style="width: 20px" />
         Agregar producto
       </div>
-    </div>
-    </div>
     </div>
   </nav>
 </template>
@@ -89,9 +78,10 @@ export default {
         this.logged = false
       }
     },
-    loggedOut () {
+    loggedOut (logged) {
       localStorage.removeItem('token')
       localStorage.removeItem('email')
+      this.logged = logged
     },
     goToLogin () {
       this.$router.push({name: 'Login'})
@@ -102,23 +92,31 @@ export default {
     goToProducts () {
       this.$router.push({name: 'HelloWorld'})
     },
-    redirectToAddProduct () {
-      this.$router.push({
-        name: 'AddProduct',
-        params: {logged: this.logged, email: this.email, token: this.token}
-      })
+    goToAddProduct () {
+      if (this.$route.name !== 'AddProduct') {
+        this.$router.push({
+          name: 'AddProduct',
+          params: {logged: this.logged, email: this.email, token: this.token}
+        })
+      }
     },
-    redirectToHome () {
-      this.$router.push({
-        name: 'Main',
-        params: {logged: this.logged, email: this.email, token: this.token}
-      })
+    goToHome () {
+      if (this.$route.name !== 'Main') {
+        this.$router.push({
+          name: 'Main',
+          params: {logged: this.logged, email: this.email, token: this.token}
+        })
+      }
     },
-    redirectToUserProfile () {
-      this.$router.push({
-        name: 'UserProfile',
-        params: {logged: this.logged, email: this.email, token: this.token}
-      })
+    goToUserProfile (type2) {
+      if (this.$route.name !== 'UserProfile') {
+        this.$router.push({
+          name: 'UserProfile',
+          params: {logged: this.logged, email: this.email, token: this.token, type: type2}
+        })
+      } else {
+        this.$emit('type', type2)
+      }
     }
   },
   computed () {
@@ -152,6 +150,9 @@ a {
 .container{
   justify-content: end;
 }
+.buttons-session div {
+  margin-left: 3px;
+}
 
 .nav-icon{
   font-size: 33px;
@@ -164,6 +165,10 @@ a {
 .nav-icon:hover{
   font-size: 35px;
   color: rgb(59, 187, 170);
+}
+.btn-product{
+  display: contents;
+  justify-content: center;
 }
 
 </style>

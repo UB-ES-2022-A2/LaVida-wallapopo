@@ -2,7 +2,7 @@
   <div class="card" v-on:click="goToProduct()">
     <img
       class="card-img"
-      :src="require(`../assets/${img}`)"
+      :src=img
       alt="Image Product"
     />
     <div class="card-body">

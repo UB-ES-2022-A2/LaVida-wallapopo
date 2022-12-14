@@ -18,13 +18,17 @@ import {devWeb, prodWeb} from '../store'
 
 export default {
   name: 'LogoutModal',
-  prodPath: prodWeb,
-  devPath: devWeb,
   props: {
     logged: Boolean,
     email: String,
     token: String,
     modalActive: Boolean
+  },
+  data () {
+    return {
+      prodPath: prodWeb,
+      devPath: devWeb
+    }
   },
   methods: {
     confirmLogout () {
