@@ -83,7 +83,7 @@ def create_app():
     api.add_resource(Accounts, '/API/account/<string:email>', '/API/account')
     api.add_resource(Validate, '/API/validation/<string:validation_token>', '/API/validation')
     api.add_resource(Profile, '/API/profile/<string:email>', '/API/profile')
-    api.add_resource(Reviews, '/API/reviews/<string:email>', '/API/reviews')
+    api.add_resource(Reviews, '/API/reviews/<string:email>', '/API/reviews', '/API/reviews/<int:id>')
     # favourites
     api.add_resource(Favourites, '/API/favourites', '/API/favourites/<string:email>')
 

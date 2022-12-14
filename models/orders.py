@@ -15,6 +15,8 @@ class OrdersModel(db.Model):
     cc_owner = db.Column(db.String(50), nullable=False)
     # the date when order was created
     date = db.Column(db.DateTime(), nullable=False, server_default=func.now())
+    # is the order reviewed or not
+    reviewed = db.Column(db.Boolean, nullable=False, default=False)
 
     # relationship account 1-* orders
     buyer = db.relationship("AccountsModel", foreign_keys=[buyer_id])
@@ -41,7 +43,8 @@ class OrdersModel(db.Model):
             'cc_owner': self.cc_owner,
             'cvc': self.cvc,
             'cc_expiration_date': self.cc_expiration_date.strftime('%m/%y'),
-            'date': self.date.strftime('%d-%m-%Y')
+            'date': self.date.strftime('%d-%m-%Y'),
+            'reviewed': self.reviewed
         }
 
     @classmethod

@@ -67,6 +67,13 @@ def test_get_reviews_by_email(_app, dummy_review):
         assert len(result) == 1
 
 
+def test_get_by_id(_app, dummy_review):
+    with _app.app_context():
+        result = ReviewsModel.get_by_id(1)
+        assert result.product_id == 2
+        assert result.stars == 4
+
+
 def test_save_order(_app):
     with _app.app_context():
         previous = len(ReviewsModel.get_all())
