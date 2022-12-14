@@ -52,26 +52,24 @@
           </div>
         </div>
 
-        <!-- Carrousel de imagenEs-->
+        <!-- Carrousel de imagenes-->
         <div>
           <b-carousel
             id="carousel-1"
             v-model="slide"
             :interval="4000"
             controls
-
+            indicators
             background="#ababab"
             img-width="1024"
             img-height="480"
-            style="text-shadow: 1px 1px 2px #333"
             @sliding-start="onSlideStart"
             @sliding-end="onSlideEnd"
           >
-            <b-carousel-slide v-for="i in ['product_placeholder.png', 'Oso.jpeg', 'Parchis.jpeg']" :key=i
-              :img-src="require('../assets/' + i)"
+            <b-carousel-slide v-for="image in product.image" :key=image
+              :img-src="image"
               style="height:480px"
             ></b-carousel-slide>
-
           </b-carousel>
         </div>
 
@@ -194,6 +192,7 @@ export default {
   height: 550px;
   object-fit: cover;
 }
+
 hr {
   width: 100%;
 }
