@@ -232,7 +232,7 @@ def gmail_imap():
     import imaplib
     # account credentials
     username = "wallapopodummy@gmail.com"
-    password = "uzrvtptxessitpfi"
+    password = "wnxoycxqwiwfcrhq"
     # Gmail provider's IMAP server (from https://www.systoolsgroup.com/imap/)
     imap_server = "imap.gmail.com"
     # Create an IMAP4 class with SSL

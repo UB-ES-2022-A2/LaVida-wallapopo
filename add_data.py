@@ -40,5 +40,7 @@ try:
     db.session.add_all(products)
     db.session.add_all(accounts)
     db.session.commit()
+    print('Data added successfully')
 except exc.SQLAlchemyError:
+    print('Error while adding data')
     db.session.rollback()
