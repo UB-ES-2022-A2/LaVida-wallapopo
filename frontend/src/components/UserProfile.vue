@@ -150,8 +150,10 @@
         <h5 class="card-title"><b>Historial de reviews</b></h5>
         <h6 class="card-subtitle">Reviews recibidas desde la creación de la cuenta:</h6>
         <br>
-
-        <div class="card" id="review-card" v-for="review in reviews" :key="review.id" style="width: 39rem;">
+        <div v-if="(reviews.length === 0)">
+          <a>No se han vendido productos hasta la fecha</a>
+        </div>
+        <div class="card" id="review-card" v-else v-for="review in reviews" :key="review.id" style="width: 39rem;">
           <div class="row" v-on:click="goToProduct(review.product.id)">
             <div class="col-auto">
               <b-img :src="review.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
