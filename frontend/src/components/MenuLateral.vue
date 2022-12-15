@@ -1,9 +1,9 @@
 <template>
   <div id="menu_lateral">
-    <nav class="navbar navbar-light border d-flex align-items-stretch" style="width: 90%;
+    <nav class="navbar navbar-light border d-flex align-items-stretch" style="width: 90%; top: -10px;
     background-color: #f8f9fa;
     ">
-      <ul class="navbar-nav" style="height: 90%;">
+      <ul class="navbar-nav" style="height: 49rem">
         <li class="nav-item mb-4 my-3">
           <a style="color: #000000" class="nav-link h6" v-on:click="goToUserProfile('profile')"><img src="@/assets/icons/user.png" alt="User icon" style="width: 40px"/> Tu Perfil  </a>
         </li>

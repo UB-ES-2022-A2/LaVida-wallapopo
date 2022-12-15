@@ -181,27 +181,28 @@
         <!--HISTORIAL DE Favs-->
         <div v-else-if="type==='favourites'" id="favourites-div">
           <div class="card bg-light" id="big-card" style="width: 40rem;">
-            <h5 class="card-title"><b>Historial de favoritos</b></h5>
-            <h6 class="card-subtitle">Productos Favoritos:</h6>
+            <h5 class="card-title"><b>Tus productos favoritos</b></h5>
+            <h6 class="card-subtitle"></h6>
             <br>
-
-            <div class="card" id="favoritos-card" v-for="review in reviews" :key="review.id" style="width: 39rem;">
-              <div class="row" v-on:click="goToProduct(review.product.id)">
+            <div v-if="(favourites.length === 0)">
+              <a>No hay actualmente productos en favoritos.</a>
+            </div>
+            <div class="card" id="favourites-card" v-else v-for="fav in favourites" :key="fav.id" style="width: 39rem;">
+              <div class="row no-gutters" v-on:click="goToProduct(fav.product.id)">
                 <div class="col-auto">
-                  <b-img :src="review.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+                  <b-img :src="fav.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+                </div>
+                <div class="col-5">
+                  <div class="card-block px-2">
+                    <h4 class="card-title">{{fav.product.name}}</h4>
+                    <p class="card-text">{{fav.product.category}}</p>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <a style="font-size:14px; margin-left:40px;">{{fav.date}}</a>
                 </div>
                 <div class="col">
-                  <div class="row">
-                    <div class="col-5">{{review.reviewer.name}}</div>
-                    <div class="col-6" style="text-align: right; margin-left:30px">
-                      <b-form-rating v-model="rating" id="estrellas"></b-form-rating>
-                    </div>
-                  </div>
-                  <div class="row-auto">
-                    <div class="row-auto" style="text-align: center; font-weight: bold;">{{review.product.name}}</div>
-                    <div v-if="review.comment" class="row-auto" style="text-align: center;">{{review.comment}}</div>
-                  </div>
-                  <div class="row-8" style="text-align: right; margin-right:10px">{{review.date}}</div>
+                  <h5 class="card-text" id="bought-price">{{fav.product.price}}€</h5>
                 </div>
               </div>
             </div>
@@ -382,9 +383,9 @@ export default {
       })
         .then((res) => {
           console.log('favourites')
-          console.log(res.data)
-          if (res.data.reviews_list != null) {
-            this.reviews = res.data.reviews_list
+          console.log(res.data.favourites_list)
+          if (res.data.favourites_list != null) {
+            this.favourites = res.data.favourites_list
           }
         })
         .catch((error) => {
@@ -410,6 +411,7 @@ export default {
 <style scoped>
 
 .card.bg-light {
+  margin: auto;
   width: 50%;
   padding: 10px;
 }
