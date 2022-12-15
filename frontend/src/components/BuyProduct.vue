@@ -293,6 +293,26 @@ export default {
         .catch((error) => {
           console.error(error)
         })
+    },
+    checkIfPurchased () {
+      const path = this.devPath + '/order/purchases/' + this.email
+      axios.get(path, {
+        auth: { username: this.token }
+      })
+        .then((res) => {
+          let currentUrl = window.location.href.toString()
+          let productId = currentUrl.split('/').pop()
+          for (let i = 0; i < res.data.orders_list.length; i++) {
+            if (res.data.orders_list[i]['product_id'].toString() === productId) {
+              this.$router.push({
+                path: '/products'
+              })
+            }
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
   },
   computed: {
@@ -306,7 +326,7 @@ export default {
   mounted () {
     this.token = localStorage.getItem('token')
     this.email = localStorage.getItem('email')
-    console.log('BUYPRPODYUCT', this.token)
+    this.checkIfPurchased()
     this.isLogged()
     this.id = this.$route.params.id
     this.getProduct()

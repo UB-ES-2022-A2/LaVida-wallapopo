@@ -40,7 +40,7 @@ def test_validate_confirmation_token(_app):
 def test_email_received():
     # account credentials
     username = "wallapopodummy@gmail.com"
-    password = "uzrvtptxessitpfi"
+    password = "wnxoycxqwiwfcrhq"
     # Gmail provider's IMAP server (from https://www.systoolsgroup.com/imap/)
     imap_server = "imap.gmail.com"
     # Create an IMAP4 class with SSL
@@ -87,8 +87,8 @@ def test_email_received():
 
     assert validation_from == 'wallapopo.confirmation@gmail.com'
     assert validation_subject == 'Test python email'
-    assert confirmation_url == 'https://firm-affinity-366616.ew.r.appspot.com/#/emailConfirmation/validation_token=' \
-                               'IndhbGxhcG9wb2R1bW15QGdtYWlsLmNvbSI.Y3-NCg.pgUTNjb0xnfrrHDeILKA4KWBJRQ'
+    assert confirmation_url == 'https://wallapopo-ub.ew.r.appspot.com/#/emailConfirmation/validation_token=' \
+                               'IndhbGxhcG9wb2R1bW15QGdtYWlsLmNvbSI.Y5s58A.6VjydlrVYsDUSGr5i8imIA0NmUE'
 
 
 def test_valid_url(gmail_imap):
