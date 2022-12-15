@@ -125,7 +125,6 @@ export default {
   color: rgb(45, 177, 144);
   font-size: 40px;
   letter-spacing: 5px;
-
 }
 
 a {
