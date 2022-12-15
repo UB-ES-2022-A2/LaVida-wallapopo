@@ -47,7 +47,6 @@
 <script>
 
 import LogoutModal from './LogoutModal'
-import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 
 export default {
   name: 'NavigationBar',
