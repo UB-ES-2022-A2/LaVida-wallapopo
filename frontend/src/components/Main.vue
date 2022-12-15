@@ -123,6 +123,12 @@ a {
 }
 .div-1 {
   background-color: #DEF5E5;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.div-1:hover{
+  background-color: #3af19f;
+
 }
 .div-2 {
   background-color: #BCEAD5;

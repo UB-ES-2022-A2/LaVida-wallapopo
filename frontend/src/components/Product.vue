@@ -5,34 +5,14 @@
       <div class="card">
         <div class="row row-title">
           <div class="col-5 row">
+            <a v-on:click="goBack()"><img src="../assets/icons/back.png" style="width: 50px" alt="back" /></a>
+            &nbsp;
             <img
               src="../assets/default-profile.jpg"
               class="rounded-circle"
               style="width: 50px"
               alt="Avatar"
             />
-            <p class="user-name col-8">{{ product.username }}</p>
-          </div>
-          <div class="col-3">
-            <!-- valoraciones -->
-            <div class="row">
-              <img
-                  v-for="i in 2"
-                :key="i"
-                src="../assets/star2.png"
-                alt=""
-                style="width: 20px"
-              />
-              <img
-                v-for="i in 3"
-                :key="i"
-                src="../assets/star.png"
-                alt=""
-                style="width: 20px"
-              />
-            </div>
-          </div>
-
           <div class="col-4 buttons">
             <button
               class="product-button"
@@ -54,26 +34,24 @@
           </div>
         </div>
 
-        <!-- Carrousel de imagenEs-->
+        <!-- Carrousel de imagenes-->
         <div>
           <b-carousel
             id="carousel-1"
             v-model="slide"
             :interval="4000"
             controls
-
+            indicators
             background="#ababab"
             img-width="1024"
             img-height="480"
-            style="text-shadow: 1px 1px 2px #333"
             @sliding-start="onSlideStart"
             @sliding-end="onSlideEnd"
           >
-            <b-carousel-slide v-for="i in ['product_placeholder.png', 'Oso.jpeg', 'Parchis.jpeg']" :key=i
-              :img-src="require('../assets/' + i)"
+            <b-carousel-slide v-for="image in product.image" :key=image
+              :img-src="image"
               style="height:480px"
             ></b-carousel-slide>
-
           </b-carousel>
         </div>
 
@@ -118,6 +96,7 @@
     </div>
     <Footer></Footer>
   </div>
+  </div>
 </template>
 
 <script>
@@ -142,7 +121,8 @@ export default {
       liked: false,
       product: {},
       slide: 0,
-      sliding: null
+      sliding: null,
+      buyButtonVisibility: true
     }
   },
   methods: {
@@ -153,12 +133,12 @@ export default {
     },
     getProduct () {
       const path = this.devPath + `/product/${this.id}`
-      console.log(this.id)
       axios
         .get(path)
         .then((res) => {
           console.log('PRODUCTS request', res)
           this.product = res.data.product
+          this.buyButtonVisibility = this.product.user !== this.email
         })
         .catch((error) => {
           console.error(error)
@@ -174,6 +154,15 @@ export default {
         console.log(this.liked)
       }).catch((error) => {
         console.error(error)
+      })
+    },
+    goBack () {
+      event.preventDefault()
+      window.history.back()
+    },
+    goToBuy () {
+      this.$router.push({
+        path: '/buy/' + this.product.id
       })
     },
     onSlideStart (slide) {
@@ -231,6 +220,7 @@ export default {
   height: 550px;
   object-fit: cover;
 }
+
 hr {
   width: 100%;
 }
@@ -296,8 +286,12 @@ hr {
   margin: 0;
   opacity: 1;
   transition: 0s;
+  font-size: 25px;
+  font-weight: 700;
 }
-
+.product-button:hover {
+  background-color: red;
+}
 .user-name {
   margin: 0;
   font-size: 20px;

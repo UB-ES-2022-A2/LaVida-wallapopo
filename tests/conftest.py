@@ -17,6 +17,7 @@ from resources.filters import Filter, FilterCategory
 from resources.validate import Validate
 from resources.reviews import Reviews
 from resources.favourites import Favourites
+from resources.images import ImagesUsers, ImagesProducts
 from db import db
 import random as rand
 from sqlalchemy import exc
@@ -39,7 +40,7 @@ def populate_db():
                                     description=product['description'], price=product['price'],
                                     condition=product['condition'])
 
-        new_product.image = product['image']
+        new_product._images = product['image']
         products.append(new_product)
 
     for account in data.accounts:
@@ -82,7 +83,7 @@ def create_app():
     api.add_resource(Accounts, '/API/account/<string:email>', '/API/account')
     api.add_resource(Validate, '/API/validation/<string:validation_token>', '/API/validation')
     api.add_resource(Profile, '/API/profile/<string:email>', '/API/profile')
-    api.add_resource(Reviews, '/API/reviews/<string:email>', '/API/reviews')
+    api.add_resource(Reviews, '/API/reviews/<string:email>', '/API/reviews', '/API/reviews/<int:id>')
     # favourites
     api.add_resource(Favourites, '/API/favourites', '/API/favourites/<string:email>')
 
@@ -103,6 +104,10 @@ def create_app():
     api.add_resource(Orders, '/API/order/add/<string:email>')
     api.add_resource(Purchases, '/API/order/purchases/<string:email>')
     api.add_resource(Sales, '/API/order/sales/<string:email>')
+
+    # images
+    api.add_resource(ImagesUsers, '/API/upload/profile/<string:email>')
+    api.add_resource(ImagesProducts, '/API/upload/product/<string:id>')
 
     return app
 
@@ -227,7 +232,7 @@ def gmail_imap():
     import imaplib
     # account credentials
     username = "wallapopodummy@gmail.com"
-    password = "uzrvtptxessitpfi"
+    password = "wnxoycxqwiwfcrhq"
     # Gmail provider's IMAP server (from https://www.systoolsgroup.com/imap/)
     imap_server = "imap.gmail.com"
     # Create an IMAP4 class with SSL

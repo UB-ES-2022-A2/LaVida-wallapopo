@@ -2,8 +2,8 @@
   <div class="card">
     <img
       class="card-img"
+      :src=img
       v-on:click="goToProduct()"
-      :src="require(`../assets/${img}`)"
       alt="Image Product"
     />
     <div class="card-body">
@@ -35,6 +35,9 @@
           </p>
         </div>
         <div class="row">
+          <p>Categoria: {{ category }}</p>
+        </div>
+        <div class="row">
           <p>Estado: {{ productState }}</p>
         </div>
         <div class="row card-text">
@@ -55,6 +58,7 @@ export default {
     price: Number,
     desc: String,
     date: String,
+    category: String,
     productState: String,
     img: String,
     link: Number,
@@ -134,6 +138,7 @@ export default {
   height: 380px;
   margin-bottom: 20px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  transition: 0.5s;
 }
 
 .card-img {

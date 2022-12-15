@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-md style-navbar" id="navbar-identifier">
-    <a class="navbar-brand h1" @click="redirectToHome()">Wallapopo</a>
+    <a class="navbar-brand h1" @click="goToHome()">Wallapopo</a>
     <div class="container-fluid">
       <b-form-input
         type="search"
@@ -19,22 +19,20 @@
       </div>
     </div>
     <div v-else class="container">
-      <div class="btn">
-        <img src="@/assets/heart.png" alt="User icon" style="width: 20px" />
-        </div>
-
-      <div class="dropdown-dark my-3 text-right">
-        <button id="navbar-button-profile" class="btn" @click="redirectToUserProfile()">
-          <img src="@/assets/user.png" alt="User icon" style="width: 20px" /> Tú
-        </button>
-        <b-dropdown id="dropdown-1" text="Usuario" class="m-md-2" variant="dark">
-          <b-dropdown-item v-b-modal.modal-1 v-on:click="loggedOut()">Cerrar Sesión</b-dropdown-item>
+      <div class="dropdown-dark my-3 text-right" id="navbar-button-profile">
+        <b-dropdown id="dropdown-1" :src="require('@/assets/user.png')" alt="User icon" text="Usuario" class="m-md-2" variant="dark">
+          <b-dropdown-item id="perfil" v-on:click="goToUserProfile('profile')">Ver Perfil</b-dropdown-item>
+          <b-dropdown-item id="compras" v-on:click="goToUserProfile('bought')">Ver historial de compras</b-dropdown-item>
+          <b-dropdown-item id="ventas" v-on:click="goToUserProfile('sold')">Ver historial de ventas</b-dropdown-item>
+          <b-dropdown-item id="reviews" v-on:click="goToUserProfile('reviews')">Ver reviews recibidas</b-dropdown-item>
+          <b-dropdown-item id="reviews" v-on:click="goToUserProfile('favourites')">Ver favoritos</b-dropdown-item>
+          <b-dropdown-item id="cerrar_sesion" v-b-modal.modal-1>Cerrar Sesión</b-dropdown-item>
         </b-dropdown>
-        <LogoutModal @loggedStatus="logged=$event" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
+        <LogoutModal @loggedStatus="loggedOut($event)" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
       </div>
 
-      <div class="btn btn-product" @click="redirectToAddProduct()" id='navigationBar_div_addProduct'>
-        <img src="@/assets/add.png" alt="User icon" style="width: 20px" />
+      <div class="btn btn-light" @click="goToAddProduct()" id='navigationBar_div_addProduct'>
+        <img src="@/assets/add.png" alt="User icon" style="width: 30px" class="mr-1" />
         Agregar producto
       </div>
     </div>
@@ -77,9 +75,10 @@ export default {
         this.logged = false
       }
     },
-    loggedOut () {
+    loggedOut (logged) {
       localStorage.removeItem('token')
       localStorage.removeItem('email')
+      this.logged = logged
     },
     goToLogin () {
       this.$router.push({name: 'Login'})
@@ -90,23 +89,32 @@ export default {
     goToProducts () {
       this.$router.push({name: 'HelloWorld'})
     },
-    redirectToAddProduct () {
-      this.$router.push({
-        name: 'AddProduct',
-        params: {logged: this.logged, email: this.email, token: this.token}
-      })
+    goToAddProduct () {
+      if (this.$route.name !== 'AddProduct') {
+        this.$router.push({
+          name: 'AddProduct',
+          params: {logged: this.logged, email: this.email, token: this.token}
+        })
+      }
     },
-    redirectToHome () {
-      this.$router.push({
-        name: 'Main',
-        params: {logged: this.logged, email: this.email, token: this.token}
-      })
+    goToHome () {
+      if (this.$route.name !== 'Main') {
+        this.$router.push({
+          name: 'Main',
+          params: {logged: this.logged, email: this.email, token: this.token}
+        })
+      }
     },
-    redirectToUserProfile () {
-      this.$router.push({
-        name: 'UserProfile',
-        params: {logged: this.logged, email: this.email, token: this.token}
-      })
+    goToUserProfile (type2) {
+      if (this.$route.name !== 'UserProfile') {
+        localStorage.setItem('type', type2)
+        this.$router.push({
+          name: 'UserProfile',
+          params: {logged: this.logged, email: this.email, token: this.token, type: type2}
+        })
+      } else {
+        this.$emit('type', type2)
+      }
     }
   },
   computed () {
@@ -125,6 +133,13 @@ export default {
   color: rgb(45, 177, 144);
   font-size: 40px;
   letter-spacing: 5px;
+  cursor: pointer;
+  transition: 0.5s;
+
+}
+
+.navbar-brand:hover{
+  background-color: rgba(0, 0, 0, 0.103);
 }
 
 a {

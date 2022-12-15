@@ -4,6 +4,7 @@ from sqlalchemy.sql import func, desc
 
 class OrdersModel(db.Model):
     __tablename__ = 'orders'
+    __table_args__ = (db.UniqueConstraint('buyer_id', 'product_id'),)
 
     id = db.Column(db.Integer, primary_key=True)
     buyer_id = db.Column(db.String(50), db.ForeignKey('accounts.email'), nullable=False)
@@ -15,6 +16,8 @@ class OrdersModel(db.Model):
     cc_owner = db.Column(db.String(50), nullable=False)
     # the date when order was created
     date = db.Column(db.DateTime(), nullable=False, server_default=func.now())
+    # is the order reviewed or not
+    reviewed = db.Column(db.Boolean, nullable=False, default=False)
 
     # relationship account 1-* orders
     buyer = db.relationship("AccountsModel", foreign_keys=[buyer_id])
@@ -41,7 +44,8 @@ class OrdersModel(db.Model):
             'cc_owner': self.cc_owner,
             'cvc': self.cvc,
             'cc_expiration_date': self.cc_expiration_date.strftime('%m/%y'),
-            'date': self.date.strftime('%Y-%m-%d')
+            'date': self.date.strftime('%d-%m-%Y'),
+            'reviewed': self.reviewed
         }
 
     @classmethod

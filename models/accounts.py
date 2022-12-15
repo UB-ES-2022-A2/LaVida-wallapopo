@@ -24,7 +24,10 @@ class AccountsModel(db.Model):
     name = db.Column(db.String(20), nullable=True)
     surname = db.Column(db.String(30), nullable=True)
     birthday = db.Column(db.Date(), nullable=True)
-    profile_picture = db.Column(db.String(500), nullable=True)  # can be stored as url
+    profile_picture = db.Column(db.String,
+                                nullable=True,
+                                server_default='https://storage.googleapis.com/wallapopo-img/default-profile.jpg'
+                                )
     # 0 not admin/ 1 is admin
     is_admin = db.Column(db.Integer, nullable=False)
     current_token = db.Column(db.String(500), nullable=True, server_default=None)
@@ -51,10 +54,11 @@ class AccountsModel(db.Model):
                 'surname': self.surname,
                 'birthday': self.birthday.strftime('%d-%m-%Y') if self.birthday else None,
                 'is_admin': self.is_admin,
-                'confirmed': self.confirmed
+                'confirmed': self.confirmed,
+                'profile': self.profile_picture
                 }
 
-    def generate_auth_token(self, expiration=3600):
+    def generate_auth_token(self, expiration=36000):
         tk = encode(
             {"email": self.email, "exp": int(time.time()) + expiration},
             secret_key,
