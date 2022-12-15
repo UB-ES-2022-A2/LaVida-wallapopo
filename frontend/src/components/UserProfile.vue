@@ -1,173 +1,180 @@
 <template>
   <div id="Profile">
     <NavigationBar class="nav-top" @type="onChangeSearch($event)" :logged="logged" :key="logged" :email="email" :token="token" />
-    <!-- Perfil Usuari -->
-    <div class="card bg-light" v-if="type==='profile'">
-      <div class="card-body">
-        <b-button id="profileButton" class="profileButton">Perfil</b-button>
-        <b-button id="reviewsButton" class="reviewsButton">Opiniones</b-button>
-        <h5 class="card-title"><b>Tu perfil</b></h5>
-        <h6 class="card-subtitle">Aquí podrás ver y editar los datos de tu perfil</h6>
-        <br>
-        <div id="imProfile" class="container-card">
-          <b> Imagen de perfil </b>
-          <div class="row">
-            <div class="col">
-              <h6 class="imSubt"> Foto principal </h6>
-            </div>
-            <div class="col">
-              <div>
-              <!-- 1. Create the button that will be clicked to select a file -->
-                <b-img v-if="(changeImgBoolean===true)" :src="require('../assets/product_placeholder.png')" class="profileImg" v-bind="mainProps"
-                  rounded="circle" width="70" height="70" alt="Circle image"></b-img>
-                <b-img v-else :src="require('../assets/Oso.jpeg')" class="profileImg" v-bind="mainProps"
-                  rounded="circle" width="70" height="70" alt="Circle image"></b-img>
-                <b-btn
-                  id="changeImgButton"
-                  rounded
-                  dark
-                  :loading="isSelecting"
-                  @click="handleFileImport"
-                >
-                  Change Profile Image
-                </b-btn>
-                <!-- Create a File Input that will be hidden but triggered with JavaScript -->
-                <input
-                  ref="uploader"
-                  class="d-none"
-                  type="file"
-                  @change="onFileChanged"
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-        <br>
-        <div id="publicInfo" class="container-card">
-          <b> Información pública </b>
-          <div>
-            <b-form-group invalid-feedback="Nombre no puede estar vacío">
-              <div class="row-name">
-                <label><b>Nombre</b></label>
-                <b-form-input type="text" id="input-name" class="form-control" placeholder="Introduce tu nombre"
-                  v-model="name" maxlength="50" autofocus trim v-on:keydown="isLetter($event)" v-on:focusout="removeExtraSpaces($event)"/>
-              </div>
-              <div class="row-name">
-                <label><b>Apellidos</b></label>
-                <b-form-input type="text" id="input-surname" class="form-control" placeholder="Introduce un apellido"
-                  v-model="surname" maxlength="50" required autofocus trim v-on:keydown="isLetter($event)" v-on:focusout="removeExtraSpaces($event)"/>
-              </div>
-            </b-form-group>
-            <div class="row-name" id="profile-div-username">
-              <label><b>Nombre de usuario</b></label>
-              <br>
-              <span> {{ username }} </span>
-            </div>
-            <div class="row-name" id="profile-div-email">
-              <label><b>Email</b></label>
-              <br>
-              <span> {{ email }} </span>
-            </div>
-            <div class="row-name">
-              <label><b>Fecha de cumpleaños:</b></label>
-              <br>
-              <input :max="new Date().toISOString().split('T')[0]" type="date" id="start" name="birthday-start" v-model="birthday">
-            </div>
-          </div>
-          <div class="row align-items-end">
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"><b-button id="saveBUtton" class="saveButton" @click="updateProfile()">Guardar</b-button>
-            </div>
-          </div>
-        </div>
+    <div class="row">
+      <div class="col-2">
+        <Menu @type="onChangeSearch($event)"/>
       </div>
-    </div>
-    <!--HISTORIAL DE COMPRES-->
-    <div v-else-if="type==='bought'" id="bought-div">
-      <div class="card bg-light" id="big-card1" style="width: 40rem;">
-        <h5 class="card-title"><b>Historial de compras</b></h5>
-        <h6 class="card-subtitle">Productos comprados desde la creación de la cuenta:</h6>
-        <br>
-        <div v-if="(purchases.length === 0)">
-          <a>No se han comprado productos hasta la fecha</a>
-        </div>
-        <div class="card" id="bought-card" v-else v-for="purchase in purchases" :key="purchase.id" style="width: 39rem;">
-          <div class="row no-gutters" v-on:click="goToProduct(purchase.product.id)">
-            <div class="col-auto">
-              <b-img :src="purchase.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
-            </div>
-            <div class="col-5">
-              <div class="card-block px-2">
-                <h4 class="card-title">{{purchase.product.name}}</h4>
-                <p class="card-text">{{purchase.product.category}}</p>
-              </div>
-            </div>
-            <div class="col-3">
-              <a style="font-size:14px; margin-left:40px;">{{purchase.date}}</a>
-            </div>
-            <div class="col">
-              <h5 class="card-text" id="bought-price1">{{purchase.product.price}}€</h5>
-              <a href="#" class="btn btn-primary">Puntuar</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--HISTORIAL DE VENDES-->
-    <div v-else-if="type==='sold'" id="sold-div">
-      <div class="card bg-light" id="big-card" style="width: 40rem;">
-        <h5 class="card-title"><b>Historial de ventas</b></h5>
-        <h6 class="card-subtitle">Productos vendidos desde la creación de la cuenta:</h6>
-        <br>
-        <div v-if="(sales.length === 0)">
-          <a>No se han vendido productos hasta la fecha</a>
-        </div>
-        <div class="card" id="sold-card" v-else v-for="sale in sales" :key="sale.id" style="width: 39rem;">
-          <div class="row no-gutters" v-on:click="goToProduct(sale.product.id)">
-            <div class="col-auto">
-              <b-img :src="sale.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
-            </div>
-            <div class="col-5">
-              <div class="card-block px-2">
-                <h4 class="card-title">{{sale.product.name}}</h4>
-                <p class="card-text">{{sale.product.category}}</p>
-              </div>
-            </div>
-            <div class="col-3">
-              <a style="font-size:14px; margin-left:40px;">{{sale.date}}</a>
-            </div>
-            <div class="col">
-              <h5 class="card-text" id="bought-price">{{sale.product.price}}€</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--HISTORIAL DE Reviews-->
-    <div v-else-if="type==='reviews'" id="review-div">
-      <div class="card bg-light" id="big-card" style="width: 40rem;">
-        <h5 class="card-title"><b>Historial de reviews</b></h5>
-        <h6 class="card-subtitle">Reviews recibidas desde la creación de la cuenta:</h6>
-        <br>
-
-        <div class="card" id="review-card" v-for="review in reviews" :key="review.id" style="width: 39rem;">
-          <div class="row" v-on:click="goToProduct(review.product.id)">
-            <div class="col-auto">
-              <b-img :src="review.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
-            </div>
-            <div class="col">
+      <div class="col">
+        <!-- Perfil Usuari -->
+        <div class="card bg-light" v-if="type==='profile'">
+          <div class="card-body">
+            <b-button id="profileButton" class="profileButton">Perfil</b-button>
+            <b-button id="reviewsButton" class="reviewsButton">Opiniones</b-button>
+            <h5 class="card-title"><b>Tu perfil</b></h5>
+            <h6 class="card-subtitle">Aquí podrás ver y editar los datos de tu perfil</h6>
+            <br>
+            <div id="imProfile" class="container-card">
+              <b> Imagen de perfil </b>
               <div class="row">
-                <div class="col-5">{{review.reviewer.name}}</div>
-                <div class="col-6" style="text-align: right; margin-left:30px">
-                  <b-form-rating v-model="rating" id="estrellas"></b-form-rating>
+                <div class="col">
+                  <h6 class="imSubt"> Foto principal </h6>
+                </div>
+                <div class="col">
+                  <div>
+                  <!-- 1. Create the button that will be clicked to select a file -->
+                    <b-img v-if="(changeImgBoolean===true)" :src="require('../assets/product_placeholder.png')" class="profileImg" v-bind="mainProps"
+                      rounded="circle" width="70" height="70" alt="Circle image"></b-img>
+                    <b-img v-else :src="require('../assets/Oso.jpeg')" class="profileImg" v-bind="mainProps"
+                      rounded="circle" width="70" height="70" alt="Circle image"></b-img>
+                    <b-btn
+                      id="changeImgButton"
+                      rounded
+                      dark
+                      :loading="isSelecting"
+                      @click="handleFileImport"
+                    >
+                      Change Profile Image
+                    </b-btn>
+                    <!-- Create a File Input that will be hidden but triggered with JavaScript -->
+                    <input
+                      ref="uploader"
+                      class="d-none"
+                      type="file"
+                      @change="onFileChanged"
+                    >
+                  </div>
                 </div>
               </div>
-              <div class="row-auto">
-                <div class="row-auto" style="text-align: center; font-weight: bold;">{{review.product.name}}</div>
-                <div v-if="review.comment" class="row-auto" style="text-align: center;">{{review.comment}}</div>
+            </div>
+            <br>
+            <div id="publicInfo" class="container-card">
+              <b> Información pública </b>
+              <div>
+                <b-form-group invalid-feedback="Nombre no puede estar vacío">
+                  <div class="row-name">
+                    <label><b>Nombre</b></label>
+                    <b-form-input type="text" id="input-name" class="form-control" placeholder="Introduce tu nombre"
+                      v-model="name" maxlength="50" autofocus trim v-on:keydown="isLetter($event)" v-on:focusout="removeExtraSpaces($event)"/>
+                  </div>
+                  <div class="row-name">
+                    <label><b>Apellidos</b></label>
+                    <b-form-input type="text" id="input-surname" class="form-control" placeholder="Introduce un apellido"
+                      v-model="surname" maxlength="50" required autofocus trim v-on:keydown="isLetter($event)" v-on:focusout="removeExtraSpaces($event)"/>
+                  </div>
+                </b-form-group>
+                <div class="row-name" id="profile-div-username">
+                  <label><b>Nombre de usuario</b></label>
+                  <br>
+                  <span> {{ username }} </span>
+                </div>
+                <div class="row-name" id="profile-div-email">
+                  <label><b>Email</b></label>
+                  <br>
+                  <span> {{ email }} </span>
+                </div>
+                <div class="row-name">
+                  <label><b>Fecha de cumpleaños:</b></label>
+                  <br>
+                  <input :max="new Date().toISOString().split('T')[0]" type="date" id="start" name="birthday-start" v-model="birthday">
+                </div>
               </div>
-              <div class="row-8" style="text-align: right; margin-right:10px">{{review.date}}</div>
+              <div class="row align-items-end">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col"><b-button id="saveBUtton" class="saveButton" @click="updateProfile()">Guardar</b-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--HISTORIAL DE COMPRES-->
+        <div v-else-if="type==='bought'" id="bought-div">
+          <div class="card bg-light" id="big-card1" style="width: 40rem;">
+            <h5 class="card-title"><b>Historial de compras</b></h5>
+            <h6 class="card-subtitle">Productos comprados desde la creación de la cuenta:</h6>
+            <br>
+            <div v-if="(purchases.length === 0)">
+              <a>No se han comprado productos hasta la fecha</a>
+            </div>
+            <div class="card" id="bought-card" v-else v-for="purchase in purchases" :key="purchase.id" style="width: 39rem;">
+              <div class="row no-gutters" v-on:click="goToProduct(purchase.product.id)">
+                <div class="col-auto">
+                  <b-img :src="purchase.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+                </div>
+                <div class="col-5">
+                  <div class="card-block px-2">
+                    <h4 class="card-title">{{purchase.product.name}}</h4>
+                    <p class="card-text">{{purchase.product.category}}</p>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <a style="font-size:14px; margin-left:40px;">{{purchase.date}}</a>
+                </div>
+                <div class="col">
+                  <h5 class="card-text" id="bought-price1">{{purchase.product.price}}€</h5>
+                  <a href="#" class="btn btn-primary">Puntuar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--HISTORIAL DE VENDES-->
+        <div v-else-if="type==='sold'" id="sold-div">
+          <div class="card bg-light" id="big-card" style="width: 40rem;">
+            <h5 class="card-title"><b>Historial de ventas</b></h5>
+            <h6 class="card-subtitle">Productos vendidos desde la creación de la cuenta:</h6>
+            <br>
+            <div v-if="(sales.length === 0)">
+              <a>No se han vendido productos hasta la fecha</a>
+            </div>
+            <div class="card" id="sold-card" v-else v-for="sale in sales" :key="sale.id" style="width: 39rem;">
+              <div class="row no-gutters" v-on:click="goToProduct(sale.product.id)">
+                <div class="col-auto">
+                  <b-img :src="sale.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+                </div>
+                <div class="col-5">
+                  <div class="card-block px-2">
+                    <h4 class="card-title">{{sale.product.name}}</h4>
+                    <p class="card-text">{{sale.product.category}}</p>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <a style="font-size:14px; margin-left:40px;">{{sale.date}}</a>
+                </div>
+                <div class="col">
+                  <h5 class="card-text" id="bought-price">{{sale.product.price}}€</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--HISTORIAL DE Reviews-->
+        <div v-else-if="type==='reviews'" id="review-div">
+          <div class="card bg-light" id="big-card" style="width: 40rem;">
+            <h5 class="card-title"><b>Historial de reviews</b></h5>
+            <h6 class="card-subtitle">Reviews recibidas desde la creación de la cuenta:</h6>
+            <br>
+
+            <div class="card" id="review-card" v-for="review in reviews" :key="review.id" style="width: 39rem;">
+              <div class="row" v-on:click="goToProduct(review.product.id)">
+                <div class="col-auto">
+                  <b-img :src="review.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <div class="col-5">{{review.reviewer.name}}</div>
+                    <div class="col-6" style="text-align: right; margin-left:30px">
+                      <b-form-rating v-model="rating" id="estrellas"></b-form-rating>
+                    </div>
+                  </div>
+                  <div class="row-auto">
+                    <div class="row-auto" style="text-align: center; font-weight: bold;">{{review.product.name}}</div>
+                    <div v-if="review.comment" class="row-auto" style="text-align: center;">{{review.comment}}</div>
+                  </div>
+                  <div class="row-8" style="text-align: right; margin-right:10px">{{review.date}}</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -355,7 +362,6 @@ export default {
 <style scoped>
 
 .card.bg-light {
-  margin: auto;
   width: 50%;
   padding: 10px;
 }
