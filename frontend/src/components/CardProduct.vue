@@ -34,10 +34,10 @@
             <b class="clickable">{{ title }} </b>
           </p>
         </div>
-        <div class="row">
+        <div class="row" style='overflow: hidden;'>
           <p>Categoria: {{ category }}</p>
         </div>
-        <div class="row">
+        <div class="row mt">
           <p>Estado: {{ productState }}</p>
         </div>
         <div class="row card-text">
