@@ -1,8 +1,9 @@
 <template>
-  <div class="card" v-on:click="goToProduct()">
+  <div class="card">
     <img
       class="card-img"
       :src=img
+      v-on:click="goToProduct()"
       alt="Image Product"
     />
     <div class="card-body">
@@ -10,20 +11,27 @@
         <div class="">
           <h5 class="row">
             {{ price }} $
-            <button type="button" class="fav-button" @click="toggle_fav">
+            <div class="col-2 buttons">
               <img
-                class="fav-img"
-                src="../assets/logo_favorito.png"
-                width="24px"
-                height="24px"
-                alt="don't load"
+                class="clickable"
+                v-if="!liked && logged"
+                v-on:click="liked = !liked"
+                @click="addFav()"
+                src="../assets/heart.png" alt="" style="width: 20px"
               />
-            </button>
+              <img
+                class="clickable"
+                v-if="liked && logged"
+                v-on:click="liked = !liked"
+                @click="addFav()"
+                src="../assets/heart2.png" alt="" style="width: 20px"
+              />
+          </div>
           </h5>
         </div>
-        <div class="row">
+        <div class="row" v-on:click="goToProduct()">
           <p>
-            <b>{{ title }}</b>
+            <b class="clickable">{{ title }} </b>
           </p>
         </div>
         <div class="row">
@@ -41,6 +49,9 @@
 </template>
 <script>
 
+import axios from 'axios'
+import {devWeb, prodWeb} from '../store'
+
 export default {
   props: {
     title: String,
@@ -51,22 +62,70 @@ export default {
     productState: String,
     img: String,
     link: Number,
-    is_fav: Boolean(false)
+    favourite_list: null,
+    logged: Boolean
   },
   data () {
     return {
-
+      email: null,
+      token: null,
+      liked: false,
+      prodPath: prodWeb,
+      devPath: devWeb
     }
   },
   methods: {
+    isLogged () {
+      if (this.token !== null) {
+        this.logged = true
+      }
+    },
     goToProduct () {
       this.$router.push({
         path: '/product/' + this.$props.link
       })
     },
-    toggle_fav () {
-      this.is_fav = !this.is_fav
-      console.log('Boton cambiado a true', this.is_fav)
+    addFav () {
+      let favParams = {
+        email: this.email,
+        product_id: this.link
+      }
+      if (this.liked) {
+        axios.post(this.devPath + '/favourites', favParams, {auth: {username: this.token}}).then((response) => {
+          console.log(response)
+          alert('Producto añadido a favoritos correctamente')
+        }).catch((error) => {
+          console.error(error)
+        })
+      } else {
+        axios.delete(this.devPath + '/favourites', {auth: {username: this.token},
+          data: favParams}).then((response) => {
+          console.log(response)
+          alert('Producto eliminado de favoritos correctamente ')
+        }).catch((error) => {
+          console.error(error)
+        })
+      }
+    },
+    updateFavList () {
+      axios.get(this.devPath + `/favourites/${this.email}`, {auth: {username: this.token}}).then((res) => {
+        console.log(res.data)
+        for (var i = 0; i < res.data.favourites_list.length; i++) {
+          if (this.link === res.data.favourites_list[i].product.id) {
+            this.liked = true
+          }
+        }
+      }).catch((error) => {
+        console.error(error)
+      })
+    }
+  },
+  mounted () {
+    this.token = localStorage.getItem('token')
+    this.email = localStorage.getItem('email')
+    this.isLogged()
+    if (this.logged === true) {
+      this.updateFavList()
     }
   }
 }
@@ -79,7 +138,6 @@ export default {
   height: 380px;
   margin-bottom: 20px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  cursor: pointer;
   transition: 0.5s;
 }
 .card:hover{
@@ -88,6 +146,7 @@ export default {
 }
 .card-img {
   height: 200px;
+  cursor: pointer;
 }
 .card-text {
   height: 100px;
@@ -101,46 +160,12 @@ export default {
   justify-content: space-between;
 }
 
-.fav-img {
-  background: white;
-  border: none;
-  border-radius: 8px;
-}
-
-.fav-button {
-  height: 25px;
-  width: 25px;
-  background: white;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  border: none;
-  overflow: hidden;
-  border-radius: 8px;
+.clickable {
   cursor: pointer;
 }
 
-.fav-button:after {
-  content: "";
-  background: #ff6857;
-  display: block;
-  position: absolute;
-  padding-top: 300%;
-  padding-left: 300%;
-  margin-left: -30px !important;
-  margin-top: -120%;
-  opacity: 0;
-  transition: all 0.8s;
+.col-7 buttons {
+  cursor: pointer;
 }
 
-.fav-button:active:after {
-  padding: 0;
-  margin: 0;
-  opacity: 1;
-  transition: 0s;
-}
 </style>
