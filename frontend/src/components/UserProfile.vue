@@ -98,7 +98,7 @@
               <b-img :src="purchase.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
             </div>
             <div class="col-5">
-              <div class="card-block px-2">
+              <div class="card-block px-2" v-on:click="goToProduct(purchase.product.id)">
                 <h4 class="card-title">{{purchase.product.name}}</h4>
                 <p class="card-text">{{purchase.product.category}}</p>
               </div>
@@ -118,15 +118,13 @@
           <b-button class="mt-3" variant="success" v-b-modal.modal-3>Si!</b-button>
         </b-modal>
         <!--Modal de reseña-->
-        <b-modal id="modal-3" title="Ayuda al vendedor a mejorar añadiendo una reseña" hide-footer ref="review-modal">
+        <b-modal id="modal-3" title="Ayuda al vendedor a mejorar añadiendo una reseña:" hide-footer ref="review-modal">
           <div>
             <b-form-rating v-model="stars" size="lg" show-value no-border></b-form-rating>
-            <p class="mt-2">Tu valoración: {{ stars }}</p>
             <b-form-textarea id="textarea-auto-height" placeholder="Dile al vendedor lo que te ha gustado... O lo que no!"
               v-model="reviewMessage" rows="3" max-rows="8">
             </b-form-textarea>
-            <p class="mt-2">Tu mensaje: {{ reviewMessage }}</p>
-            <b-button class="mt-3" @click="sendReview">Enviar reseña</b-button>
+            <b-button class="mt-3" @click="sendReview(); $bvModal.hide('modal-3')">Enviar reseña</b-button>
           </div>
         </b-modal>
       </div>
@@ -295,9 +293,6 @@ export default {
           reviewed = this.purchases[i]['reviewed']
         }
       }
-      console.log('REVIEW DATA')
-      console.log(reviewed)
-
       let dataToSend = {
         email: this.email,
         product_id: this.product_id,
