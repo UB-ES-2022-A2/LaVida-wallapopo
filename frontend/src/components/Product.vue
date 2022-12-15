@@ -149,18 +149,20 @@ export default {
         .catch((error) => {
           console.error(error)
         })
-      axios.get(this.devPath + `/favourites/${this.email}`, {auth: {username: this.token}}).then((res) => {
-        console.log(res.data)
-        console.log(this.liked)
-        for (var i = 0; i < res.data.favourites_list.length; i++) {
-          if (parseInt(this.id) === res.data.favourites_list[i].product.id) {
-            this.liked = true
+      if (this.logged) {
+        axios.get(this.devPath + `/favourites/${this.email}`, {auth: {username: this.token}}).then((res) => {
+          console.log(res.data)
+          console.log(this.liked)
+          for (var i = 0; i < res.data.favourites_list.length; i++) {
+            if (parseInt(this.id) === res.data.favourites_list[i].product.id) {
+              this.liked = true
+            }
           }
-        }
-        console.log(this.liked)
-      }).catch((error) => {
-        console.error(error)
-      })
+          console.log(this.liked)
+        }).catch((error) => {
+          console.error(error)
+        })
+      }
     },
     goBack () {
       event.preventDefault()
