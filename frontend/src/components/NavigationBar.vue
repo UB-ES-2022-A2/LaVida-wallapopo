@@ -27,9 +27,9 @@
             <b-icon icon="person-fill" aria-hidden="true"></b-icon>
           </template>
           <b-dropdown-item id="perfil" v-on:click="goToUserProfile('profile')">Perfil</b-dropdown-item>
+          <b-dropdown-item id="reviews" v-on:click="goToUserProfile('reviews')">Reseñas recibidas</b-dropdown-item>
           <b-dropdown-item id="compras" v-on:click="goToUserProfile('bought')">Compras</b-dropdown-item>
           <b-dropdown-item id="ventas" v-on:click="goToUserProfile('sold')">Ventas</b-dropdown-item>
-          <b-dropdown-item id="reviews" v-on:click="goToUserProfile('reviews')">Reseñas recibidas</b-dropdown-item>
           <b-dropdown-item id="reviews" v-on:click="goToUserProfile('favourites')">Favoritos</b-dropdown-item>
           <b-dropdown-divider></b-dropdown-divider>
           <b-dropdown-item variant="danger" id="cerrar_sesion" v-b-modal.modal-1>

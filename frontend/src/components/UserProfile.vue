@@ -9,8 +9,6 @@
         <!-- Perfil Usuari -->
     <div class="card bg-light" v-if="type==='profile'">
       <div class="card-body">
-        <b-button id="profileButton" class="profileButton">Perfil</b-button>
-        <b-button id="reviewsButton" class="reviewsButton">Opiniones</b-button>
         <h5 class="card-title"><b>Tu perfil</b></h5>
         <h6 class="card-subtitle">Aquí podrás ver y editar los datos de tu perfil</h6>
         <br>
@@ -136,7 +134,7 @@
         </div>
         <!--HISTORIAL DE VENDES-->
         <div v-else-if="type==='sold'" id="sold-div">
-          <div class="card bg-light" id="big-card" style="width: 40rem;">
+          <div class="card bg-light" id="big-card2" style="width: 40rem;">
             <h5 class="card-title"><b>Historial de ventas</b></h5>
             <h6 class="card-subtitle">Productos vendidos desde la creación de la cuenta:</h6>
             <br>
@@ -166,7 +164,7 @@
         </div>
     <!-- HISTORIAL REVIEWS -->
     <div v-else-if="type==='reviews'" id="review-div">
-      <div class="card bg-light" id="big-card" style="width: 40rem;">
+      <div class="card bg-light" id="big-card3" style="width: 40rem;">
         <h5 class="card-title"><b>Historial de reviews</b></h5>
         <h6 class="card-subtitle">Reviews recibidas desde la creación de la cuenta:</h6>
         <br>
@@ -270,6 +268,14 @@ export default {
     }
   },
   methods: {
+    makeToast (variant = null) {
+      this.$bvToast.toast('Toast body content', {
+        title: `Variant ${variant || 'default'}`,
+        variant: variant,
+        solid: true,
+        autoHideDelay: 2000
+      })
+    },
     goToProduct (id) {
       this.$router.push({
         path: '/product/' + id
@@ -503,27 +509,6 @@ export default {
 .profileImg {
   margin-left: 10px;
   margin-bottom: 5px;
-}
-
-.profileButton {
-  border-radius: 20px 20px 20px 20px;
-  background-color: #bdf5ff;
-  animation-delay: 1s;
-  margin-bottom: 10px;
-  cursor: grab;
-  color: #1b1e21;
-  border-color: #1b1e21;
-}
-
-.reviewsButton {
-  border-radius: 20px 20px 20px 20px;
-  background-color: #bdf5ff;
-  animation-delay: 1s;
-  margin-bottom: 10px;
-  margin-left: 5px;
-  cursor: grab;
-  color: #1b1e21;
-  border-color: #1b1e21;
 }
 
 .saveButton {

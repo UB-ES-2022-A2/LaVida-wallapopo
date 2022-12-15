@@ -32,9 +32,7 @@
           </b-row>
         </b-card>
       </b-row>
-
       <!-- Formulario -->
-
       <b-form v-if="show" class="ml-0 mr-2">
         <!--Numero de tarjeta de credito-->
         <b-form-group

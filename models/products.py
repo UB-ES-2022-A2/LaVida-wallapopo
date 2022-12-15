@@ -73,6 +73,7 @@ class ProductsModel(db.Model):
             'date': self.date.date().strftime("%d-%b-%Y"),
             'user': self.user_id,
             'username': AccountsModel.get_by_email(self.user_id).json()['username'],
+            'user_image': AccountsModel.get_by_email(self.user_id).json()['profile'],
             'shipment': self.shipment
         }
 

@@ -1,41 +1,24 @@
 <template>
   <div>
     <NavigationBar :logged="logged" :key="logged" :token="token" />
+    <b-breadcrumb style="background-color: white; margin-left: 1rem">
+      <b-breadcrumb-item @click="goHome">
+        <b-icon icon="house-fill" scale="1.25" shift-v="1.25" aria-hidden="true"></b-icon>
+        Inicio
+      </b-breadcrumb-item>
+      <b-breadcrumb-item @click="goBack">{{ product.category }}</b-breadcrumb-item>
+      <b-breadcrumb-item active>{{ product.name }}</b-breadcrumb-item>
+    </b-breadcrumb>
     <div class="container">
-      <div class="card">
+      <div class="card" style="padding-top:10px">
         <div class="row row-title">
           <div class="col-5 row">
-            <a v-on:click="goBack()"><img src="../assets/icons/back.png" style="width: 50px" alt="back" /></a>
-            &nbsp;
-            <img
-              src="../assets/default-profile.jpg"
-              class="rounded-circle"
-              style="width: 50px"
-              alt="Avatar"
-            />
-            &nbsp;
-            <p class="user-name">{{ product.username }}</p>
-          </div>
-          <div class="col-7 buttons">
-            <button
-              class="product-button"
-              v-if="!liked && logged"
-              v-on:click="liked = !liked"
-              @click="addFav()"
-            >
-              <img src="../assets/heart.png" alt="" style="width: 20px" />
-            </button>
-            <button
-              class="product-button"
-              v-if="liked && logged"
-              v-on:click="liked = !liked"
-              @click="addFav()"
-            >
-              <img src="../assets/heart2.png" alt="" style="width: 20px" />
-            </button>
+            <div class="align-items-center">
+              <b-avatar size="3rem" variant="info" :src=product.user_image class="mr-3"></b-avatar>
+              <span class="mr-auto user-name">{{ product.username }}</span>
+            </div>
           </div>
         </div>
-
         <!-- Carrousel de imagenes-->
         <div>
           <b-carousel
@@ -60,12 +43,28 @@
         <div class="card-body">
           <div class="price-product row">
             <h5 class="col product-price">{{ product.price }} EUR</h5>
+                        <button
+              class="btn btn-light btn-large"
+              v-if="liked && logged"
+              v-on:click="liked = !liked"
+              @click="addFav()"
+            >
+              <img src="../assets/heart2.png" alt="" style="width: 30px" />
+            </button>
+            <button
+              class="btn btn-light btn-large"
+              v-if="!liked && logged"
+              v-on:click="liked = !liked"
+              @click="addFav()"
+            >
+              <img src="../assets/heart.png" alt="" style="width: 30px" />
+            </button>
             <button
               v-if="logged && product.status ==='Vendido' " class="btn btn-secondary btn-lg disabled ml-2">
               Vendido
             </button>
             <button v-show="buyButtonVisibility" id="product-button-buy"
-              v-if="logged && product.status !=='Vendido' " class="btn btn-success btn-lg ml-2" v-on:click="goToBuy">
+              v-if="logged && product.status !=='Vendido' " class="product-button product-comprar" v-on:click="goToBuy">
               Comprar
             </button>
           </div>
@@ -90,11 +89,7 @@
               {{ product.date }}
             </p>
             <div v-show="product.shipment" class="ml-auto">
-              <font-awesome-icon
-                class="miIcon"
-                icon="fa-truck-fast"
-                style="font-size: 28px"
-              />
+              <b-icon icon="truck" aria-hidden="true"></b-icon>
               <span>&nbsp;&nbsp;Hago envíos</span>
             </div>
           </div>
@@ -120,7 +115,8 @@ export default {
   data () {
     return {
       id: this.$route.params.id,
-      token: localStorage.getItem('token'),
+      token: null,
+      email: null,
       prodPath: prodWeb,
       devPath: devWeb,
       logged: false,
@@ -163,6 +159,9 @@ export default {
           console.error(error)
         })
       }
+    },
+    goHome () {
+      this.$router.push({name: 'Main'})
     },
     goBack () {
       event.preventDefault()
@@ -224,18 +223,12 @@ export default {
   padding: 25px;
 }
 
-.card-img {
-  height: 550px;
-  object-fit: cover;
-}
-
 hr {
   width: 100%;
 }
 
 .row-title {
   height: 60px;
-  align-items: center;
   margin-left: 0;
 }
 .product-price {
@@ -249,13 +242,13 @@ hr {
   font-weight: 550;
 }
 .product-button:hover {
-  background-color: darkgray;
+  background-color: #13c0ab;
 }
 
 .product-button {
   border-radius: 20px;
-  border: 1px solid rgb(184, 184, 184);
-  background-color: rgb(207, 197, 197);
+  border: 1px solid rgb(23, 161, 183);
+  background-color: rgb(40, 166, 69);
   color: white;
   width: 80px;
   padding: 0 15px;
@@ -280,9 +273,6 @@ hr {
   transition: 0s;
   font-size: 25px;
   font-weight: 700;
-}
-.product-button:hover {
-  background-color: red;
 }
 
 .user-name {
