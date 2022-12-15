@@ -63,10 +63,58 @@ class Reviews(Resource):
                 )
 
                 new_review.save_to_db()
+                order.reviewed = True
+                order.save_to_db()
                 return new_review.json(), HTTPStatus.OK
             except exc.SQLAlchemyError:
                 db.session.rollback()  # rollback in case something went wrong
                 return {'message': 'error while saving new review'}, HTTPStatus.INTERNAL_SERVER_ERROR
+
+    @auth.login_required
+    def put(self, id):
+        with lock.lock:
+            # get the arguments
+            data = self.get_data()
+            account = AccountsModel.get_by_email(data['email'])
+            product = ProductsModel.get_by_id(data['product_id'])
+            # return error if account doesn't exist
+            if account is None:
+                return {'message': "account with email [{}] does not exist".format(data['email'])}, HTTPStatus.CONFLICT
+
+            # return error if the account username doesn't match
+            if account.username != g.user.username:
+                return {'message': "Bad authorization user"}, HTTPStatus.BAD_REQUEST
+
+            # return error if product does not exist
+            if product is None:
+                return {'message': "product with id [{}] doesn't exist".format(data['product_id'])}, HTTPStatus.CONFLICT
+
+            orders = OrdersModel.get_all()
+            order = next((o for o in orders if o.product_id == id), None)
+            # if order exists, update the reviewed status
+            if order is None:
+                return {'message': "this order doesn't exist"}, HTTPStatus.CONFLICT
+            order.reviewed = True
+
+            # get review by id and update its fields
+            reviews = ReviewsModel.get_all()
+            review = next((r for r in reviews if r.product_id == id), None)
+            if review is None:
+                return {'message': "this review doesn't exist"}, HTTPStatus.CONFLICT
+
+            if data["stars"]:
+                review.stars = data["stars"]
+            if data["comment"]:
+                review.comment = data["comment"]
+
+            try:
+                db.session.add(review)
+                db.session.add(order)
+                db.session.commit()
+                return {'message': "Review updated successfully"}, HTTPStatus.OK
+            except exc.SQLAlchemyError:
+                db.session.rollback()  # rollback in case something went wrong
+                return {'message': 'Error while modifying review information'}, HTTPStatus.INTERNAL_SERVER_ERROR
 
     def get_data(self):
         parser = reqparse.RequestParser()  # create parameters parser from request

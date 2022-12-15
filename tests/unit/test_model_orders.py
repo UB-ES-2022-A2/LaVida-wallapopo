@@ -47,6 +47,7 @@ def test_json(_app, dummy_order):
                                 'username': username
                                 },
                     'product_id': 2,
+                    'reviewed': False,
                     'seller': {'birthday': None,
                                'confirmed': False,
                                'email': 'killer23@gmail.com',

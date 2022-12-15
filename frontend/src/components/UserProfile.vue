@@ -7,103 +7,103 @@
       </div>
       <div class="col">
         <!-- Perfil Usuari -->
-        <div class="card bg-light" v-if="type==='profile'">
-          <div class="card-body">
-            <b-button id="profileButton" class="profileButton">Perfil</b-button>
-            <b-button id="reviewsButton" class="reviewsButton">Opiniones</b-button>
-            <h5 class="card-title"><b>Tu perfil</b></h5>
-            <h6 class="card-subtitle">Aquí podrás ver y editar los datos de tu perfil</h6>
-            <br>
-            <div id="imProfile" class="container-card">
-              <b> Imagen de perfil </b>
-              <div class="row">
-                <div class="col">
-                  <h6 class="imSubt"> Foto principal </h6>
-                </div>
-                <div class="col">
-                  <div>
-                  <!-- 1. Create the button that will be clicked to select a file -->
-                    <b-img v-if="(changeImgBoolean===true)" :src="require('../assets/product_placeholder.png')" class="profileImg" v-bind="mainProps"
-                      rounded="circle" width="70" height="70" alt="Circle image"></b-img>
-                    <b-img v-else :src="require('../assets/Oso.jpeg')" class="profileImg" v-bind="mainProps"
-                      rounded="circle" width="70" height="70" alt="Circle image"></b-img>
-                    <b-btn
-                      id="changeImgButton"
-                      rounded
-                      dark
-                      :loading="isSelecting"
-                      @click="handleFileImport"
-                    >
-                      Change Profile Image
-                    </b-btn>
-                    <!-- Create a File Input that will be hidden but triggered with JavaScript -->
-                    <input
-                      ref="uploader"
-                      class="d-none"
-                      type="file"
-                      @change="onFileChanged"
-                    >
-                  </div>
-                </div>
-              </div>
+    <div class="card bg-light" v-if="type==='profile'">
+      <div class="card-body">
+        <b-button id="profileButton" class="profileButton">Perfil</b-button>
+        <b-button id="reviewsButton" class="reviewsButton">Opiniones</b-button>
+        <h5 class="card-title"><b>Tu perfil</b></h5>
+        <h6 class="card-subtitle">Aquí podrás ver y editar los datos de tu perfil</h6>
+        <br>
+        <div id="imProfile" class="container-card">
+          <b> Imagen de perfil </b>
+          <div class="row">
+            <div class="col">
+              <h6 class="imSubt"> Foto principal </h6>
             </div>
-            <br>
-            <div id="publicInfo" class="container-card">
-              <b> Información pública </b>
+            <div class="col">
               <div>
-                <b-form-group invalid-feedback="Nombre no puede estar vacío">
-                  <div class="row-name">
-                    <label><b>Nombre</b></label>
-                    <b-form-input type="text" id="input-name" class="form-control" placeholder="Introduce tu nombre"
-                      v-model="name" maxlength="50" autofocus trim v-on:keydown="isLetter($event)" v-on:focusout="removeExtraSpaces($event)"/>
-                  </div>
-                  <div class="row-name">
-                    <label><b>Apellidos</b></label>
-                    <b-form-input type="text" id="input-surname" class="form-control" placeholder="Introduce un apellido"
-                      v-model="surname" maxlength="50" required autofocus trim v-on:keydown="isLetter($event)" v-on:focusout="removeExtraSpaces($event)"/>
-                  </div>
-                </b-form-group>
-                <div class="row-name" id="profile-div-username">
-                  <label><b>Nombre de usuario</b></label>
-                  <br>
-                  <span> {{ username }} </span>
-                </div>
-                <div class="row-name" id="profile-div-email">
-                  <label><b>Email</b></label>
-                  <br>
-                  <span> {{ email }} </span>
-                </div>
-                <div class="row-name">
-                  <label><b>Fecha de cumpleaños:</b></label>
-                  <br>
-                  <input :max="new Date().toISOString().split('T')[0]" type="date" id="start" name="birthday-start" v-model="birthday">
-                </div>
-              </div>
-              <div class="row align-items-end">
-                <div class="col"></div>
-                <div class="col"></div>
-                <div class="col"><b-button id="saveBUtton" class="saveButton" @click="updateProfile()">Guardar</b-button>
-                </div>
+              <!-- 1. Create the button that will be clicked to select a file -->
+                <b-img v-if="(changeImgBoolean===true)" :src="require('../assets/product_placeholder.png')" class="profileImg" v-bind="mainProps"
+                  rounded="circle" width="70" height="70" alt="Circle image"></b-img>
+                <b-img v-else :src="require('../assets/Oso.jpeg')" class="profileImg" v-bind="mainProps"
+                  rounded="circle" width="70" height="70" alt="Circle image"></b-img>
+                <b-btn
+                  id="changeImgButton"
+                  rounded
+                  dark
+                  :loading="isSelecting"
+                  @click="handleFileImport"
+                >
+                  Change Profile Image
+                </b-btn>
+                <!-- Create a File Input that will be hidden but triggered with JavaScript -->
+                <input
+                  ref="uploader"
+                  class="d-none"
+                  type="file"
+                  @change="onFileChanged"
+                >
               </div>
             </div>
           </div>
         </div>
-        <!--HISTORIAL DE COMPRES-->
-        <div v-else-if="type==='bought'" id="bought-div">
-          <div class="card bg-light" id="big-card1" style="width: 40rem;">
-            <h5 class="card-title"><b>Historial de compras</b></h5>
-            <h6 class="card-subtitle">Productos comprados desde la creación de la cuenta:</h6>
-            <br>
-            <div v-if="(purchases.length === 0)">
-              <a>No se han comprado productos hasta la fecha</a>
+        <br>
+        <div id="publicInfo" class="container-card">
+          <b> Información pública </b>
+          <div>
+            <b-form-group invalid-feedback="Nombre no puede estar vacío">
+              <div class="row-name">
+                <label><b>Nombre</b></label>
+                <b-form-input type="text" id="input-name" class="form-control" placeholder="Introduce tu nombre"
+                  v-model="name" maxlength="50" autofocus trim v-on:keydown="isLetter($event)" v-on:focusout="removeExtraSpaces($event)"/>
+              </div>
+              <div class="row-name">
+                <label><b>Apellidos</b></label>
+                <b-form-input type="text" id="input-surname" class="form-control" placeholder="Introduce un apellido"
+                  v-model="surname" maxlength="50" required autofocus trim v-on:keydown="isLetter($event)" v-on:focusout="removeExtraSpaces($event)"/>
+              </div>
+            </b-form-group>
+            <div class="row-name" id="profile-div-username">
+              <label><b>Nombre de usuario</b></label>
+              <br>
+              <span> {{ username }} </span>
             </div>
-            <div class="card" id="bought-card" v-else v-for="purchase in purchases" :key="purchase.id" style="width: 39rem;">
-              <div class="row no-gutters" v-on:click="goToProduct(purchase.product.id)">
-                <div class="col-auto">
-                  <b-img :src="purchase.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
-                </div>
-                <div class="col-5">
-                  <div class="card-block px-2">
+            <div class="row-name" id="profile-div-email">
+              <label><b>Email</b></label>
+              <br>
+              <span> {{ email }} </span>
+            </div>
+            <div class="row-name">
+              <label><b>Fecha de cumpleaños:</b></label>
+              <br>
+              <input :max="new Date().toISOString().split('T')[0]" type="date" id="start" name="birthday-start" v-model="birthday">
+            </div>
+          </div>
+          <div class="row align-items-end">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"><b-button id="saveBUtton" class="saveButton" @click="updateProfile()">Guardar</b-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--HISTORIAL DE COMPRES-->
+    <div v-else-if="type==='bought'" id="bought-div">
+      <div class="card bg-light" id="big-card1" style="width: 40rem;">
+        <h5 class="card-title"><b>Historial de compras</b></h5>
+        <h6 class="card-subtitle">Productos comprados desde la creación de la cuenta:</h6>
+        <br>
+        <div v-if="(purchases.length === 0)">
+          <a>No se han comprado productos hasta la fecha</a>
+        </div>
+        <div class="card" id="bought-card" v-else v-for="purchase in purchases" :key="purchase.id" style="width: 39rem;">
+          <div class="row no-gutters"> <!--v-on:click="goToProduct(purchase.product.id)"-->
+            <div class="col-auto">
+              <b-img :src="purchase.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+            </div>
+            <div class="col-5">
+              <div class="card-block px-2" v-on:click="goToProduct(purchase.product.id)">
                     <h4 class="card-title">{{purchase.product.name}}</h4>
                     <p class="card-text">{{purchase.product.category}}</p>
                   </div>
@@ -113,10 +113,25 @@
                 </div>
                 <div class="col">
                   <h5 class="card-text" id="bought-price1">{{purchase.product.price}}€</h5>
-                  <a href="#" class="btn btn-primary">Puntuar</a>
-                </div>
-              </div>
+                  <b-button class="mt-3" variant="success" v-on:click="openReviewModal(purchase.product.id)">Puntuar</b-button>
             </div>
+          </div>
+        </div>
+        <!--Modal de pregunta reseña-->
+        <b-modal v-model="modalShow" id="askReview" title="Deseas añadir una reseña para el vendedor?" no-stacking hide-footer>
+          <b-button class="mt-3" variant="danger" @click="$bvModal.hide('askReview')">No</b-button>
+          <b-button class="mt-3" variant="success" v-b-modal.modal-3>Si!</b-button>
+        </b-modal>
+        <!--Modal de reseña-->
+        <b-modal id="modal-3" title="Ayuda al vendedor a mejorar añadiendo una reseña:" hide-footer ref="review-modal">
+          <div>
+            <b-form-rating v-model="stars" size="lg" show-value no-border></b-form-rating>
+            <b-form-textarea id="textarea-auto-height" placeholder="Dile al vendedor lo que te ha gustado... O lo que no!"
+              v-model="reviewMessage" rows="3" max-rows="8">
+            </b-form-textarea>
+            <b-button class="mt-3" @click="sendReview(); $bvModal.hide('modal-3')">Enviar reseña</b-button>
+          </div>
+        </b-modal>
           </div>
         </div>
         <!--HISTORIAL DE VENDES-->
@@ -241,6 +256,10 @@ export default {
       isSelecting: false,
       selectedFile: null,
       rating: 4,
+      stars: 1,
+      reviewMessage: '',
+      product_id: null,
+      modalShow: false,
       purchases: [],
       sales: [],
       reviews: [],
@@ -300,6 +319,44 @@ export default {
           alert('Ha ocurrido un error al actualizar los datos, vuelve a intentarlo más tarde')
           console.error(error)
         })
+    },
+    openReviewModal (id) {
+      this.product_id = id
+      this.modalShow = !this.modalShow
+    },
+    sendReview () {
+      let reviewed = false
+      for (let i = 0; i < this.purchases.length; i++) {
+        if (this.purchases[i]['product_id'] === this.product_id) {
+          reviewed = this.purchases[i]['reviewed']
+        }
+      }
+      let dataToSend = {
+        email: this.email,
+        product_id: this.product_id,
+        stars: this.stars,
+        comment: this.reviewMessage
+      }
+      console.log(dataToSend)
+      if (reviewed) {
+        axios.put(this.devPath + '/reviews/' + this.product_id, dataToSend, {
+          auth: {username: this.token}
+        }).then((response) => {
+          console.log(response)
+          alert('Review actualizada correctamente')
+        }).catch(err => {
+          console.log(err)
+        })
+      } else {
+        axios.post(this.devPath + '/reviews', dataToSend, {
+          auth: {username: this.token}
+        }).then((response) => {
+          console.log(response)
+          alert('Review enviada correctamente')
+        }).catch(err => {
+          console.log(err)
+        })
+      }
     },
     getUserInfo () {
       const path = this.devPath + '/account/' + this.email

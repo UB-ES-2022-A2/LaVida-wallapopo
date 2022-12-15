@@ -23,6 +23,9 @@ class ProductsList(Resource):
     # return all products
     def get(self):
         products = ProductsModel.get_all()
+        # select non-sold products only
+        products_list = [product for product in products if product.status != "Vendido"]
+        products = [x for x in products_list] if products else []
         return {"Products_List": [x.json() for x in products]}, HTTPStatus.OK if products else HTTPStatus.NOT_FOUND
 
 

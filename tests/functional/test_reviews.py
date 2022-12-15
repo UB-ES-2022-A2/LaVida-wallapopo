@@ -147,3 +147,83 @@ def test_get_reviews(client):
         assert r.json['reviews_list'][0]['product_id'] == 5
         assert r.json['reviews_list'][0]['reviewed']['email'] == 'pepe432@gmail.com'
         assert r.json['reviews_list'][0]['reviewer']['email'] == 'killer23@gmail.com'
+
+def test_put_review(client):
+    with client:
+        # Login
+        json = {'email': 'pepe432@gmail.com', 'username': 'pepeman', 'password': 'pepe123,.'}
+        login = client.post("API/login", json=json)
+        assert login.status_code == 200
+
+        token = login.json
+        headers = {
+            'Authorization': 'Basic {}'.format(
+                base64.b64encode(
+                    '{token}:{password}'.format(
+                        token=token['token'],
+                        password='').encode()
+                ).decode()
+            )
+        }
+        json = {'email': 'pepe433@gmail.com', 'product_id': 99, 'stars': 4, 'comment': 'Estaba un poco sucio'}
+
+        # Test sending request with non-existent user
+        r = client.post("API/reviews", json=json, headers=headers)
+        assert r.status_code == 409
+        assert r.json == {'message': 'account with email [pepe433@gmail.com] does not exist'}
+
+        # Test invalid access with non-matching usernames between current user and request user
+        json['email'] = 'killer23@gmail.com'
+        r = client.post("API/reviews", json=json, headers=headers)
+        assert r.status_code == 400
+        assert r.json == {'message': "Bad authorization user"}
+
+        json['email'] = 'pepe432@gmail.com'
+        # Test sending request with non-existent product
+        r = client.post("API/reviews", json=json, headers=headers)
+        assert r.status_code == 409
+        assert r.json == {'message': "product with id [99] doesn't exist"}
+
+        json['product_id'] = 1
+        # Test reviewing a seller from a non-purchased product
+        r = client.post("API/reviews", json=json, headers=headers)
+        assert r.status_code == 409
+        assert r.json == {'message': "user with email [pepe432@gmail.com] hasn't purchased product with id [1]"}
+
+        # Buy a product from another user
+        purchase_json = {'product_id': 1, 'credit_card': 1234567890, 'cvc': 123,
+                         'cc_exp_date': '05/25', 'cc_owner': 'Pepe'}
+        purchase_request = client.post("API/order/add/pepe432@gmail.com", json=purchase_json, headers=headers)
+        assert purchase_request.status_code == 200
+        assert purchase_request.json['product']['status'] == 'Vendido'
+
+        # Test reviewing the seller of the purchased product
+        r = client.post("API/reviews", json=json, headers=headers)
+        assert r.status_code == 200
+        assert r.json['reviewed']['email'] == purchase_request.json['seller']['email']
+        assert r.json['reviewer']['email'] == purchase_request.json['buyer']['email']
+        assert r.json['product']['id'] == purchase_request.json['product']['id']
+
+        json = {'email': 'pepe433@gmail.com', 'product_id': 99, 'stars': 3,
+                'comment': 'Estaba un poco sucio y tiene una pata algo descosida'}
+        r = client.put("API/reviews/1", json=json, headers=headers)
+        # Test sending request with non-existent user
+        assert r.status_code == 409
+        assert r.json == {'message': 'account with email [pepe433@gmail.com] does not exist'}
+
+        # Test invalid access with non-matching usernames between current user and request user
+        json['email'] = 'killer23@gmail.com'
+        r = client.put("API/reviews/1", json=json, headers=headers)
+        assert r.status_code == 400
+        assert r.json == {'message': "Bad authorization user"}
+
+        json['email'] = 'pepe432@gmail.com'
+        # Test sending request with non-existent product
+        r = client.put("API/reviews/1", json=json, headers=headers)
+        assert r.status_code == 409
+        assert r.json == {'message': "product with id [99] doesn't exist"}
+
+        json['product_id'] = 2
+        r = client.put("API/reviews/1", json=json, headers=headers)
+        assert r.status_code == 200
+        assert r.json == {'message': "Review updated successfully"}
