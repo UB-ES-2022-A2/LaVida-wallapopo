@@ -1,6 +1,19 @@
 <template>
   <div id="login">
-    <div class="col d-flex justify-content-center">
+    <b-alert style="z-index: 999; position:fixed; right:1rem; margin: 10px auto; top: 0"
+        :show="dismissCountDown"
+        variant="danger"
+        @dismissed="dismissCountDown=0"
+        @dismiss-count-down="countDownChanged"
+        fade="true"
+      >
+      <p>Correo o contraseña incorrecta</p>
+    </b-alert>
+    <div class="row d-flex justify-content-center">
+      <div class="container">
+        <h2 class="text-center">Bienvenido a Wallapopo</h2>
+        <h3 class="text-center">Regístrate o inicia sesión</h3>
+      </div>
       <div class="card" style="width: 30%">
         <div class="card-body">
           <h5 class="card-title" align="center">Iniciar Sesión</h5>
@@ -83,10 +96,18 @@ export default {
       password: null,
       logged: false,
       prodPath: prodWeb,
-      devPath: devWeb
+      devPath: devWeb,
+      dismissSecs: 2,
+      dismissCountDown: 0
     }
   },
   methods: {
+    countDownChanged (dismissCountDown) {
+      this.dismissCountDown = dismissCountDown
+    },
+    showAlert () {
+      this.dismissCountDown = this.dismissSecs
+    },
     redirectToHome () {
       this.$router.push({ path: '/' })
     },
@@ -117,7 +138,7 @@ export default {
         })
         .catch((error) => {
           console.error(error)
-          alert('Username or Password incorrect')
+          this.showAlert()
         })
     }
   }

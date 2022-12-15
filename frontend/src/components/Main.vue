@@ -65,6 +65,12 @@ export default {
     }
   },
   methods: {
+    countDownChanged (dismissCountDown) {
+      this.dismissCountDown = dismissCountDown
+    },
+    showAlert () {
+      this.dismissCountDown = this.dismissSecs
+    },
     isLogged () {
       if (this.token !== null) {
         this.logged = true

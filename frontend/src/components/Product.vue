@@ -94,8 +94,8 @@
         </div>
       </div>
     </div>
-    <Footer></Footer>
   </div>
+  <Footer/>
   </div>
 </template>
 
@@ -157,8 +157,7 @@ export default {
       })
     },
     goBack () {
-      event.preventDefault()
-      window.history.back()
+      console.log('hi')
     },
     goToBuy () {
       this.$router.push({
@@ -214,11 +213,6 @@ export default {
   margin-bottom: 20px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   padding: 25px;
-}
-
-.card-img {
-  height: 550px;
-  object-fit: cover;
 }
 
 hr {
@@ -292,12 +286,7 @@ hr {
 .product-button:hover {
   background-color: red;
 }
-.user-name {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: 1px;
-}
+
 .buttons {
   display: flex;
   justify-content: flex-end;
