@@ -201,7 +201,13 @@ export default {
       }
     },
     checkExpDate () {
-      if (/^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(this.form.exp_date) && this.form.exp_date !== '') {
+      const currentDate = new Date()
+      let year = this.form.exp_date.slice(-2)
+      let month = this.form.exp_date.slice(0, 2)
+      let currentYear = currentDate.getFullYear().toString().slice(-2)
+      let currentMonth = currentDate.getMonth().toString()
+      if (/^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(this.form.exp_date) && this.form.exp_date !== '' &&
+        (year > currentYear || (year === currentYear && month >= currentMonth))) {
         this.expDateCheck = true
       } else {
         this.expDateCheck = false
