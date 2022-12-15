@@ -20,7 +20,7 @@
     </div>
     <div v-else class="container">
       <div class="btn">
-        <img src="@/assets/heart.png" alt="User icon" style="width: 20px" />
+        <a v-on:click="goToUserProfile('favourites')"><img :src="require('@/assets/heart.png')" alt="User icon" style="width: 20px" /></a>
         </div>
 
       <div class="dropdown-dark my-3 text-right" id="navbar-button-profile">
@@ -110,6 +110,7 @@ export default {
     },
     goToUserProfile (type2) {
       if (this.$route.name !== 'UserProfile') {
+        localStorage.setItem('type', type2)
         this.$router.push({
           name: 'UserProfile',
           params: {logged: this.logged, email: this.email, token: this.token, type: type2}

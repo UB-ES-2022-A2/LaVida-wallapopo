@@ -5,13 +5,16 @@
       <div class="card">
         <div class="row row-title">
           <div class="col-5 row">
+            <a v-on:click="goBack()"><img src="../assets/icons/back.png" style="width: 50px" alt="back" /></a>
+            &nbsp;
             <img
               src="../assets/default-profile.jpg"
               class="rounded-circle"
               style="width: 50px"
               alt="Avatar"
             />
-            <p class="user-name col-8">{{ product.username }}</p>
+            &nbsp;
+            <p class="user-name">{{ product.username }}</p>
           </div>
         </div>
 
@@ -142,6 +145,10 @@ export default {
         .catch((error) => {
           console.error(error)
         })
+    },
+    goBack () {
+      event.preventDefault()
+      window.history.back()
     },
     goToBuy () {
       this.$router.push({

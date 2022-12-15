@@ -1,7 +1,12 @@
 <template>
   <div id="Profile">
     <NavigationBar class="nav-top" @type="onChangeSearch($event)" :logged="logged" :key="logged" :email="email" :token="token" />
-    <!-- Perfil Usuari -->
+    <div class="row">
+      <div class="col-2">
+        <Menu @type="onChangeSearch($event)"/>
+      </div>
+      <div class="col">
+        <!-- Perfil Usuari -->
     <div class="card bg-light" v-if="type==='profile'">
       <div class="card-body">
         <b-button id="profileButton" class="profileButton">Perfil</b-button>
@@ -99,16 +104,16 @@
             </div>
             <div class="col-5">
               <div class="card-block px-2" v-on:click="goToProduct(purchase.product.id)">
-                <h4 class="card-title">{{purchase.product.name}}</h4>
-                <p class="card-text">{{purchase.product.category}}</p>
-              </div>
-            </div>
-            <div class="col-3">
-              <a style="font-size:14px; margin-left:40px;">{{purchase.date}}</a>
-            </div>
-            <div class="col">
-              <h5 class="card-text" id="bought-price1">{{purchase.product.price}}€</h5>
-              <b-button class="mt-3" variant="success" v-on:click="openReviewModal(purchase.product.id)">Puntuar</b-button>
+                    <h4 class="card-title">{{purchase.product.name}}</h4>
+                    <p class="card-text">{{purchase.product.category}}</p>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <a style="font-size:14px; margin-left:40px;">{{purchase.date}}</a>
+                </div>
+                <div class="col">
+                  <h5 class="card-text" id="bought-price1">{{purchase.product.price}}€</h5>
+                  <b-button class="mt-3" variant="success" v-on:click="openReviewModal(purchase.product.id)">Puntuar</b-button>
             </div>
           </div>
         </div>
@@ -127,62 +132,94 @@
             <b-button class="mt-3" @click="sendReview(); $bvModal.hide('modal-3')">Enviar reseña</b-button>
           </div>
         </b-modal>
-      </div>
-    </div>
-    <!--HISTORIAL DE VENDES-->
-    <div v-else-if="type==='sold'" id="sold-div">
-      <div class="card bg-light" id="big-card" style="width: 40rem;">
-        <h5 class="card-title"><b>Historial de ventas</b></h5>
-        <h6 class="card-subtitle">Productos vendidos desde la creación de la cuenta:</h6>
-        <br>
-        <div v-if="(sales.length === 0)">
-          <a>No se han vendido productos hasta la fecha</a>
+          </div>
         </div>
-        <div class="card" id="sold-card" v-else v-for="sale in sales" :key="sale.id" style="width: 39rem;">
-          <div class="row no-gutters" v-on:click="goToProduct(sale.product.id)">
-            <div class="col-auto">
-              <b-img :src="sale.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+        <!--HISTORIAL DE VENDES-->
+        <div v-else-if="type==='sold'" id="sold-div">
+          <div class="card bg-light" id="big-card" style="width: 40rem;">
+            <h5 class="card-title"><b>Historial de ventas</b></h5>
+            <h6 class="card-subtitle">Productos vendidos desde la creación de la cuenta:</h6>
+            <br>
+            <div v-if="(sales.length === 0)">
+              <a>No se han vendido productos hasta la fecha</a>
             </div>
-            <div class="col-5">
-              <div class="card-block px-2">
-                <h4 class="card-title">{{sale.product.name}}</h4>
-                <p class="card-text">{{sale.product.category}}</p>
+            <div class="card" id="sold-card" v-else v-for="sale in sales" :key="sale.id" style="width: 39rem;">
+              <div class="row no-gutters" v-on:click="goToProduct(sale.product.id)">
+                <div class="col-auto">
+                  <b-img :src="sale.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+                </div>
+                <div class="col-5">
+                  <div class="card-block px-2">
+                    <h4 class="card-title">{{sale.product.name}}</h4>
+                    <p class="card-text">{{sale.product.category}}</p>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <a style="font-size:14px; margin-left:40px;">{{sale.date}}</a>
+                </div>
+                <div class="col">
+                  <h5 class="card-text" id="bought-price">{{sale.product.price}}€</h5>
+                </div>
               </div>
-            </div>
-            <div class="col-3">
-              <a style="font-size:14px; margin-left:40px;">{{sale.date}}</a>
-            </div>
-            <div class="col">
-              <h5 class="card-text" id="bought-price">{{sale.product.price}}€</h5>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <!--HISTORIAL DE Reviews-->
-    <div v-else-if="type==='reviews'" id="review-div">
-      <div class="card bg-light" id="big-card" style="width: 40rem;">
-        <h5 class="card-title"><b>Historial de reviews</b></h5>
-        <h6 class="card-subtitle">Reviews recibidas desde la creación de la cuenta:</h6>
-        <br>
+        <!--HISTORIAL DE Reviews-->
+        <div v-else-if="type==='reviews'" id="review-div">
+          <div class="card bg-light" id="big-card" style="width: 40rem;">
+            <h5 class="card-title"><b>Historial de reseñas</b></h5>
+            <h6 class="card-subtitle">Reseñas recibidas desde la creación de la cuenta:</h6>
+            <br>
 
-        <div class="card" id="review-card" v-for="review in reviews" :key="review.id" style="width: 39rem;">
-          <div class="row" v-on:click="goToProduct(review.product.id)">
-            <div class="col-auto">
-              <b-img :src="review.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
-            </div>
-            <div class="col">
-              <div class="row">
-                <div class="col-5">{{review.reviewer.name}}</div>
-                <div class="col-6" style="text-align: right; margin-left:30px">
-                  <b-form-rating v-model="rating" id="estrellas"></b-form-rating>
+            <div class="card" id="review-card" v-for="review in reviews" :key="review.id" style="width: 39rem;">
+              <div class="row" v-on:click="goToProduct(review.product.id)">
+                <div class="col-auto">
+                  <b-img :src="review.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <div class="col-5">{{review.reviewer.name}}</div>
+                    <div class="col-6" style="text-align: right; margin-left:30px">
+                      <b-form-rating v-model="rating" id="estrellas"></b-form-rating>
+                    </div>
+                  </div>
+                  <div class="row-auto">
+                    <div class="row-auto" style="text-align: center; font-weight: bold;">{{review.product.name}}</div>
+                    <div v-if="review.comment" class="row-auto" style="text-align: center;">{{review.comment}}</div>
+                  </div>
+                  <div class="row-8" style="text-align: right; margin-right:10px">{{review.date}}</div>
                 </div>
               </div>
-              <div class="row-auto">
-                <div class="row-auto" style="text-align: center; font-weight: bold;">{{review.product.name}}</div>
-                <div v-if="review.comment" class="row-auto" style="text-align: center;">{{review.comment}}</div>
+            </div>
+          </div>
+        </div>
+        <!--HISTORIAL DE FAVS-->
+        <div v-else-if="type==='favourites'" id="favourites-div">
+          <div class="card bg-light" id="big-card" style="width: 40rem;">
+            <h5 class="card-title"><b>Tus productos favoritos</b></h5>
+            <h6 class="card-subtitle"></h6>
+            <br>
+            <div v-if="(favourites.length === 0)">
+              <a>No hay actualmente productos en favoritos.</a>
+            </div>
+            <div class="card" id="favourites-card" v-else v-for="fav in favourites" :key="fav.id" style="width: 39rem;">
+              <div class="row no-gutters" v-on:click="goToProduct(fav.product.id)">
+                <div class="col-auto">
+                  <b-img :src="fav.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+                </div>
+                <div class="col-5">
+                  <div class="card-block px-2">
+                    <h4 class="card-title">{{fav.product.name}}</h4>
+                    <p class="card-text">{{fav.product.category}}</p>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <a style="font-size:14px; margin-left:40px;">{{fav.date}}</a>
+                </div>
+                <div class="col">
+                  <h5 class="card-text" id="fav-price">{{fav.product.price}}€</h5>
+                </div>
               </div>
-              <div class="row-8" style="text-align: right; margin-right:10px">{{review.date}}</div>
             </div>
           </div>
         </div>
@@ -212,7 +249,7 @@ export default {
       logged: true,
       token: this.$route.params.token,
       email: this.$route.params.email,
-      type: null,
+      type: this.$route.params.type,
       prodPath: prodWeb,
       devPath: devWeb,
       changeImgBoolean: false,
@@ -226,6 +263,7 @@ export default {
       purchases: [],
       sales: [],
       reviews: [],
+      favourites: [],
       mainProps: { blank: false, blankColor: '#777', width: 70, height: 70, class: 'profileImg' }
     }
   },
@@ -385,7 +423,6 @@ export default {
       })
         .then((res) => {
           console.log('reviews')
-          console.log(res.data)
           console.log(res.data.reviews_list)
           if (res.data.reviews_list != null) {
             this.reviews = res.data.reviews_list
@@ -396,16 +433,37 @@ export default {
           alert('Error al mostrar reviews')
         })
     },
+    getFavs () {
+      const path = this.devPath + '/favourites/' + this.email
+      axios.get(path, {
+        auth: { username: this.token }
+      })
+        .then((res) => {
+          console.log('favourites')
+          console.log(res.data.favourites_list)
+          if (res.data.favourites_list != null) {
+            this.favourites = res.data.favourites_list
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          alert('Error al mostrar favoritos')
+        })
+    },
     onChangeSearch (param) {
       this.type = param
+      localStorage.setItem('type', this.type)
     }
   },
   created () {
-    this.type = this.$route.params.type
+    this.type = localStorage.getItem('type')
+    this.token = localStorage.getItem('token')
+    this.email = localStorage.getItem('email')
     this.getUserInfo()
     this.getPurchases()
     this.getSales()
     this.getReviews()
+    this.getFavs()
   }
 }
 </script>
