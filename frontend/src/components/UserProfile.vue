@@ -202,7 +202,7 @@
                   <a style="font-size:14px; margin-left:40px;">{{fav.date}}</a>
                 </div>
                 <div class="col">
-                  <h5 class="card-text" id="bought-price">{{fav.product.price}}€</h5>
+                  <h5 class="card-text" id="fav-price">{{fav.product.price}}€</h5>
                 </div>
               </div>
             </div>
@@ -234,7 +234,7 @@ export default {
       logged: true,
       token: this.$route.params.token,
       email: this.$route.params.email,
-      type: null,
+      type: this.$route.params.type,
       prodPath: prodWeb,
       devPath: devWeb,
       changeImgBoolean: false,
@@ -395,10 +395,13 @@ export default {
     },
     onChangeSearch (param) {
       this.type = param
+      localStorage.setItem('type', this.type)
     }
   },
   created () {
-    this.type = this.$route.params.type
+    this.type = localStorage.getItem('type')
+    this.token = localStorage.getItem('token')
+    this.email = localStorage.getItem('email')
     this.getUserInfo()
     this.getPurchases()
     this.getSales()

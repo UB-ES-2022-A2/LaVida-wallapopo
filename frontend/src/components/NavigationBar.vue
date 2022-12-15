@@ -20,7 +20,7 @@
     </div>
     <div v-else class="container">
       <div class="btn">
-        <img src="@/assets/heart.png" alt="User icon" style="width: 20px" />
+        <a v-on:click="goToUserProfile('favourites')"><img src="@/assets/heart.png" alt="User icon" style="width: 20px" /></a>
         </div>
 
       <div class="dropdown-dark my-3 text-right" id="navbar-button-profile">
