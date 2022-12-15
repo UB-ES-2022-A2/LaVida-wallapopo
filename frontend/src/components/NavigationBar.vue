@@ -2,19 +2,24 @@
   <nav class="navbar navbar-expand-md style-navbar" id="navbar-identifier">
     <a class="navbar-brand h1" @click="goToHome()">Wallapopo</a>
     <div class="container-fluid">
-      <b-form-input
-        type="search"
-        placeholder="Buscar"
-        aria-label="Buscar"
-        v-model="text"
-        @keydown.enter.native="onEnter"
-      />
+      <b-input-group>
+        <b-input-group-prepend is-text>
+          <b-icon icon="search"></b-icon>
+        </b-input-group-prepend>
+        <b-form-input
+          type="search"
+          placeholder="Buscar"
+          aria-label="Buscar"
+          v-model="text"
+          @keydown.enter.native="onEnter"
+        />
+      </b-input-group>
     </div>
     <div v-if="!logged" class="container buttons-session">
-      <div v-on:click="goToLogin" class="btn btn-primary">
+      <div id="login-button" v-on:click="goToLogin" class="btn btn-primary">
         Login
       </div>
-      <div v-if="!logged" v-on:click="goToRegister"  class="btn btn-secondary ">
+      <div id="register-button" v-if="!logged" v-on:click="goToRegister"  class="btn btn-secondary ">
         Register
       </div>
     </div>
@@ -130,16 +135,11 @@ export default {
   text-align: center;
   font-family: 'Trebuchet MS', sans-serif;
   margin: 0px auto;
-  color: rgb(45, 177, 144);
-  font-size: 40px;
+  color: rgb(0, 0, 0);
+  font-size: 30px;
   letter-spacing: 5px;
   cursor: pointer;
-  transition: 0.5s;
-
-}
-
-.navbar-brand:hover{
-  background-color: rgba(0, 0, 0, 0.103);
+  transition: transform .2s; /* Animation */
 }
 
 a {
@@ -148,8 +148,9 @@ a {
   color: white;
 }
 .navbar{
-  border-bottom: 1px solid rgb(134, 134, 139);
-  margin-bottom:10px;
+  border-bottom: 1px solid rgb(221, 221, 221);
+  margin-bottom: 10px;
+  background-color: white;
 }
 .container{
   justify-content: end;
@@ -173,6 +174,22 @@ a {
 .btn-product{
   display: contents;
   justify-content: center;
+}
+
+#login-button{
+  color: rgb(137, 189, 158);
+  font-weight: 400;
+  background-color: rgb(255, 255, 255);
+  border: solid 2px rgb(137, 189, 158);
+  border-radius: 20px;
+}
+
+#register-button{
+  color: rgb(137, 189, 158);
+  font-weight: 400;
+  background-color: rgb(255, 255, 255);
+  border: solid 2px rgb(137, 189, 158);
+  border-radius: 20px;
 }
 
 </style>
