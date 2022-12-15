@@ -27,6 +27,9 @@
           </p>
         </div>
         <div class="row">
+          <p>Categoria: {{ category }}</p>
+        </div>
+        <div class="row">
           <p>Estado: {{ productState }}</p>
         </div>
         <div class="row card-text">
@@ -44,6 +47,7 @@ export default {
     price: Number,
     desc: String,
     date: String,
+    category: String,
     productState: String,
     img: String,
     link: Number,

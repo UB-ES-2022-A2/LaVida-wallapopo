@@ -199,7 +199,7 @@
       <div v-else-if="type==='favourites'" id="favourites-div">
         <div class="card bg-light" id="big-card" style="width: 40rem;">
           <h5 class="card-title"><b>Tus productos favoritos</b></h5>
-          <h6 class="card-subtitle"></h6>
+          <h6 class="card-subtitle">Productos añadidos a favoritos</h6>
           <br>
           <div v-if="(favourites.length === 0)">
             <a>No hay actualmente productos en favoritos.</a>
