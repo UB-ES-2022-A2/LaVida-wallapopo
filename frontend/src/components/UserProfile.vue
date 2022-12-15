@@ -164,61 +164,62 @@
             </div>
           </div>
         </div>
-        <!--HISTORIAL DE Reviews-->
-        <div v-else-if="type==='reviews'" id="review-div">
-          <div class="card bg-light" id="big-card" style="width: 40rem;">
-            <h5 class="card-title"><b>Historial de reseñas</b></h5>
-            <h6 class="card-subtitle">Reseñas recibidas desde la creación de la cuenta:</h6>
-            <br>
-
-            <div class="card" id="review-card" v-for="review in reviews" :key="review.id" style="width: 39rem;">
-              <div class="row" v-on:click="goToProduct(review.product.id)">
-                <div class="col-auto">
-                  <b-img :src="review.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
-                </div>
-                <div class="col">
-                  <div class="row">
-                    <div class="col-5">{{review.reviewer.name}}</div>
-                    <div class="col-6" style="text-align: right; margin-left:30px">
-                      <b-form-rating v-model="rating" id="estrellas"></b-form-rating>
-                    </div>
-                  </div>
-                  <div class="row-auto">
-                    <div class="row-auto" style="text-align: center; font-weight: bold;">{{review.product.name}}</div>
-                    <div v-if="review.comment" class="row-auto" style="text-align: center;">{{review.comment}}</div>
-                  </div>
-                  <div class="row-8" style="text-align: right; margin-right:10px">{{review.date}}</div>
+    <!-- HISTORIAL REVIEWS -->
+    <div v-else-if="type==='reviews'" id="review-div">
+      <div class="card bg-light" id="big-card" style="width: 40rem;">
+        <h5 class="card-title"><b>Historial de reviews</b></h5>
+        <h6 class="card-subtitle">Reviews recibidas desde la creación de la cuenta:</h6>
+        <br>
+        <div v-if="(reviews.length === 0)">
+          <a>No se han vendido productos hasta la fecha</a>
+        </div>
+        <div class="card" id="review-card" v-else v-for="review in reviews" :key="review.id" style="width: 39rem;">
+          <div class="row" v-on:click="goToProduct(review.product.id)">
+            <div class="col-auto">
+              <b-img :src="review.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col-5">{{review.reviewer.name}}</div>
+                <div class="col-6" style="text-align: right; margin-left:30px">
+                  <b-form-rating v-model="rating" id="estrellas"></b-form-rating>
                 </div>
               </div>
+              <div class="row-auto">
+                <div class="row-auto" style="text-align: center; font-weight: bold;">{{review.product.name}}</div>
+                <div v-if="review.comment" class="row-auto" style="text-align: center;">{{review.comment}}</div>
+              </div>
+              <div class="row-8" style="text-align: right; margin-right:10px">{{review.date}}</div>
             </div>
           </div>
         </div>
-        <!--HISTORIAL DE FAVS-->
-        <div v-else-if="type==='favourites'" id="favourites-div">
-          <div class="card bg-light" id="big-card" style="width: 40rem;">
-            <h5 class="card-title"><b>Tus productos favoritos</b></h5>
-            <h6 class="card-subtitle"></h6>
-            <br>
-            <div v-if="(favourites.length === 0)">
-              <a>No hay actualmente productos en favoritos.</a>
-            </div>
-            <div class="card" id="favourites-card" v-else v-for="fav in favourites" :key="fav.id" style="width: 39rem;">
-              <div class="row no-gutters" v-on:click="goToProduct(fav.product.id)">
-                <div class="col-auto">
-                  <b-img :src="fav.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+      </div>
+    </div>
+      <!--HISTORIAL DE FAVS-->
+      <div v-else-if="type==='favourites'" id="favourites-div">
+        <div class="card bg-light" id="big-card" style="width: 40rem;">
+          <h5 class="card-title"><b>Tus productos favoritos</b></h5>
+          <h6 class="card-subtitle">Productos añadidos a favoritos</h6>
+          <br>
+          <div v-if="(favourites.length === 0)">
+            <a>No hay actualmente productos en favoritos.</a>
+          </div>
+          <div class="card" id="favourites-card" v-else v-for="fav in favourites" :key="fav.id" style="width: 39rem;">
+            <div class="row no-gutters" v-on:click="goToProduct(fav.product.id)">
+              <div class="col-auto">
+                <b-img :src="fav.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+              </div>
+              <div class="col-5">
+                <div class="card-block px-2">
+                  <h4 class="card-title">{{fav.product.name}}</h4>
+                  <p class="card-text">{{fav.product.category}}</p>
                 </div>
-                <div class="col-5">
-                  <div class="card-block px-2">
-                    <h4 class="card-title">{{fav.product.name}}</h4>
-                    <p class="card-text">{{fav.product.category}}</p>
-                  </div>
-                </div>
-                <div class="col-3">
-                  <a style="font-size:14px; margin-left:40px;">{{fav.date}}</a>
-                </div>
-                <div class="col">
-                  <h5 class="card-text" id="fav-price">{{fav.product.price}}€</h5>
-                </div>
+              </div>
+              <div class="col-3">
+                <a style="font-size:14px; margin-left:40px;">{{fav.date}}</a>
+              </div>
+              <div class="col">
+                <h5 class="card-text" id="fav-price">{{fav.product.price}}€</h5>
               </div>
             </div>
           </div>
@@ -226,6 +227,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>

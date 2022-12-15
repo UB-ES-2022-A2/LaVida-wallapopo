@@ -27,6 +27,9 @@
           </p>
         </div>
         <div class="row">
+          <p>Categoria: {{ category }}</p>
+        </div>
+        <div class="row">
           <p>Estado: {{ productState }}</p>
         </div>
         <div class="row card-text">
@@ -44,6 +47,7 @@ export default {
     price: Number,
     desc: String,
     date: String,
+    category: String,
     productState: String,
     img: String,
     link: Number,
@@ -75,8 +79,13 @@ export default {
   height: 380px;
   margin-bottom: 20px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  cursor: pointer;
+  transition: 0.5s;
 }
-
+.card:hover{
+  width: 255px;
+  height: 390px;
+}
 .card-img {
   height: 200px;
 }

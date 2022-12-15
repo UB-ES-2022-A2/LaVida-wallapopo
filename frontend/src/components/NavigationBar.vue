@@ -19,23 +19,20 @@
       </div>
     </div>
     <div v-else class="container">
-      <div class="btn">
-        <a v-on:click="goToUserProfile('favourites')"><img :src="require('@/assets/heart.png')" alt="User icon" style="width: 20px" /></a>
-        </div>
-
       <div class="dropdown-dark my-3 text-right" id="navbar-button-profile">
         <b-dropdown id="dropdown-1" :src="require('@/assets/user.png')" alt="User icon" text="Usuario" class="m-md-2" variant="dark">
           <b-dropdown-item id="perfil" v-on:click="goToUserProfile('profile')">Ver Perfil</b-dropdown-item>
           <b-dropdown-item id="compras" v-on:click="goToUserProfile('bought')">Ver historial de compras</b-dropdown-item>
           <b-dropdown-item id="ventas" v-on:click="goToUserProfile('sold')">Ver historial de ventas</b-dropdown-item>
           <b-dropdown-item id="reviews" v-on:click="goToUserProfile('reviews')">Ver reviews recibidas</b-dropdown-item>
+          <b-dropdown-item id="reviews" v-on:click="goToUserProfile('favourites')">Ver favoritos</b-dropdown-item>
           <b-dropdown-item id="cerrar_sesion" v-b-modal.modal-1>Cerrar Sesión</b-dropdown-item>
         </b-dropdown>
         <LogoutModal @loggedStatus="loggedOut($event)" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
       </div>
 
-      <div class="btn btn-product" @click="goToAddProduct()" id='navigationBar_div_addProduct'>
-        <img src="@/assets/add.png" alt="User icon" style="width: 20px" />
+      <div class="btn btn-light" @click="goToAddProduct()" id='navigationBar_div_addProduct'>
+        <img src="@/assets/add.png" alt="User icon" style="width: 30px" class="mr-1" />
         Agregar producto
       </div>
     </div>
@@ -136,7 +133,13 @@ export default {
   color: rgb(45, 177, 144);
   font-size: 40px;
   letter-spacing: 5px;
+  cursor: pointer;
+  transition: 0.5s;
 
+}
+
+.navbar-brand:hover{
+  background-color: rgba(0, 0, 0, 0.103);
 }
 
 a {

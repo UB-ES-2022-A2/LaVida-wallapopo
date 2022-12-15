@@ -29,6 +29,7 @@
             :img="product.image[0]"
             :price="product.price"
             :desc="product.description"
+            :category="product.category"
             :productState="product.condition"
             :date="product.date"
             :link="product.id"
