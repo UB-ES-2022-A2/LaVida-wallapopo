@@ -34,10 +34,10 @@
             <b class="clickable">{{ title }} </b>
           </p>
         </div>
-        <div class="row">
+        <div class="row" style='overflow: hidden;'>
           <p>Categoria: {{ category }}</p>
         </div>
-        <div class="row">
+        <div class="row mt">
           <p>Estado: {{ productState }}</p>
         </div>
         <div class="row card-text">
@@ -140,7 +140,10 @@ export default {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   transition: 0.5s;
 }
-
+.card:hover{
+  width: 255px;
+  height: 390px;
+}
 .card-img {
   height: 200px;
   cursor: pointer;
@@ -161,7 +164,7 @@ export default {
   cursor: pointer;
 }
 
-.col-2 buttons {
+.col-7 buttons {
   cursor: pointer;
 }
 
