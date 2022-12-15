@@ -19,8 +19,8 @@
       </div>
     </div>
     <div v-else class="container">
-      <div class="btn">
-        <img src="@/assets/heart.png" alt="User icon" style="width: 20px" />
+      <div class="btn btn-light">
+        <a v-on:click="goToUserProfile('favourites')"><img :src="require('@/assets/heart.png')" alt="User icon" style="width: 30px" /></a>
         </div>
 
       <div class="dropdown-dark my-3 text-right" id="navbar-button-profile">
@@ -34,8 +34,8 @@
         <LogoutModal @loggedStatus="loggedOut($event)" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
       </div>
 
-      <div class="btn btn-product" @click="goToAddProduct()" id='navigationBar_div_addProduct'>
-        <img src="@/assets/add.png" alt="User icon" style="width: 20px" />
+      <div class="btn btn-light" @click="goToAddProduct()" id='navigationBar_div_addProduct'>
+        <img src="@/assets/add.png" alt="User icon" style="width: 30px" class="mr-1" />
         Agregar producto
       </div>
     </div>
@@ -110,6 +110,7 @@ export default {
     },
     goToUserProfile (type2) {
       if (this.$route.name !== 'UserProfile') {
+        localStorage.setItem('type', type2)
         this.$router.push({
           name: 'UserProfile',
           params: {logged: this.logged, email: this.email, token: this.token, type: type2}
@@ -135,7 +136,13 @@ export default {
   color: rgb(45, 177, 144);
   font-size: 40px;
   letter-spacing: 5px;
+  cursor: pointer;
+  transition: 0.5s;
 
+}
+
+.navbar-brand:hover{
+  background-color: rgba(0, 0, 0, 0.103);
 }
 
 a {

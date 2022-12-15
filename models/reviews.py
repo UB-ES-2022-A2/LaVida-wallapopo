@@ -46,6 +46,10 @@ class ReviewsModel(db.Model):
     def get_reviews_by_email(cls, email):  # returns all reviews by email
         return cls.query.filter_by(reviewed_id=email).all()
 
+    @classmethod
+    def get_by_id(cls, id):  # returns review by id
+        return cls.query.get(id)
+
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
