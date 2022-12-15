@@ -178,7 +178,7 @@
             </div>
           </div>
         </div>
-        <!--HISTORIAL DE Favs-->
+        <!--HISTORIAL DE FAVS-->
         <div v-else-if="type==='favourites'" id="favourites-div">
           <div class="card bg-light" id="big-card" style="width: 40rem;">
             <h5 class="card-title"><b>Tus productos favoritos</b></h5>

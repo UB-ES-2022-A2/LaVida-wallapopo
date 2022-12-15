@@ -5,19 +5,19 @@
     ">
       <ul class="navbar-nav" style="height: 49rem">
         <li class="nav-item mb-4 my-3">
-          <a style="color: #000000" class="nav-link h6" v-on:click="goToUserProfile('profile')"><img src="@/assets/icons/user.png" alt="User icon" style="width: 40px"/> Tu Perfil  </a>
+          <a style="color: #000000" class="nav-link h6" v-on:click="goToUserProfile('profile')"><img :src="require('@/assets/icons/user.png')" alt="User icon" style="width: 40px"/> Tu Perfil  </a>
         </li>
         <li class="nav-item mb-4">
-          <a style="color: #000000" class="nav-link h6" v-on:click="goToUserProfile('reviews')"><img src="@/assets/icons/review.png" alt="User icon" style="width: 30px"/> Reseñas </a>
+          <a style="color: #000000" class="nav-link h6" v-on:click="goToUserProfile('reviews')"><img :src="require('@/assets/icons/review.png')" alt="User icon" style="width: 30px"/> Reseñas </a>
         </li>
         <li class="nav-item mb-4">
-          <a style="color: #000000" class="nav-link h6" v-on:click="goToUserProfile('bought')"><img src="@/assets/icons/buy.png" alt="User icon" style="width: 30px"/> Compras </a>
+          <a style="color: #000000" class="nav-link h6" v-on:click="goToUserProfile('bought')"><img :src="require('@/assets/icons/buy.png')" alt="User icon" style="width: 30px"/> Compras </a>
         </li>
         <li class="nav-item mb-4">
-          <a style="color: #000000" class="nav-link h6" v-on:click="goToUserProfile('sold')"><img src="@/assets/icons/sell.png" alt="User icon" style="width: 30px"/> Ventas </a>
+          <a style="color: #000000" class="nav-link h6" v-on:click="goToUserProfile('sold')"><img :src="require('@/assets/icons/sell.png')" alt="User icon" style="width: 30px"/> Ventas </a>
         </li>
         <li class="nav-item mb-4">
-          <a style="color: #000000" class="nav-link h6" v-on:click="goToUserProfile('favourites')"><img src="@/assets/heart.png" alt="User icon" style="width: 30px"/> Favoritos </a>
+          <a style="color: #000000" class="nav-link h6" v-on:click="goToUserProfile('favourites')"><img :src="require('@/assets/heart.png')" alt="User icon" style="width: 30px"/> Favoritos </a>
         </li>
       </ul>
     </nav>
