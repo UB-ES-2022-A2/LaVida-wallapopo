@@ -32,6 +32,8 @@
             :productState="product.condition"
             :date="product.date"
             :link="product.id"
+            :favourite_list="favourite"
+            :logged="logged"
           />
         </div>
       </div>
@@ -66,7 +68,8 @@ export default {
       email: 'e',
       category: null,
       search_text: null,
-      filters: null
+      filters: null,
+      favourite: []
     }
   },
 
@@ -141,6 +144,18 @@ export default {
       } else {
         this.getProducts()
       }
+    },
+    getFavourites () {
+      axios.get(this.devPath + `/favourites/${this.email}`, {auth: {username: this.token}}).then((res) => {
+        console.log(res.data)
+        this.favourite = []
+        for (var i = 0; i < res.data.favourites_list.length; i++) {
+          this.favourite.push(res.data.favourites_list[i].product.id)
+        }
+        console.log(this.favourite)
+      }).catch((error) => {
+        console.error(error)
+      })
     }
   },
   created () {
@@ -154,6 +169,9 @@ export default {
     this.email = localStorage.getItem('email')
     this.token = localStorage.getItem('token')
     this.isLogged()
+    if (this.logged) {
+      this.getFavourites()
+    }
   }
 }
 </script>
