@@ -50,7 +50,8 @@
             placeholder="Mete tu tarjeta :D"
             required
             maxlength="16"
-            v-on:keydown="checkCCNumber($event)"
+            v-on:keyup="checkCCNumber()"
+            :state="ccNumberCheck"
           ></b-form-input>
         </b-form-group>
         <!--Propietario de la tarjeta-->
@@ -64,7 +65,8 @@
             v-model="form.name"
             placeholder="Nombre y apellidos"
             required
-            v-on:keydown="checkTextOnly($event)"
+            v-on:keyup="checkTextOnly()"
+            :state="textOnlyCheck"
           ></b-form-input>
         </b-form-group>
         <!--CVC and experation date-->
@@ -76,8 +78,9 @@
                 v-model="form.cvc"
                 placeholder="Ej. 123"
                 maxlength="3"
-                v-on:keydown="checkCvc($event)"
+                v-on:keyup="checkCvc()"
                 required
+                :state="cvcCheck"
               ></b-form-input>
             </b-form-group>
           </b-col>
@@ -88,15 +91,17 @@
                 v-model="form.exp_date"
                 placeholder="Ej. MM/YY"
                 maxlength="5"
-                v-on:keydown="checkExpDate($event)"
+                v-on:keyup="checkExpDate()"
                 required
+                :state="expDateCheck"
               ></b-form-input>
             </b-form-group>
           </b-col>
         </b-row>
         <b-row align-h="center">
           <b-col><b-button type="reset" variant="danger" @click="onReset">Cancelar</b-button></b-col>
-          <b-col><b-button type="submit" variant="success" v-b-modal.modal-2>Comprar</b-button></b-col>
+          <b-col><b-button :disabled="textOnlyCheck === false || expDateCheck === false || cvcCheck === false || ccNumberCheck === false"
+                  type="submit" variant="success" v-b-modal.modal-2>Comprar</b-button></b-col>
           </b-row>
           <!-- Modal de confirmacion-->
           <b-modal id="modal-2" title="Confirmar pago" hide-footer ref="my-modal">
@@ -154,6 +159,10 @@ export default {
       stars: 1,
       reviewMessage: '',
       showModal: false,
+      textOnlyCheck: false,
+      expDateCheck: false,
+      cvcCheck: false,
+      ccNumberCheck: false,
       form: {
         email: '',
         name: '',
@@ -185,45 +194,32 @@ export default {
       })
     },
     checkTextOnly (e) {
-      // Get the character
-      let char = String.fromCharCode(e.keyCode)
-      // Key codes for Backspace, Space, Ctrl, Shift and Arrows
-      const allowedKeys = [8, 32, 16, 17, 37, 38, 39, 40]
-
-      if (/^[A-Za-z]+$/.test(char) || allowedKeys.includes(e.keyCode)) {
-        return true
-      } else e.preventDefault() // If not match, don't add to input text
+      if (/^[a-zA-Z ]*$/.test(this.form.name) && this.form.name !== '') {
+        this.textOnlyCheck = true
+      } else {
+        this.textOnlyCheck = false
+      }
     },
-    checkExpDate (e) {
-      // Get the character
-      let char = String.fromCharCode(e.keyCode)
-      // Key codes for Backspace, Ctrl, Shift, Arrows and Forward Slash
-      const allowedKeys = [8, 16, 17, 37, 38, 39, 40, 47, 111]
-
-      // eslint-disable-next-line no-useless-escape
-      if (/^[\d\/]/.test(char) || allowedKeys.includes(e.keyCode)) {
-        return true
-      } else e.preventDefault() // If not match, don't add to input text
+    checkExpDate () {
+      if (/^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(this.form.exp_date) && this.form.exp_date !== '') {
+        this.expDateCheck = true
+      } else {
+        this.expDateCheck = false
+      }
     },
-    checkCvc (e) {
-      // Get the character
-      let char = String.fromCharCode(e.keyCode)
-      // Key codes for Backspace, Ctrl, Shift and Arrows
-      const allowedKeys = [8, 16, 17, 37, 38, 39, 40]
-
-      if (/^\d$/.test(char) || allowedKeys.includes(e.keyCode)) {
-        return true
-      } else e.preventDefault()
+    checkCvc () {
+      if (/^[0-9]{3,4}$/.test(this.form.cvc) && this.form.cvc !== '') {
+        this.cvcCheck = true
+      } else {
+        this.cvcCheck = false
+      }
     },
-    checkCCNumber (e) {
-      // Get the character
-      let char = String.fromCharCode(e.keyCode)
-      // Key codes for Backspace, Ctrl, Shift and Arrows
-      const allowedKeys = [8, 16, 17, 37, 38, 39, 40]
-
-      if (/^\d$/.test(char) || allowedKeys.includes(e.keyCode)) {
-        return true
-      } else e.preventDefault()
+    checkCCNumber () {
+      if (/^[0-9]*$/.test(this.form.credit_card) && this.form.credit_card !== '') {
+        this.ccNumberCheck = true
+      } else {
+        this.ccNumberCheck = false
+      }
     },
     isLogged () {
       if (this.token !== null) {
