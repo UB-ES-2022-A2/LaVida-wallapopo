@@ -152,11 +152,40 @@
         <!--HISTORIAL DE Reviews-->
         <div v-else-if="type==='reviews'" id="review-div">
           <div class="card bg-light" id="big-card" style="width: 40rem;">
-            <h5 class="card-title"><b>Historial de reviews</b></h5>
-            <h6 class="card-subtitle">Reviews recibidas desde la creación de la cuenta:</h6>
+            <h5 class="card-title"><b>Historial de reseñas</b></h5>
+            <h6 class="card-subtitle">Reseñas recibidas desde la creación de la cuenta:</h6>
             <br>
 
             <div class="card" id="review-card" v-for="review in reviews" :key="review.id" style="width: 39rem;">
+              <div class="row" v-on:click="goToProduct(review.product.id)">
+                <div class="col-auto">
+                  <b-img :src="review.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <div class="col-5">{{review.reviewer.name}}</div>
+                    <div class="col-6" style="text-align: right; margin-left:30px">
+                      <b-form-rating v-model="rating" id="estrellas"></b-form-rating>
+                    </div>
+                  </div>
+                  <div class="row-auto">
+                    <div class="row-auto" style="text-align: center; font-weight: bold;">{{review.product.name}}</div>
+                    <div v-if="review.comment" class="row-auto" style="text-align: center;">{{review.comment}}</div>
+                  </div>
+                  <div class="row-8" style="text-align: right; margin-right:10px">{{review.date}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--HISTORIAL DE Favs-->
+        <div v-else-if="type==='favourites'" id="favourites-div">
+          <div class="card bg-light" id="big-card" style="width: 40rem;">
+            <h5 class="card-title"><b>Historial de favoritos</b></h5>
+            <h6 class="card-subtitle">Productos Favoritos:</h6>
+            <br>
+
+            <div class="card" id="favoritos-card" v-for="review in reviews" :key="review.id" style="width: 39rem;">
               <div class="row" v-on:click="goToProduct(review.product.id)">
                 <div class="col-auto">
                   <b-img :src="review.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
@@ -214,6 +243,7 @@ export default {
       purchases: [],
       sales: [],
       reviews: [],
+      favourites: [],
       mainProps: { blank: false, blankColor: '#777', width: 70, height: 70, class: 'profileImg' }
     }
   },
@@ -345,6 +375,23 @@ export default {
           alert('Error al mostrar reviews')
         })
     },
+    getFavs () {
+      const path = this.devPath + '/favourites/' + this.email
+      axios.get(path, {
+        auth: { username: this.token }
+      })
+        .then((res) => {
+          console.log('favourites')
+          console.log(res.data)
+          if (res.data.reviews_list != null) {
+            this.reviews = res.data.reviews_list
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          alert('Error al mostrar favoritos')
+        })
+    },
     onChangeSearch (param) {
       this.type = param
     }
@@ -355,6 +402,7 @@ export default {
     this.getPurchases()
     this.getSales()
     this.getReviews()
+    this.getFavs()
   }
 }
 </script>

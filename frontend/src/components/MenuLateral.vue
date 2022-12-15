@@ -17,7 +17,7 @@
           <a style="color: #000000" class="nav-link h6" v-on:click="goToUserProfile('sold')"><img src="@/assets/icons/sell.png" alt="User icon" style="width: 30px"/> Ventas </a>
         </li>
         <li class="nav-item mb-4">
-          <a style="color: #000000" class="nav-link h6" v-on:click="goToUserProfile('profile')"><img src="@/assets/heart.png" alt="User icon" style="width: 30px"/> Favoritos </a>
+          <a style="color: #000000" class="nav-link h6" v-on:click="goToUserProfile('favourites')"><img src="@/assets/heart.png" alt="User icon" style="width: 30px"/> Favoritos </a>
         </li>
       </ul>
     </nav>
