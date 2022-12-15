@@ -13,8 +13,24 @@
               style="width: 50px"
               alt="Avatar"
             />
-            &nbsp;
-            <p class="user-name">{{ product.username }}</p>
+          <div class="col-4 buttons">
+            <button
+              class="product-button"
+              v-if="!liked && logged"
+              v-on:click="liked = !liked"
+              @click="addFav()"
+            >
+              <img src="../assets/heart.png" alt="" style="width: 20px" />
+            </button>
+            <button
+              class="product-button"
+              v-if="liked && logged"
+              v-on:click="liked = !liked"
+              @click="addFav()"
+            >
+              <img src="../assets/heart2.png" alt="" style="width: 20px" />
+            </button>
+            <button v-if="logged" class="product-button">Chat</button>
           </div>
         </div>
 
@@ -42,26 +58,7 @@
         <div class="card-body">
           <div class="price-product row">
             <h5 class="col product-price">{{ product.price }} EUR</h5>
-            <button
-              class="btn btn-light btn-large"
-              v-if="liked && logged"
-              v-on:click="liked = !liked"
-            >
-              <img src="../assets/heart.png" alt="" style="width: 20px" />
-            </button>
-            <button
-              class="btn btn-light btn-large"
-              v-if="!liked && logged"
-              v-on:click="liked = !liked"
-            >
-              <img src="../assets/heart2.png" alt="" style="width: 20px" />
-            </button>
-            <button
-              v-if="logged && product.status ==='Vendido' " class="btn btn-secondary btn-lg disabled ml-2">
-              Vendido
-            </button>
-            <button v-show="buyButtonVisibility" id="product-button-buy"
-              v-if="logged && product.status !=='Vendido' " class="btn btn-success btn-lg ml-2" v-on:click="goToBuy">
+            <button v-if="logged" class="product-button product-comprar">
               Comprar
             </button>
           </div>
@@ -98,6 +95,7 @@
       </div>
     </div>
     <Footer></Footer>
+  </div>
   </div>
 </template>
 
@@ -145,6 +143,18 @@ export default {
         .catch((error) => {
           console.error(error)
         })
+      axios.get(this.devPath + `/favourites/${this.email}`, {auth: {username: this.token}}).then((res) => {
+        console.log(res.data)
+        console.log(this.liked)
+        for (var i = 0; i < res.data.favourites_list.length; i++) {
+          if (parseInt(this.id) === res.data.favourites_list[i].product.id) {
+            this.liked = true
+          }
+        }
+        console.log(this.liked)
+      }).catch((error) => {
+        console.error(error)
+      })
     },
     goBack () {
       event.preventDefault()
@@ -160,6 +170,28 @@ export default {
     },
     onSlideEnd (slide) {
       this.sliding = false
+    },
+    addFav () {
+      let favParams = {
+        email: this.email,
+        product_id: this.id
+      }
+      if (this.liked) {
+        axios.post(this.devPath + '/favourites', favParams, {auth: {username: this.token}}).then((response) => {
+          console.log(response)
+          alert('Producto añadido a favoritos correctamente')
+        }).catch((error) => {
+          console.error(error)
+        })
+      } else {
+        axios.delete(this.devPath + '/favourites', {auth: {username: this.token},
+          data: {email: this.email, product_id: this.id}}).then((response) => {
+          console.log(response)
+          alert('Producto eliminado de favoritos correctamente')
+        }).catch((error) => {
+          console.error(error)
+        })
+      }
     }
   },
   mounted () {
@@ -198,6 +230,18 @@ hr {
   align-items: center;
   margin-left: 0;
 }
+
+.product-price {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 700;
+}
+.product-name {
+  margin: auto 0;
+  font-size: 25px;
+  font-weight: 550;
+}
+
 .product-button {
   border-radius: 20px;
   border: 1px solid rgb(184, 184, 184);
@@ -209,16 +253,41 @@ hr {
   transition: 0.5s;
   margin-left: 5px;
   height: 40px;
+  cursor: pointer;
 }
-.product-price {
+
+.product-button:hover {
+  background-color: darkgray;
+}
+
+.product-button {
+  border-radius: 20px;
+  border: 1px solid rgb(184, 184, 184);
+  background-color: rgb(207, 197, 197);
+  color: white;
+  width: 80px;
+  padding: 0 15px;
+  align-items: center;
+  transition: 0.5s;
+  margin-left: 5px;
+  height: 40px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  text-decoration: none;
+  display: inline-flex;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-button:active:after {
+  padding: 0;
   margin: 0;
+  opacity: 1;
+  transition: 0s;
   font-size: 25px;
   font-weight: 700;
-}
-.product-name {
-  margin: auto 0;
-  font-size: 25px;
-  font-weight: 550;
 }
 .product-button:hover {
   background-color: red;
