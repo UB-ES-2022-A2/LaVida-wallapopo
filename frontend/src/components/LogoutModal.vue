@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     confirmLogout () {
-      const path = this.devPath + '/logout/' + this.email
+      const path = this.prodPath + '/logout/' + this.email
       axios.post(path, {}, {
         auth: {username: this.token}
       })
