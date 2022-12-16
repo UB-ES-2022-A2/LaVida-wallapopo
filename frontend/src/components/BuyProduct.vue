@@ -121,7 +121,6 @@
           <b-modal id="modal-3" title="Ayuda al vendedor a mejorar añadiendo una reseña" hide-footer ref="review-modal">
             <div>
               <b-form-rating v-model="stars" size="lg" show-value no-border></b-form-rating>
-              <p class="mt-2">Tu valoración: {{ stars }}</p>
               <b-form-textarea
                 id="textarea-auto-height"
                 placeholder="Dile al vendedor lo que te ha gustado... O lo que no!"
@@ -129,7 +128,6 @@
                 rows="3"
                 max-rows="8">
               </b-form-textarea>
-              <p class="mt-2">Tu mensaje: {{ reviewMessage }}</p>
               <b-button class="mt-3" @click="sendReview">Enviar reseña</b-button>
             </div>
           </b-modal>
