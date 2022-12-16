@@ -117,7 +117,7 @@ export default {
       this.$router.push({ path: '/forgotPassword' })
     },
     checkLogin () {
-      const path = this.prodPath + '/login'
+      const path = this.devPath + '/login'
       const parameters = {
         email: this.email,
         password: this.password

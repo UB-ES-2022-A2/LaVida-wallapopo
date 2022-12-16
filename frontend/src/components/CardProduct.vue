@@ -91,14 +91,14 @@ export default {
         product_id: this.link
       }
       if (this.liked) {
-        axios.post(this.prodPath + '/favourites', favParams, {auth: {username: this.token}}).then((response) => {
+        axios.post(this.devPath + '/favourites', favParams, {auth: {username: this.token}}).then((response) => {
           console.log(response)
           alert('Producto añadido a favoritos correctamente')
         }).catch((error) => {
           console.error(error)
         })
       } else {
-        axios.delete(this.prodPath + '/favourites', {auth: {username: this.token},
+        axios.delete(this.devPath + '/favourites', {auth: {username: this.token},
           data: favParams}).then((response) => {
           console.log(response)
           alert('Producto eliminado de favoritos correctamente ')
@@ -108,7 +108,7 @@ export default {
       }
     },
     updateFavList () {
-      axios.get(this.prodPath + `/favourites/${this.email}`, {auth: {username: this.token}}).then((res) => {
+      axios.get(this.devPath + `/favourites/${this.email}`, {auth: {username: this.token}}).then((res) => {
         console.log(res.data)
         for (var i = 0; i < res.data.favourites_list.length; i++) {
           if (this.link === res.data.favourites_list[i].product.id) {
