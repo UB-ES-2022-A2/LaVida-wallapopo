@@ -21,7 +21,6 @@ accounts = []
 for product in data.products:
     productModel = ProductsModel(name=product['name'], category=product['category'], description=product['description'],
                                  price=product['price'], condition=product['condition'])
-    productModel.image = product['image']
     products.append(productModel)
 
 for account in data.accounts:
@@ -40,5 +39,7 @@ try:
     db.session.add_all(products)
     db.session.add_all(accounts)
     db.session.commit()
+    print('Data added successfully')
 except exc.SQLAlchemyError:
+    print('Error while adding data')
     db.session.rollback()

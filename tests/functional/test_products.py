@@ -60,13 +60,14 @@ def test_add_product_post(_app, client, auth_header):
             'date': date,
             'description': 'La vendo porque apenas la uso y necesito algo de dinero',
             'id': 5,
-            'image': 'product_placeholder.png',
+            'image': ['https://storage.googleapis.com/wallapopo-img/product_placeholder.png'],
             'name': 'Nintendo Switch',
             'price': 150.0,
             'shipment': False,
             'status': 'En venta',
             'user': 'pepe432@gmail.com',
-            'username': 'pepeman'
+            'username': 'pepeman',
+            'user_image': 'https://storage.googleapis.com/wallapopo-img/default-profile.jpg'
         }
         assert r.status_code == 200
         assert r.json == product_data

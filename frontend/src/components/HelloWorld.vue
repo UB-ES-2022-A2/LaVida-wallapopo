@@ -26,12 +26,15 @@
         >
           <CardProduct
             :title="product.name"
-            :img="product.image"
+            :img="product.image[0]"
             :price="product.price"
             :desc="product.description"
+            :category="product.category"
             :productState="product.condition"
             :date="product.date"
             :link="product.id"
+            :favourite_list="favourite"
+            :logged="logged"
           />
         </div>
       </div>
@@ -66,7 +69,8 @@ export default {
       email: 'e',
       category: null,
       search_text: null,
-      filters: null
+      filters: null,
+      favourite: []
     }
   },
 
@@ -77,7 +81,7 @@ export default {
       }
     },
     getProducts () {
-      const path = this.prodPath + '/products'
+      const path = this.devPath + '/products'
       axios.get(path)
         .then((res) => {
           console.log(res)
@@ -89,7 +93,7 @@ export default {
         })
     },
     getCategory (category) {
-      const path = this.prodPath + `/category/${category}`
+      const path = this.devPath + `/category/${category}`
       axios.get(path)
         .then((res) => {
           console.log(res)
@@ -110,7 +114,7 @@ export default {
     },
     applyFilter () {
       if (this.filters) {
-        const path = this.prodPath + `/filter`
+        const path = this.devPath + `/filter`
         const parameters = (this.search_text === null) ? this.filters : Object.assign(
           {search: this.search_text},
           this.filters
@@ -127,7 +131,7 @@ export default {
             console.log(parameters)
           })
       } else if (this.search_text) {
-        const path = this.prodPath + `/filter/${this.search_text}`
+        const path = this.devPath + `/filter/${this.search_text}`
         axios.get(path)
           .then((res) => {
             console.log(res.data)
@@ -141,6 +145,18 @@ export default {
       } else {
         this.getProducts()
       }
+    },
+    getFavourites () {
+      axios.get(this.devPath + `/favourites/${this.email}`, {auth: {username: this.token}}).then((res) => {
+        console.log(res.data)
+        this.favourite = []
+        for (var i = 0; i < res.data.favourites_list.length; i++) {
+          this.favourite.push(res.data.favourites_list[i].product.id)
+        }
+        console.log(this.favourite)
+      }).catch((error) => {
+        console.error(error)
+      })
     }
   },
   created () {
@@ -154,6 +170,9 @@ export default {
     this.email = localStorage.getItem('email')
     this.token = localStorage.getItem('token')
     this.isLogged()
+    if (this.logged) {
+      this.getFavourites()
+    }
   }
 }
 </script>

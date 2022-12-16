@@ -14,6 +14,16 @@ from resources.session import Login, Logout
 from resources.filters import Filter, FilterCategory
 from resources.validate import Validate
 from resources.profile import Profile
+from resources.orders import Orders, Sales, Purchases
+from resources.reviews import Reviews
+from resources.favourites import Favourites
+from resources.images import ImagesUsers, ImagesProducts
+
+from models.orders import OrdersModel
+from models.accounts import AccountsModel
+from models.products import ProductsModel
+from models.favourites import FavouritesModel
+from models.reviews import ReviewsModel
 
 app = Flask(__name__)
 
@@ -34,16 +44,22 @@ if os.environ.get('GAE_ENV') == 'standard':
 app.config.from_object(environment)
 app.config['SECURITY_PASSWORD_SALT'] = 'foobar'
 
+
 api = Api(app)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 migrate = Migrate(app, db)
 db.init_app(app)
 
+# images
+api.add_resource(ImagesUsers, '/API/upload/profile/<string:email>')
+api.add_resource(ImagesProducts, '/API/upload/product/<string:id>')
+
 # accounts
 api.add_resource(Accounts, '/API/account/<string:email>', '/API/account')
 api.add_resource(Validate, '/API/validation/<string:validation_token>', '/API/validation')
 api.add_resource(Profile, '/API/profile/<string:email>', '/API/profile')
+api.add_resource(Reviews, '/API/reviews/<string:email>', '/API/reviews', '/API/reviews/<int:id>')
 
 # products
 api.add_resource(Product, '/API/product/<string:id>')
@@ -57,6 +73,14 @@ api.add_resource(FilterCategory, '/API/category/<string:category>')
 # session
 api.add_resource(Login, '/API/login')
 api.add_resource(Logout, '/API/logout/<string:email>')
+
+# orders
+api.add_resource(Orders, '/API/order/add/<string:email>')
+api.add_resource(Purchases, '/API/order/purchases/<string:email>')
+api.add_resource(Sales, '/API/order/sales/<string:email>')
+
+# favourites
+api.add_resource(Favourites, '/API/favourites', '/API/favourites/<string:email>')
 
 
 @app.route('/')

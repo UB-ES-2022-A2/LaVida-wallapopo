@@ -21,8 +21,6 @@ class ProductsModel(db.Model):
     # basic product information
     id = db.Column(db.Integer, primary_key=True)  # primary key
     name = db.Column(db.String(50), nullable=False)  # string with a max length of 50
-    # one product can have multiple images
-    image = db.Column(db.String(500), nullable=True, server_default='product_placeholder.png')  # only one image for now
     # validate_string=True raises an error if the value is not inside enum
     category = db.Column(db.Enum(*categories_list, name='categories_types', validate_strings=True), nullable=False)
     # by default, products are listed as selling
@@ -40,6 +38,20 @@ class ProductsModel(db.Model):
 
     # foreign keys
     user_id = db.Column(db.String(50), db.ForeignKey('accounts.email'))
+    # one product can have multiple images
+    _images = db.Column(db.String,
+                        nullable=True,
+                        server_default='https://storage.googleapis.com/wallapopo-img/product_placeholder.png'
+                        )
+
+    def get_images(self):
+        return [x for x in self._images.split(';-;')] if self._images else None
+
+    def images(self, value):
+        if self._images == 'https://storage.googleapis.com/wallapopo-img/product_placeholder.png':
+            self._images = value
+        else:
+            self._images += ';-;'+value
 
     def __init__(self, name, category, description, price, condition):
         self.name = name
@@ -55,12 +67,13 @@ class ProductsModel(db.Model):
             'category': self.category,
             'description': self.description,
             'price': self.price,
-            'image': self.image,
+            'image': self.get_images(),
             'condition': self.condition,
             'status': self.status,
             'date': self.date.date().strftime("%d-%b-%Y"),
             'user': self.user_id,
             'username': AccountsModel.get_by_email(self.user_id).json()['username'],
+            'user_image': AccountsModel.get_by_email(self.user_id).json()['profile'],
             'shipment': self.shipment
         }
 

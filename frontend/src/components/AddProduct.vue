@@ -231,9 +231,16 @@ export default {
         this.logged = true
       }
     },
+    uploadImage () {
+
+    },
     addProduct () {
-      const path = this.prodPath + '/catalog/add/' + this.email
+      const path = this.devPath + '/catalog/add/' + this.email
       /* params used to add a new product */
+      var formData = new FormData()
+      for (let i = 0; i < this.images.length; i++) {
+        formData.append('file', this.images[i])
+      }
       const parameters = {
         name: this.name,
         category: this.category,
@@ -242,15 +249,22 @@ export default {
         description: this.description,
         shipment: this.shipment
       }
+      const customHeader = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
       axios.post(path, parameters, {
         auth: {username: this.token}
       })
         .then((res) => {
-          alert('Producto añadido correctamente')
-          console.log(res)
-          this.$router.push({
-            name: 'HelloWorld',
-            params: {token: this.token, logged: this.logged, email: this.email}
+          axios.post(this.devPath + '/upload/product/' + res.data.id, formData, customHeader).then((res) => {
+            alert('Producto añadido correctamente')
+            console.log(res)
+            this.$router.push({
+              name: 'HelloWorld',
+              params: {token: this.token, logged: this.logged, email: this.email}
+            })
           })
         })
         .catch((error) => {
@@ -261,8 +275,8 @@ export default {
     onFileChange (e) {
       var selectedFiles = e.target.files
       /* Only add the first 10 images */
+      this.images = []
       for (let i = 0; i < selectedFiles.length && i < 10; i++) {
-        console.log(selectedFiles[i])
         this.images.push(selectedFiles[i])
       }
       /* Generate URL for every image that the user added */
@@ -270,7 +284,6 @@ export default {
         let reader = new FileReader()
         reader.onload = (e) => {
           this.$refs.image[i].src = reader.result
-          console.log(this.$refs.image[i].src)
         }
         reader.readAsDataURL(this.images[i])
       }

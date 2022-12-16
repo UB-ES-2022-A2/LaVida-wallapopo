@@ -38,7 +38,8 @@ def test_accounts_get(client):
                 'is_admin': 0,
                 'name': None,
                 'surname': None,
-                'username': 'pepeman'
+                'username': 'pepeman',
+                'profile': 'https://storage.googleapis.com/wallapopo-img/default-profile.jpg'
             }
         }
 
@@ -86,7 +87,8 @@ def test_accounts_post(client):
                         'is_admin': 0,
                         'name': None,
                         'surname': None,
-                        'username': 'dummyname'
+                        'username': 'dummyname',
+                        'profile': 'https://storage.googleapis.com/wallapopo-img/default-profile.jpg'
                         }
 
         assert r.status_code == 200
