@@ -1,6 +1,6 @@
 <template>
   <main class="main">
-    <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token"/>
+    <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token" sticky/>
     <div class="div-2 my-5 container">
       <div class="pt-3 row text-center">
         <div

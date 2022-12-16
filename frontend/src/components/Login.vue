@@ -5,7 +5,7 @@
         variant="danger"
         @dismissed="dismissCountDown=0"
         @dismiss-count-down="countDownChanged"
-        fade="true"
+        fade
       >
       <p>Correo o contraseña incorrecta</p>
     </b-alert>

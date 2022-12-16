@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-md style-navbar" id="navbar-identifier">
+  <b-navbar class="navbar navbar-expand-md style-navbar" id="navbar-identifier" sticky>
     <div class="container-fluid col-9">
       <img class="img-logo" src="../assets/logo1.png" alt="" @click="goToHome()" />
         <b-form-input
@@ -44,7 +44,7 @@
         <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Agregar producto
       </b-button>
     </div>
-  </nav>
+  </b-navbar>
 </template>
 
 <script>
