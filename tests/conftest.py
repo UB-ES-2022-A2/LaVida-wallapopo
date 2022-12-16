@@ -39,8 +39,6 @@ def populate_db():
         new_product = ProductsModel(name=product['name'], category=product['category'],
                                     description=product['description'], price=product['price'],
                                     condition=product['condition'])
-
-        new_product._images = product['image']
         products.append(new_product)
 
     for account in data.accounts:
