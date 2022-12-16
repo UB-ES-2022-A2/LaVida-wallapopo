@@ -296,8 +296,8 @@ export default {
       }
       var formData = new FormData()
       formData.append('file', e.target.files[0])
-      axios.post(this.devPath + '/upload/profile/' + this.email, formData, customHeader).then((res) => {
-        const path = this.devPath + '/account/' + this.email
+      axios.post(this.prodPath + '/upload/profile/' + this.email, formData, customHeader).then((res) => {
+        const path = this.prodPath + '/account/' + this.email
         axios.get(path, {
           auth: { username: this.token }
         })
@@ -325,7 +325,7 @@ export default {
       e.target.value.replace(/(^\s*)|(\s*$)/gi, '') // Remove spaces at the beginning and end of input text
     },
     updateProfile () {
-      const path = this.devPath + '/profile/' + this.email
+      const path = this.prodPath + '/profile/' + this.email
       const parameters = {
         email: this.email,
         name: this.name,
@@ -363,7 +363,7 @@ export default {
       }
       console.log(dataToSend)
       if (reviewed) {
-        axios.put(this.devPath + '/reviews/' + this.product_id, dataToSend, {
+        axios.put(this.prodPath + '/reviews/' + this.product_id, dataToSend, {
           auth: {username: this.token}
         }).then((response) => {
           console.log(response)
@@ -372,7 +372,7 @@ export default {
           console.log(err)
         })
       } else {
-        axios.post(this.devPath + '/reviews', dataToSend, {
+        axios.post(this.prodPath + '/reviews', dataToSend, {
           auth: {username: this.token}
         }).then((response) => {
           console.log(response)
@@ -383,7 +383,7 @@ export default {
       }
     },
     getUserInfo () {
-      const path = this.devPath + '/account/' + this.email
+      const path = this.prodPath + '/account/' + this.email
       axios.get(path, {
         auth: { username: this.token }
       })
@@ -408,7 +408,7 @@ export default {
         })
     },
     getPurchases () {
-      const path = this.devPath + '/order/purchases/' + this.email
+      const path = this.prodPath + '/order/purchases/' + this.email
       axios.get(path, {
         auth: { username: this.token }
       })
@@ -425,7 +425,7 @@ export default {
         })
     },
     getSales () {
-      const path = this.devPath + '/order/sales/' + this.email
+      const path = this.prodPath + '/order/sales/' + this.email
       axios.get(path, {
         auth: { username: this.token }
       })
@@ -442,7 +442,7 @@ export default {
         })
     },
     getReviews () {
-      const path = this.devPath + '/reviews/' + this.email
+      const path = this.prodPath + '/reviews/' + this.email
       axios.get(path, {
         auth: { username: this.token }
       })
@@ -464,7 +464,7 @@ export default {
         })
     },
     getFavs () {
-      const path = this.devPath + '/favourites/' + this.email
+      const path = this.prodPath + '/favourites/' + this.email
       axios.get(path, {
         auth: { username: this.token }
       })
