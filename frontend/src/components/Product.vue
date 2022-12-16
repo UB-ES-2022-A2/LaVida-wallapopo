@@ -134,7 +134,7 @@ export default {
       }
     },
     getProduct () {
-      const path = this.prodPath + `/product/${this.id}`
+      const path = this.devPath + `/product/${this.id}`
       axios
         .get(path)
         .then((res) => {
@@ -146,7 +146,7 @@ export default {
           console.error(error)
         })
       if (this.logged) {
-        axios.get(this.prodPath + `/favourites/${this.email}`, {auth: {username: this.token}}).then((res) => {
+        axios.get(this.devPath + `/favourites/${this.email}`, {auth: {username: this.token}}).then((res) => {
           console.log(res.data)
           console.log(this.liked)
           for (var i = 0; i < res.data.favourites_list.length; i++) {
@@ -184,14 +184,14 @@ export default {
         product_id: this.id
       }
       if (this.liked) {
-        axios.post(this.prodPath + '/favourites', favParams, {auth: {username: this.token}}).then((response) => {
+        axios.post(this.devPath + '/favourites', favParams, {auth: {username: this.token}}).then((response) => {
           console.log(response)
           alert('Producto añadido a favoritos correctamente')
         }).catch((error) => {
           console.error(error)
         })
       } else {
-        axios.delete(this.prodPath + '/favourites', {auth: {username: this.token},
+        axios.delete(this.devPath + '/favourites', {auth: {username: this.token},
           data: {email: this.email, product_id: this.id}}).then((response) => {
           console.log(response)
           alert('Producto eliminado de favoritos correctamente')

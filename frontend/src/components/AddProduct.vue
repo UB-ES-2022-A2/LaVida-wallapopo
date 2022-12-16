@@ -235,7 +235,7 @@ export default {
 
     },
     addProduct () {
-      const path = this.prodPath + '/catalog/add/' + this.email
+      const path = this.devPath + '/catalog/add/' + this.email
       /* params used to add a new product */
       var formData = new FormData()
       for (let i = 0; i < this.images.length; i++) {
@@ -258,7 +258,7 @@ export default {
         auth: {username: this.token}
       })
         .then((res) => {
-          axios.post(this.prodPath + '/upload/product/' + res.data.id, formData, customHeader).then((res) => {
+          axios.post(this.devPath + '/upload/product/' + res.data.id, formData, customHeader).then((res) => {
             alert('Producto añadido correctamente')
             console.log(res)
             this.$router.push({

@@ -16,7 +16,6 @@
       </div>
       <div class="card" style="width: 30%">
         <div class="card-body">
-          <h5 class="card-title" align="center">Iniciar Sesión</h5>
           <div class="container">
             <div>
               <b-card-text>
@@ -118,7 +117,7 @@ export default {
       this.$router.push({ path: '/forgotPassword' })
     },
     checkLogin () {
-      const path = this.prodPath + '/login'
+      const path = this.devPath + '/login'
       const parameters = {
         email: this.email,
         password: this.password

@@ -97,7 +97,7 @@
             <div class="card" id="bought-card" v-else v-for="purchase in purchases" :key="purchase.id" style="width: 39rem;">
               <div class="row no-gutters"> <!--v-on:click="goToProduct(purchase.product.id)"-->
                 <div class="col-auto">
-                  <b-img :src="purchase.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+                  <b-img :src="purchase.product.image[0]" class="productImg" width="100" height="100" alt="Circle image"></b-img>
                 </div>
                 <div class="col-5">
                   <div class="card-block px-2" v-on:click="goToProduct(purchase.product.id)">
@@ -143,7 +143,7 @@
             <div class="card" id="sold-card" v-else v-for="sale in sales" :key="sale.id" style="width: 39rem;">
               <div class="row no-gutters" v-on:click="goToProduct(sale.product.id)">
                 <div class="col-auto">
-                  <b-img :src="sale.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+                  <b-img :src="sale.product.image[0]" class="productImg" width="100" height="100" alt="Circle image"></b-img>
                 </div>
                 <div class="col-5">
                   <div class="card-block px-2">
@@ -173,7 +173,7 @@
             <div class="card" id="review-card" v-else v-for="review in reviews" :key="review.id" style="width: 39rem;">
               <div class="row" v-on:click="goToProduct(review.product.id)">
                 <div class="col-auto">
-                  <b-img :src="review.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+                  <b-img :src="review.product.image[0]" class="productImg" width="100" height="100" alt="Circle image"></b-img>
                 </div>
                 <div class="col">
                   <div class="row">
@@ -204,7 +204,7 @@
             <div class="card" id="favourites-card" v-else v-for="fav in favourites" :key="fav.id" style="width: 39rem;">
               <div class="row no-gutters" v-on:click="goToProduct(fav.product.id)">
                 <div class="col-auto">
-                  <b-img :src="fav.product.image" class="productImg" width="100" height="100" alt="Circle image"></b-img>
+                  <b-img :src="fav.product.image[0]" class="productImg" width="100" height="100" alt="Circle image"></b-img>
                 </div>
                 <div class="col-5">
                   <div class="card-block px-2">
@@ -296,8 +296,8 @@ export default {
       }
       var formData = new FormData()
       formData.append('file', e.target.files[0])
-      axios.post(this.prodPath + '/upload/profile/' + this.email, formData, customHeader).then((res) => {
-        const path = this.prodPath + '/account/' + this.email
+      axios.post(this.devPath + '/upload/profile/' + this.email, formData, customHeader).then((res) => {
+        const path = this.devPath + '/account/' + this.email
         axios.get(path, {
           auth: { username: this.token }
         })
@@ -325,7 +325,7 @@ export default {
       e.target.value.replace(/(^\s*)|(\s*$)/gi, '') // Remove spaces at the beginning and end of input text
     },
     updateProfile () {
-      const path = this.prodPath + '/profile/' + this.email
+      const path = this.devPath + '/profile/' + this.email
       const parameters = {
         email: this.email,
         name: this.name,
@@ -363,7 +363,7 @@ export default {
       }
       console.log(dataToSend)
       if (reviewed) {
-        axios.put(this.prodPath + '/reviews/' + this.product_id, dataToSend, {
+        axios.put(this.devPath + '/reviews/' + this.product_id, dataToSend, {
           auth: {username: this.token}
         }).then((response) => {
           console.log(response)
@@ -372,7 +372,7 @@ export default {
           console.log(err)
         })
       } else {
-        axios.post(this.prodPath + '/reviews', dataToSend, {
+        axios.post(this.devPath + '/reviews', dataToSend, {
           auth: {username: this.token}
         }).then((response) => {
           console.log(response)
@@ -383,7 +383,7 @@ export default {
       }
     },
     getUserInfo () {
-      const path = this.prodPath + '/account/' + this.email
+      const path = this.devPath + '/account/' + this.email
       axios.get(path, {
         auth: { username: this.token }
       })
@@ -408,7 +408,7 @@ export default {
         })
     },
     getPurchases () {
-      const path = this.prodPath + '/order/purchases/' + this.email
+      const path = this.devPath + '/order/purchases/' + this.email
       axios.get(path, {
         auth: { username: this.token }
       })
@@ -421,11 +421,10 @@ export default {
         })
         .catch((error) => {
           console.error(error)
-          alert('Error al mostrar purchases')
         })
     },
     getSales () {
-      const path = this.prodPath + '/order/sales/' + this.email
+      const path = this.devPath + '/order/sales/' + this.email
       axios.get(path, {
         auth: { username: this.token }
       })
@@ -438,11 +437,10 @@ export default {
         })
         .catch((error) => {
           console.error(error)
-          alert('Error al mostrar sales')
         })
     },
     getReviews () {
-      const path = this.prodPath + '/reviews/' + this.email
+      const path = this.devPath + '/reviews/' + this.email
       axios.get(path, {
         auth: { username: this.token }
       })
@@ -460,11 +458,10 @@ export default {
         })
         .catch((error) => {
           console.error(error)
-          alert('Error al mostrar reviews')
         })
     },
     getFavs () {
-      const path = this.prodPath + '/favourites/' + this.email
+      const path = this.devPath + '/favourites/' + this.email
       axios.get(path, {
         auth: { username: this.token }
       })
@@ -477,7 +474,6 @@ export default {
         })
         .catch((error) => {
           console.error(error)
-          alert('Error al mostrar favoritos')
         })
     },
     onChangeSearch (param) {
