@@ -1,4 +1,4 @@
-name: pytest
+name: pytest unit and functional testing
 
 on:
   push:
