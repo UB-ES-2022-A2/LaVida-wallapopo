@@ -36,7 +36,11 @@ jobs:
         pip install pytest
         pip install pytest-cov
         # executing unit tests
-        pytest tests/unit/ --doctest-modules --junitxml=junit/unit-test-results.xml --cov=com --cov-report=xml --cov-report=html
+        pytest tests/unit/ --doctest-modules --junitxml=junit/unit-test-results.tx --cov=com --cov-report=xml --cov-report=html
+    - name: pytest-coverage-commentator
+        uses: coroo/pytest-coverage-commentator@v1.0.2
+        with:
+          pytest-coverage: pytest-coverage.txt
     - name: Functional testing
       run: |
         # executing functional tests

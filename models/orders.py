@@ -1,6 +1,9 @@
 from db import db
 from sqlalchemy.sql import func, desc
 
+from models.accounts import AccountsModel
+from models.products import ProductsModel
+
 
 class OrdersModel(db.Model):
     __tablename__ = 'orders'
@@ -19,11 +22,6 @@ class OrdersModel(db.Model):
     # is the order reviewed or not
     reviewed = db.Column(db.Boolean, nullable=False, default=False)
 
-    # relationship account 1-* orders
-    buyer = db.relationship("AccountsModel", foreign_keys=[buyer_id])
-    seller = db.relationship("AccountsModel", foreign_keys=[seller_id])
-    product = db.relationship("ProductsModel", foreign_keys=[product_id])
-
     def __init__(self, buyer_id, seller_id, product_id, cc, cvc, cc_owner, cc_exp):
         self.buyer_id = buyer_id
         self.seller_id = seller_id
@@ -36,10 +34,10 @@ class OrdersModel(db.Model):
     def json(self):
         return {
             'id': self.id,
-            'buyer': self.buyer.json(),
-            'seller': self.seller.json(),
+            'buyer': AccountsModel.get_by_email(self.buyer_id).json(),
+            'seller': AccountsModel.get_by_email(self.seller_id).json(),
             'product_id': self.product_id,
-            'product': self.product.json(),
+            'product': ProductsModel.get_by_id(self.product_id).json(),
             'credit_card': self.credit_card,
             'cc_owner': self.cc_owner,
             'cvc': self.cvc,

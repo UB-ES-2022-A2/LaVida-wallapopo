@@ -16,7 +16,6 @@
       </div>
       <div class="card" style="width: 30%">
         <div class="card-body">
-          <h5 class="card-title" align="center">Iniciar Sesión</h5>
           <div class="container">
             <div>
               <b-card-text>

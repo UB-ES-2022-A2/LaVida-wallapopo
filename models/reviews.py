@@ -1,6 +1,9 @@
 from db import db
 from sqlalchemy.sql import func
 
+from models.accounts import AccountsModel
+from models.products import ProductsModel
+
 
 class ReviewsModel(db.Model):
     __tablename__ = 'reviews'
@@ -14,11 +17,6 @@ class ReviewsModel(db.Model):
     # the date when review was done
     date = db.Column(db.DateTime(), nullable=False, server_default=func.now())
 
-    # relationship account 1-* reviews
-    reviewer = db.relationship("AccountsModel", foreign_keys=[reviewer_id])
-    reviewed = db.relationship("AccountsModel", foreign_keys=[reviewed_id])
-    product = db.relationship("ProductsModel", foreign_keys=[product_id])
-
     def __init__(self, reviewer_id, reviewed_id, product_id, stars, comment):
         self.reviewer_id = reviewer_id
         self.reviewed_id = reviewed_id
@@ -29,10 +27,10 @@ class ReviewsModel(db.Model):
     def json(self):
         return {
             'id': self.id,
-            'reviewer': self.reviewer.json(),
-            'reviewed': self.reviewed.json(),
+            'reviewer': AccountsModel.get_by_email(self.reviewer_id).json(),
+            'reviewed': AccountsModel.get_by_email(self.reviewed_id).json(),
             'product_id': self.product_id,
-            'product': self.product.json(),
+            'product': ProductsModel.get_by_id(self.product_id).json(),
             'stars': self.stars,
             'comment': self.comment,
             'date': self.date.strftime('%Y-%m-%d')
