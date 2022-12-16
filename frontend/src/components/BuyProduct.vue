@@ -241,7 +241,7 @@ export default {
         cc_owner: this.form.name,
         cc_exp_date: this.form.exp_date
       }
-      const path = this.devPath + `/order/add/${this.email}`
+      const path = this.prodPath + `/order/add/${this.email}`
       console.log(dataToSend)
       axios.post(path, dataToSend, {
         auth: { username: this.token }
@@ -266,7 +266,7 @@ export default {
         comment: this.reviewMessage
       }
       console.log(dataToSend)
-      axios.post(this.devPath + '/reviews', dataToSend, {
+      axios.post(this.prodPath + '/reviews', dataToSend, {
         auth: {username: this.token}
       }).then((response) => {
         console.log(response)
@@ -280,7 +280,7 @@ export default {
       })
     },
     getProduct () {
-      const path = this.devPath + `/product/${this.id}`
+      const path = this.prodPath + `/product/${this.id}`
       axios
         .get(path)
         .then((res) => {
@@ -292,7 +292,7 @@ export default {
         })
     },
     checkIfPurchased () {
-      const path = this.devPath + '/order/purchases/' + this.email
+      const path = this.prodPath + '/order/purchases/' + this.email
       axios.get(path, {
         auth: { username: this.token }
       })
