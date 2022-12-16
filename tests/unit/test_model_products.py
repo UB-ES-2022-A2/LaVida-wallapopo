@@ -28,7 +28,8 @@ def test_json(_app, switch_product):
                     'shipment': None,
                     'status': None,
                     'user': 'pepe432@gmail.com',
-                    'username': 'pepeman'
+                    'username': 'pepeman',
+                    'user_image': 'https://storage.googleapis.com/wallapopo-img/default-profile.jpg'
                     }
         assert switch_product.json() == expected
 

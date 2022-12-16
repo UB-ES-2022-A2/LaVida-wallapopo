@@ -66,7 +66,7 @@ class Accounts(Resource):
             # TODO: cambiar para coger url en funcion del entorno (local o cloud)
             # 8080 for dev
             # export const devWeb = 'http://127.0.0.1:5000/'
-            # export const prodWeb = 'https://firm-affinity-366616.ew.r.appspot.com/'
+            # export const prodWeb = 'https://wallapopo-ub.ew.r.appspot.com/'
             confirm_url = "https://wallapopo-ub.ew.r.appspot.com/#/emailConfirmation/validation_token=" + email_token
 
             msg = EmailMessage()
@@ -93,6 +93,7 @@ class Accounts(Resource):
             # update DB
             try:
                 new_account.save_to_db()
+                print(html_message)
                 return new_account.json(), HTTPStatus.OK
             except exc.SQLAlchemyError:
                 db.session.rollback()  # rollback in case something went wrong

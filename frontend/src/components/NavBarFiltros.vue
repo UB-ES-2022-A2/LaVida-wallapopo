@@ -79,8 +79,8 @@
             <b-form-select v-model="date" :options="tiempo"></b-form-select>
             <hr/>
             <div class="text-right mt-3">
-              <button type="button" class="btn btn-secondary" v-b-toggle.sidebar-backdrop>Cancelar</button>
-              <button type="button" class="btn btn-success" v-b-toggle.sidebar-backdrop @click="applyFilter">Aplicar</button>
+              <button id="cancel-button" type="button" class="btn btn-secondary" v-b-toggle.sidebar-backdrop>Cancelar</button>
+              <button id="apply-button" type="button" class="btn btn-success" v-b-toggle.sidebar-backdrop @click="applyFilter">Aplicar</button>
             </div>
           </div>
         </b-sidebar>
@@ -235,3 +235,28 @@ export default {
   }
 }
 </script>
+
+<style>
+
+#cancel-button{
+  color: rgb(0, 0, 0);
+  font-weight: 400;
+  background-color: rgb(255, 255, 255);
+  border: solid 2px rgb(255, 255, 255);
+}
+
+#apply-button{
+  color: rgb(137, 189, 158);
+  font-weight: 400;
+  background-color: rgb(255, 255, 255);
+  border: solid 2px rgb(137, 189, 158);
+  border-radius: 20px;
+}
+
+#apply-button:hover{
+  color: rgb(255, 255, 255);
+  background-color: rgb(137, 189, 158);
+  border: solid 2px rgb(255, 255, 255);
+}
+
+</style>

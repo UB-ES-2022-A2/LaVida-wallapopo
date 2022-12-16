@@ -1,12 +1,12 @@
 <template>
   <div>
-    <NavigationBar :logged="logged" :key="logged" :token="token" />
+    <NavigationBar class="nav-top" :logged="logged" :key="logged" :token="token" />
     <b-container
       class="bv-example-row buyProductCard pb-2 pt-2"
       :style="cssVars"
     >
       <b-row align-h="center">
-        <h2>Comprar producto</h2>
+        <h2>Tramitar pedido</h2>
       </b-row>
       <!-- Card product-->
       <b-row align-h="center" class="mb-2 ml-0 mt-2 mr-2" style="width: 100%">
@@ -18,7 +18,7 @@
           <b-row no-gutters>
             <b-col md="4">
               <b-card-img
-                :src="require('../assets/' + product.image)"
+                :src=product.image[0]
                 alt="Image"
                 class="rounded-0"
                 style="max-width: 15rem"
@@ -26,7 +26,7 @@
             </b-col>
             <b-col md="8">
               <b-card-body :title="product.name">
-                <b-card-text> {{ product.price }} euros </b-card-text>
+                <b-card-text> {{ product.price }} EUROS</b-card-text>
               </b-card-body>
             </b-col>
           </b-row>
@@ -121,7 +121,6 @@
           <b-modal id="modal-3" title="Ayuda al vendedor a mejorar añadiendo una reseña" hide-footer ref="review-modal">
             <div>
               <b-form-rating v-model="stars" size="lg" show-value no-border></b-form-rating>
-              <p class="mt-2">Tu valoración: {{ stars }}</p>
               <b-form-textarea
                 id="textarea-auto-height"
                 placeholder="Dile al vendedor lo que te ha gustado... O lo que no!"
@@ -129,7 +128,6 @@
                 rows="3"
                 max-rows="8">
               </b-form-textarea>
-              <p class="mt-2">Tu mensaje: {{ reviewMessage }}</p>
               <b-button class="mt-3" @click="sendReview">Enviar reseña</b-button>
             </div>
           </b-modal>
@@ -143,7 +141,6 @@
 import NavigationBar from './NavigationBar.vue'
 import { primaryColor, devWeb, prodWeb, secondaryColor } from '../store'
 import axios from 'axios'
-
 export default {
   name: 'BuyProdcut',
   components: {
@@ -174,6 +171,7 @@ export default {
         primary: primaryColor,
         secondary: secondaryColor
       },
+      pp: null,
       product: {
         name: 'algo',
         image: 'Oso.jpeg',
@@ -243,7 +241,6 @@ export default {
         cc_owner: this.form.name,
         cc_exp_date: this.form.exp_date
       }
-
       const path = this.devPath + `/order/add/${this.email}`
       console.log(dataToSend)
       axios.post(path, dataToSend, {
@@ -335,6 +332,7 @@ export default {
 </script>
 
 <style scoped>
+
 .buyProductCard {
   border-radius: 15px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;

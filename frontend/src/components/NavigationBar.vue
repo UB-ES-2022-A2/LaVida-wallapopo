@@ -1,42 +1,50 @@
 <template>
-  <nav class="navbar navbar-expand-md style-navbar" id="navbar-identifier">
-    <a class="navbar-brand h1" @click="goToHome()">Wallapopo</a>
-    <div class="container-fluid">
-      <b-form-input
-        type="search"
-        placeholder="Buscar"
-        aria-label="Buscar"
-        v-model="text"
-        @keydown.enter.native="onEnter"
-      />
+  <b-navbar class="navbar navbar-expand-md style-navbar" id="navbar-identifier" sticky>
+    <div class="container-fluid col-9">
+      <img class="img-logo" src="../assets/logo1.png" alt="" @click="goToHome()" />
+        <b-form-input
+          type="search"
+          placeholder="Buscar en todas las categorías"
+          aria-label="Buscar"
+          v-model="text"
+          @keydown.enter.native="onEnter"
+          style="border-radius: 30px"
+        >
+        </b-form-input>
     </div>
-    <div v-if="!logged" class="container buttons-session">
-      <div v-on:click="goToLogin" class="btn btn-primary">
-        Login
-      </div>
-      <div v-if="!logged" v-on:click="goToRegister"  class="btn btn-secondary ">
-        Register
-      </div>
+    <div v-if="!logged" class="container buttons-session col-2">
+      <b-button id="login-button" variant="outline-success" v-on:click="goToLogin" style="border-radius: 30px">
+        Iniciar sesión
+      </b-button>
+      <b-button id="register-button" variant="outline-success" v-on:click="goToRegister" style="border-radius: 30px">
+        Registrarse
+      </b-button>
     </div>
-    <div v-else class="container">
+    <div v-else class="container col-3">
       <div class="dropdown-dark my-3 text-right" id="navbar-button-profile">
-        <b-dropdown id="dropdown-1" :src="require('@/assets/user.png')" alt="User icon" text="Usuario" class="m-md-2" variant="dark">
-          <b-dropdown-item id="perfil" v-on:click="goToUserProfile('profile')">Ver Perfil</b-dropdown-item>
-          <b-dropdown-item id="compras" v-on:click="goToUserProfile('bought')">Ver historial de compras</b-dropdown-item>
-          <b-dropdown-item id="ventas" v-on:click="goToUserProfile('sold')">Ver historial de ventas</b-dropdown-item>
-          <b-dropdown-item id="reviews" v-on:click="goToUserProfile('reviews')">Ver reviews recibidas</b-dropdown-item>
-          <b-dropdown-item id="reviews" v-on:click="goToUserProfile('favourites')">Ver favoritos</b-dropdown-item>
-          <b-dropdown-item id="cerrar_sesion" v-b-modal.modal-1>Cerrar Sesión</b-dropdown-item>
+        <b-dropdown toggle-class="rounded-circle px-2" variant="outline-info" id="dropdown-1" no-caret>
+          <template #button-content>
+            <b-icon icon="person-fill" aria-hidden="true"></b-icon>
+          </template>
+          <b-dropdown-item id="perfil" v-on:click="goToUserProfile('profile')">Perfil</b-dropdown-item>
+          <b-dropdown-item id="reviews" v-on:click="goToUserProfile('reviews')">Reseñas recibidas</b-dropdown-item>
+          <b-dropdown-item id="compras" v-on:click="goToUserProfile('bought')">Compras</b-dropdown-item>
+          <b-dropdown-item id="ventas" v-on:click="goToUserProfile('sold')">Ventas</b-dropdown-item>
+          <b-dropdown-item id="reviews" v-on:click="goToUserProfile('favourites')">Favoritos</b-dropdown-item>
+          <b-dropdown-divider></b-dropdown-divider>
+          <b-dropdown-item variant="danger" id="cerrar_sesion" v-b-modal.modal-1>
+            <b-icon icon="power" aria-hidden="true"></b-icon>
+            Cerrar Sesión
+          </b-dropdown-item>
         </b-dropdown>
         <LogoutModal @loggedStatus="loggedOut($event)" class="modal" :logged="logged" :key="logged" :email="email" :token="token"/>
       </div>
 
-      <div class="btn btn-light" @click="goToAddProduct()" id='navigationBar_div_addProduct'>
-        <img src="@/assets/add.png" alt="User icon" style="width: 30px" class="mr-1" />
-        Agregar producto
-      </div>
+      <b-button class="round-btn" variant="info" @click="goToAddProduct()" id='navigationBar_div_addProduct'>
+        <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Agregar producto
+      </b-button>
     </div>
-  </nav>
+  </b-navbar>
 </template>
 
 <script>
@@ -126,6 +134,7 @@ export default {
 </script>
 
 <style scoped>
+
 .navbar-brand{
   text-align: center;
   font-family: 'Trebuchet MS', sans-serif;
@@ -143,36 +152,57 @@ export default {
 }
 
 a {
-  color: inherit;
   text-decoration: inherit;
   color: white;
 }
 .navbar{
-  border-bottom: 1px solid rgb(134, 134, 139);
-  margin-bottom:10px;
+  border-bottom: 1px solid rgb(221, 221, 221);
+  margin-bottom: 10px;
+  background-color: white;
 }
-.container{
+.container {
   justify-content: end;
+  margin-right:0px;
 }
 .buttons-session div {
   margin-left: 3px;
 }
 
-.nav-icon{
-  font-size: 33px;
-  margin-right: 3px;
-  transition: 0.3s;}
 .btn{
   margin-left: 2px;
 
 }
-.nav-icon:hover{
-  font-size: 35px;
-  color: rgb(59, 187, 170);
+.round-btn {
+  border-radius:30px;
+  margin-left:5px;
 }
-.btn-product{
-  display: contents;
-  justify-content: center;
+
+.container-fluid {
+  margin-left:0px;
+}
+
+.img-logo {
+  user-drag: none;
+  -webkit-user-drag: none;
+  cursor:pointer;
+  margin-right:4rem;
+  height:4rem;
+}
+
+#login-button{
+  color: rgb(137, 189, 158);
+  font-weight: 400;
+  background-color: rgb(255, 255, 255);
+  border: solid 2px rgb(137, 189, 158);
+  border-radius: 20px;
+}
+
+#register-button{
+  color: rgb(137, 189, 158);
+  font-weight: 400;
+  background-color: rgb(255, 255, 255);
+  border: solid 2px rgb(137, 189, 158);
+  border-radius: 20px;
 }
 
 </style>

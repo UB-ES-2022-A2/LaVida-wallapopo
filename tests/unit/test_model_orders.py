@@ -38,13 +38,14 @@ def test_json(_app, dummy_order):
                                 'date': current_date.strftime("%d-%b-%Y"),
                                 'description': 'juego de parchis edición retro',
                                 'id': 2,
-                                'image': ['Parchis.jpeg'],
+                                'image': ['https://storage.googleapis.com/wallapopo-img/product_placeholder.png'],
                                 'name': 'Parchis',
                                 'price': 20.0,
                                 'shipment': False,
                                 'status': 'En venta',
                                 'user': user,
-                                'username': username
+                                'username': username,
+                                'user_image': 'https://storage.googleapis.com/wallapopo-img/default-profile.jpg'
                                 },
                     'product_id': 2,
                     'reviewed': False,

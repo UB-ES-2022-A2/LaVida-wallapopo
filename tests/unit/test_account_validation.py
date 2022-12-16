@@ -84,7 +84,6 @@ def test_email_received():
     # Close the connection and logout
     imap.close()
     imap.logout()
-
     assert validation_from == 'wallapopo.confirmation@gmail.com'
     assert validation_subject == 'Test python email'
     assert confirmation_url == 'https://wallapopo-ub.ew.r.appspot.com/#/emailConfirmation/validation_token=' \

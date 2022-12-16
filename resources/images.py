@@ -70,7 +70,7 @@ class ImagesUsers(Resource):
                 uploaded_file.read(),
                 content_type=uploaded_file.content_type
             )
-            user.images(blob.public_url)
+            user.profile_picture = blob.public_url
             try:
                 user.save_to_db()
                 return {'message': 'Images uploaded successfully'}

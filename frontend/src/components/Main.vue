@@ -1,16 +1,16 @@
 <template>
   <main class="main">
-    <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token"/>
+    <NavigationBar class="nav-top" :logged="logged" :key="logged" :email="email" :token="token" sticky/>
     <div class="div-2 my-5 container">
       <div class="pt-3 row text-center">
         <div
-          class="col-6 col-lg-3 celda"
+          class="col-6 col-lg-3 celda top-buffer"
           v-for="(categoria, index) in categorias"
           :key="categoria.name"
         >
           <div class="div-1" @click="goToProducts(categoria.name)">
-            <img class="pt-2" :src="require('../assets/icons/categories/'+index+'.png')" alt='Category Image' style="width: 50px"/>
-            <p>{{categoria.name}}</p>
+            <img id="icon" class="pt-2" :src="require('../assets/icons/categories/'+index+'.png')" alt='Category Image' style="width: 50px"/>
+            <p id="category-name">{{categoria.name}}</p>
           </div>
         </div>
       </div>
@@ -65,6 +65,12 @@ export default {
     }
   },
   methods: {
+    countDownChanged (dismissCountDown) {
+      this.dismissCountDown = dismissCountDown
+    },
+    showAlert () {
+      this.dismissCountDown = this.dismissSecs
+    },
     isLogged () {
       if (this.token !== null) {
         this.logged = true
@@ -122,15 +128,19 @@ a {
   align-content: center;
 }
 .div-1 {
-  background-color: #DEF5E5;
+  background-color: white;
   cursor: pointer;
-  transition: 0.5s;
+  transition: 0.6s;
+  border-radius: 20px;
+  padding: 10px;
+  transition: transform .2s; /* Animation */
 }
 .div-1:hover{
-  background-color: #3af19f;
-
+  background-color: rgb(224, 224, 224);
+  transform: scale(1.1);
 }
 .div-2 {
-  background-color: #BCEAD5;
+  background-color: white;
 }
+.top-buffer { margin-top:20px; }
 </style>

@@ -69,6 +69,24 @@ body {
   background-color: #fff;
 }
 
+.nav-top{
+  background-color: rgb(238, 238, 238);
+}
+
+.text-reset{
+  color: black;
+  font-weight: 300;
+}
+
+.text-uppercase{
+  color: black;
+  font-weight: 500;
+}
+
+#category-name{
+  font-weight: 500;
+}
+
 [tabindex="-1"]:focus {
   outline: 0 !important;
 }

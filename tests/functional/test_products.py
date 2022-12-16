@@ -66,7 +66,8 @@ def test_add_product_post(_app, client, auth_header):
             'shipment': False,
             'status': 'En venta',
             'user': 'pepe432@gmail.com',
-            'username': 'pepeman'
+            'username': 'pepeman',
+            'user_image': 'https://storage.googleapis.com/wallapopo-img/default-profile.jpg'
         }
         assert r.status_code == 200
         assert r.json == product_data

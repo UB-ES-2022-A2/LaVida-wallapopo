@@ -36,20 +36,8 @@ jobs:
         pip install pytest
         pip install pytest-cov
         # executing unit tests
-        pytest tests/unit/test_account_validation.py  --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-        pytest tests/unit/test_model_accounts.py  --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-        pytest tests/unit/test_model_favourites.py  --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-        pytest tests/unit/test_model_orders.py  --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-        pytest tests/unit/test_model_products.py  --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-        pytest tests/unit/test_model_reviews.py  --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+        pytest tests/unit/ --doctest-modules --junitxml=junit/unit-test-results.xml --cov=com --cov-report=xml --cov-report=html
     - name: Functional testing
       run: |
         # executing functional tests
-        pytest tests/functional/test_accounts.py  --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-        pytest tests/functional/test_orders.py  --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-        pytest tests/functional/test_products.py  --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-        pytest tests/functional/test_profile.py  --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-        pytest tests/functional/test_reviews.py  --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-        pytest tests/functional/test_session.py  --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-        pytest tests/functional/test_validate.py  --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-        pytest tests/functional/test_favourites.py  --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+        pytest tests/functional/  --doctest-modules --junitxml=junit/functional-test-results.xml --cov=com --cov-report=xml --cov-report=html
